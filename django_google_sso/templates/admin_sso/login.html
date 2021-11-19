@@ -1,0 +1,48 @@
+{% extends "admin/login.html" %}
+
+{% load i18n %}
+
+{% block content %}
+{{ block.super }}
+    <style>
+        .login-box {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-content: center;
+            width: 100%;
+            padding-top: 20px;
+        }
+        .login-btn {
+            background-color: #ccc;
+            border: 1px solid #000;
+            border-radius: 4px;
+            padding: 7px;
+        }
+        .login-btn:hover {
+            background-color: #fff;
+        }
+        .btn-text {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+        }
+        .btn-label {
+            margin-right: 5px;
+            margin-left: 5px;
+            margin-top: 2px;
+            color: #000;
+        }
+        .login-btn a {
+            text-decoration: none;
+        }
+    </style>
+    <div class="login-box">
+        <div class="login-btn">
+            <a class="btn-text" href="{% url 'django_google_sso:oauth_start_login' %}" role="button">
+                <img width="20px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                <div class="btn-label">{% translate "Login with Google" %}</div>
+            </a>
+        </div>
+    </div>
+{% endblock content %}

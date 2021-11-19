@@ -1,0 +1,69 @@
+[tool.black]
+target-version = ['py38', 'py39']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | \venv
+    | \.aws-sam
+    | _build
+    | buck-out
+    | build
+    | dist
+    | node_modules
+  )/
+)
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+
+[tool.semantic_release]
+version_variable = [
+    "django_google_sso/__init__.py:__version__",
+    "pyproject.toml:version"
+]
+branch = "main"
+upload_to_pypi = true
+upload_to_release = true
+build_command = "python -m pip install -U twine poetry && poetry build"
+
+[tool.poetry]
+name = "django-google-sso"
+version = "0.1.0"
+description = "Easily add Google SSO login to Django Admin"
+authors = ["Chris Maillefaud <chrismaillefaud@gmail.com>"]
+readme = "README.md"
+repository = "https://github.com/chrismaille/django-google-sso"
+keywords = ["google", "django", "sso"]
+license = "GPL-3.0"
+
+[tool.poetry.dependencies]
+python = ">=3.8, <4.0"
+django = "*"
+loguru = "*"
+google-auth = "*"
+google-auth-httplib2 = "*"
+google-auth-oauthlib = "*"
+
+[tool.poetry.dev-dependencies]
+black = {version = "*", allow-prereleases = true}
+pytest-django = "*"
+pre-commit = "*"
+twine = "*"
+auto-changelog = "*"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,115 @@
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional
+
+from django.contrib import messages
+from django.contrib.auth import get_user_model
+from django.contrib.sites.models import Site
+from django.urls import reverse
+from django.utils.translation import gettext_lazy as _
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import Flow
+from loguru import logger
+
+from django_google_sso import conf
+from django_google_sso.models import GoogleSSOUser
+
+
+@dataclass
+class GoogleAuth:
+    request: Any
+    _flow: Optional[Flow] = None
+
+    @property
+    def scopes(self) -> List[str]:
+        return conf.GOOGLE_SSO_SCOPES
+
+    def get_client_config(self) -> Credentials:
+        client_config = {
+            "web": {
+                "client_id": conf.GOOGLE_SSO_CLIENT_ID,
+                "project_id": conf.GOOGLE_SSO_PROJECT_ID,
+                "client_secret": conf.GOOGLE_SSO_CLIENT_SECRET,
+                "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                "token_uri": "https://oauth2.googleapis.com/token",
+                "redirect_uris": [self.get_redirect_uri()],
+            }
+        }
+        return client_config
+
+    def get_redirect_uri(self) -> str:
+        if "HTTP_X_FORWARDED_PROTO" in self.request.META:
+            scheme = self.request.META["HTTP_X_FORWARDED_PROTO"]
+        else:
+            scheme = self.request.scheme
+        current_site = Site.objects.get_current(self.request)
+        uri = reverse("django_google_sso:oauth_callback")
+        redirect_url = f"{scheme}://{current_site.domain}{uri}"
+        return redirect_url
+
+    @property
+    def flow(self) -> Flow:
+        if not self._flow:
+            self._flow = Flow.from_client_config(
+                self.get_client_config(),
+                scopes=self.scopes,
+                redirect_uri=self.get_redirect_uri(),
+            )
+        return self._flow
+
+    def get_user_info(self):
+        session = self.flow.authorized_session()
+        user_info = session.get("https://www.googleapis.com/oauth2/v2/userinfo").json()
+        return user_info
+
+
+@dataclass
+class UserHelper:
+    user_info: Dict[Any, Any]
+    request: Any
+
+    @property
+    def user_email(self):
+        return self.user_info["email"]
+
+    @property
+    def email_is_valid(self) -> bool:
+        user_email_domain = self.user_email.split("@")[-1]
+        for email_domain in conf.GOOGLE_SSO_ALLOWABLE_DOMAINS:
+            if user_email_domain in email_domain:
+                return True
+        email_verified = self.user_info.get("email_verified", None)
+        if email_verified is not None and not email_verified:
+            logger.debug(f"Email {self.user_email} is not verified.")
+        return email_verified if email_verified is not None else False
+
+    def get_or_create_user(self):
+        user_model = get_user_model()
+        user, created = user_model.objects.get_or_create(email=self.user_email)
+        if conf.GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER:
+            superuser_exists = user_model.objects.filter(
+                is_superuser=True, email__contains=f"@{self.user_email.split('@')[-1]}"
+            ).exists()
+            if not superuser_exists:
+                message_text = _(
+                    f"GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER is True. "
+                    f"Adding superuser status to email: {self.user_email}"
+                )
+                messages.add_message(self.request, messages.INFO, message_text)
+                logger.warning(message_text)
+                user.is_superuser = True
+                user.is_staff = True
+        if created:
+            user.first_name = self.user_info["given_name"]
+            user.last_name = self.user_info["family_name"]
+            user.username = self.user_email
+            user.set_unusable_password()
+        user.save()
+
+        google_user, created = GoogleSSOUser.objects.get_or_create(user=user)
+        google_user.google_id = self.user_info["id"]
+        google_user.picture_url = self.user_info["picture"]
+        google_user.locale = self.user_info["locale"]
+        google_user.save()
+
+        return user
