@@ -41,7 +41,7 @@ build_command = "python -m pip install -U twine poetry && poetry build"
 
 [tool.poetry]
 name = "django-google-sso"
-version = "0.1.0"
+version = "0.2.0"
 description = "Easily add Google SSO login to Django Admin"
 authors = ["Chris Maillefaud <chrismaillefaud@gmail.com>"]
 readme = "README.md"
