@@ -60,6 +60,7 @@ google-auth-oauthlib = "*"
 [tool.poetry.dev-dependencies]
 black = {version = "*", allow-prereleases = true}
 pytest-django = "*"
+pytest-coverage = "*"
 pre-commit = "*"
 twine = "*"
 auto-changelog = "*"
