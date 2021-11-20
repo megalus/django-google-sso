@@ -8,8 +8,6 @@ from django.views.decorators.http import require_http_methods
 from django_google_sso import conf
 from django_google_sso.main import GoogleAuth, UserHelper
 
-ADMIN_URL = reverse("admin:index")
-
 
 @require_http_methods(["GET"])
 def start_login(request):
@@ -20,27 +18,28 @@ def start_login(request):
 
 @require_http_methods(["GET"])
 def callback(request):
+    admin_url = reverse("admin:index")
     google = GoogleAuth(request)
     code = request.GET.get("code")
 
     # Check if Google SSO is enabled
     if not conf.GOOGLE_SSO_ENABLED:
         messages.add_message(request, messages.ERROR, _("Google SSO not enabled."))
-        return HttpResponseRedirect(ADMIN_URL)
+        return HttpResponseRedirect(admin_url)
 
     # First, check for authorization code
     if not code:
         messages.add_message(
             request, messages.ERROR, _("Authorization Code not received from SSO.")
         )
-        return HttpResponseRedirect(ADMIN_URL)
+        return HttpResponseRedirect(admin_url)
 
     # Get Access Token from Google
     try:
         google.flow.fetch_token(code=code)
     except Exception as error:
         messages.add_message(request, messages.ERROR, str(error))
-        return HttpResponseRedirect(ADMIN_URL)
+        return HttpResponseRedirect(admin_url)
 
     # Get User Info from Google
     user_helper = UserHelper(google.get_user_info(), request)
@@ -55,16 +54,16 @@ def callback(request):
                 f"\nPlease contact your administrator."
             ),
         )
-        return HttpResponseRedirect(ADMIN_URL)
+        return HttpResponseRedirect(admin_url)
 
     # Get or Create User
     user = user_helper.get_or_create_user()
 
     if not user.is_active:
-        return HttpResponseRedirect(ADMIN_URL)
+        return HttpResponseRedirect(admin_url)
 
     # Login User
     login(request, user)
     request.session.set_expiry(conf.GOOGLE_SSO_SESSION_COOKIE_AGE)
 
-    return HttpResponseRedirect(ADMIN_URL)
+    return HttpResponseRedirect(admin_url)

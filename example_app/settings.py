@@ -139,7 +139,7 @@ GOOGLE_SSO_ALLOWABLE_DOMAINS = os.getenv("GOOGLE_SSO_ALLOWABLE_DOMAINS", "").spl
 GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = (
     True  # Mark as True, to create superuser on first allowable user login
 )
-GOOGLE_SSO_ENABLED = False  # default value
+GOOGLE_SSO_ENABLED = True  # default value
 GOOGLE_SSO_TIMEOUT = 10  # default value
 GOOGLE_SSO_SCOPES = [  # default values
     "openid",
