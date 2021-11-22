@@ -86,20 +86,9 @@ class UserHelper:
     def get_or_create_user(self):
         user_model = get_user_model()
         user, created = user_model.objects.get_or_create(email=self.user_email)
-        if conf.GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER:
-            superuser_exists = user_model.objects.filter(
-                is_superuser=True, email__contains=f"@{self.user_email.split('@')[-1]}"
-            ).exists()
-            if not superuser_exists:
-                message_text = _(
-                    f"GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER is True. "
-                    f"Adding superuser status to email: {self.user_email}"
-                )
-                messages.add_message(self.request, messages.INFO, message_text)
-                logger.warning(message_text)
-                user.is_superuser = True
-                user.is_staff = True
+        self.check_first_super_user(user, user_model)
         if created:
+            self.check_for_permissions(user)
             user.first_name = self.user_info["given_name"]
             user.last_name = self.user_info["family_name"]
             user.username = self.user_email
@@ -113,3 +102,37 @@ class UserHelper:
         google_user.save()
 
         return user
+
+    def check_first_super_user(self, user, user_model):
+        if conf.GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER:
+            superuser_exists = user_model.objects.filter(
+                is_superuser=True, email__contains=f"@{self.user_email.split('@')[-1]}"
+            ).exists()
+            if not superuser_exists:
+                message_text = _(
+                    f"GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER is True. "
+                    f"Adding SuperUser status to email: {self.user_email}"
+                )
+                messages.add_message(self.request, messages.INFO, message_text)
+                logger.warning(message_text)
+                user.is_superuser = True
+                user.is_staff = True
+
+    def check_for_permissions(self, user):
+        if user.email in conf.GOGGLE_SSO_STAFF_LIST:
+            message_text = _(
+                f"User email: {self.user_email} in GOGGLE_SSO_STAFF_LIST. "
+                f"Added Staff Permission."
+            )
+            messages.add_message(self.request, messages.INFO, message_text)
+            logger.debug(message_text)
+            user.is_staff = True
+        if user.email in conf.GOGGLE_SSO_SUPERUSER_LIST:
+            message_text = _(
+                f"User email: {self.user_email} in GOGGLE_SSO_SUPERUSER_LIST. "
+                f"Added SuperUser Permission."
+            )
+            messages.add_message(self.request, messages.INFO, message_text)
+            logger.debug(message_text)
+            user.is_superuser = True
+            user.is_staff = True

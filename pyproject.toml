@@ -51,19 +51,21 @@ license = "GPL-3.0"
 
 [tool.poetry.dependencies]
 python = ">=3.8, <4.0"
-django = "*"
+django = ">=3.2"
 loguru = "*"
 google-auth = "*"
 google-auth-httplib2 = "*"
 google-auth-oauthlib = "*"
 
 [tool.poetry.dev-dependencies]
-black = {version = "*", allow-prereleases = true}
-pytest-django = "*"
-pytest-coverage = "*"
-pre-commit = "*"
-twine = "*"
 auto-changelog = "*"
+black = {version = "*", allow-prereleases = true}
+pre-commit = "*"
+pytest-coverage = "*"
+pytest-django = "*"
+pytest-lazy-fixture = "*"
+pytest-mock = "*"
+twine = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

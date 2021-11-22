@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from django.contrib import messages
 from django.contrib.auth import login
 from django.http import HttpResponseRedirect
@@ -11,8 +13,18 @@ from django_google_sso.main import GoogleAuth, UserHelper
 
 @require_http_methods(["GET"])
 def start_login(request):
+    next_param = request.GET.get("next")
+    clean_param = (
+        next_param
+        if next_param.startswith("http") or next_param.startswith("/")
+        else f"//{next_param}"
+    )
+    next_path = urlparse(clean_param).path
     google = GoogleAuth(request)
-    auth_url, _ = google.flow.authorization_url(prompt="consent")
+    auth_url, state = google.flow.authorization_url(prompt="consent")
+    request.session["sso_next_url"] = next_path
+    request.session["sso_state"] = state
+    request.session.set_expiry(600)
     return HttpResponseRedirect(auth_url)
 
 
@@ -21,6 +33,8 @@ def callback(request):
     admin_url = reverse("admin:index")
     google = GoogleAuth(request)
     code = request.GET.get("code")
+    state = request.GET.get("state")
+    next_url = request.session.get("sso_next_url")
 
     # Check if Google SSO is enabled
     if not conf.GOOGLE_SSO_ENABLED:
@@ -31,6 +45,13 @@ def callback(request):
     if not code:
         messages.add_message(
             request, messages.ERROR, _("Authorization Code not received from SSO.")
+        )
+        return HttpResponseRedirect(admin_url)
+
+    # Them, check for state
+    if not state or state != request.session["sso_state"]:
+        messages.add_message(
+            request, messages.ERROR, _("State Mismatch. Time expired?")
         )
         return HttpResponseRedirect(admin_url)
 
@@ -50,8 +71,8 @@ def callback(request):
             request,
             messages.ERROR,
             _(
-                f"Email address not allowed: {user_helper.user_email}"
-                f"\nPlease contact your administrator."
+                f"Email address not allowed: {user_helper.user_email}. "
+                f"Please contact your administrator."
             ),
         )
         return HttpResponseRedirect(admin_url)
@@ -65,5 +86,9 @@ def callback(request):
     # Login User
     login(request, user)
     request.session.set_expiry(conf.GOOGLE_SSO_SESSION_COOKIE_AGE)
+    if "sso_next_url" in request.session:
+        del request.session["sso_next_url"]
+    if "sso_state" in request.session:
+        del request.session["sso_state"]
 
-    return HttpResponseRedirect(admin_url)
+    return HttpResponseRedirect(next_url or admin_url)
