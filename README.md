@@ -72,7 +72,7 @@ $ python manage.py migrate
 
 ### How Django-Google-SSO works
 
-First, the user is redirected to the Google login page. If settings `GOOGLE_SSO_ENABLED` is True, the
+First, the user is redirected to the Django login page. If settings `GOOGLE_SSO_ENABLED` is True, the
 "Login with Google" button will be added to default form.
 
 On click, **Django-Google-SSO** will add, in current session, the `next_path` and Google Flow `state`.
@@ -80,7 +80,9 @@ This session will expire in 10 minutes. Then user will be redirected to Google l
 
 On callback, **Django-Google-SSO** will check `code` and `state` received. If they are valid,
 Google's UserInfo will be retrieved. If the user is already registered in Django, the user
-will be logged in. Otherwise, the user will be created and logged in, if his email domain,
+will be logged in.
+
+Otherwise, the user will be created and logged in, if his email domain,
 matches one of the `GOOGLE_SSO_ALLOWABLE_DOMAINS`. On creation only, this user can be set the
 `staff` or `superuser` status, if his email are in `GOGGLE_SSO_STAFF_LIST` or
 `GOGGLE_SSO_SUPERUSER_LIST` respectively.
@@ -100,7 +102,7 @@ GOOGLE_SSO_ENABLED = True  # default value
 GOOGLE_SSO_SESSION_COOKIE_AGE = 3600  # default value
 
 # Mark as True, to add superuser status to first user
-# created with email in `GOOGLE_SSO_ALLOWABLE_DOMAINS`
+# created with email domain in `GOOGLE_SSO_ALLOWABLE_DOMAINS`
 GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = True
 
 GOGGLE_SSO_STAFF_LIST = ["email@example.com"]
