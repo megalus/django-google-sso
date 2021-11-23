@@ -118,6 +118,24 @@ GOOGLE_SSO_SCOPES = [  # Google default scope
 ### Running behind a Reverse Proxy
 Please make sure you're passing the correct `X-Forwarded-Proto` header.
 
+### Using the `login_required` decorator
+To use the `login_required` decorator, or his Class Based View equivalent, you can redirect the `accounts/login` route
+to the modified login form page, adding this to your `urls.py`:
+
+````python
+from django.conf.urls import url
+from django.contrib.auth.views import LoginView
+
+urlpatterns = [
+    url(
+        r"^accounts/login/$",
+        LoginView.as_view(
+            template_name="admin_sso/login.html"  # The modified form with google button
+        ),
+    ),
+]
+````
+
 ### Example App
 To test this library please check the `Example App` provided [here](/example_app).
 

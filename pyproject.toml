@@ -48,6 +48,12 @@ readme = "README.md"
 repository = "https://github.com/chrismaille/django-google-sso"
 keywords = ["google", "django", "sso"]
 license = "GPL-3.0"
+classifiers = [
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Intended Audience :: Developers",
+    "Development Status :: 5 - Production/Stable"
+]
 
 [tool.poetry.dependencies]
 python = ">=3.8, <4.0"
