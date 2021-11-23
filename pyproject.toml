@@ -52,7 +52,8 @@ classifiers = [
     "Framework :: Django",
     "Framework :: Django :: 3.2",
     "Intended Audience :: Developers",
-    "Development Status :: 5 - Production/Stable"
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Plugins"
 ]
 
 [tool.poetry.dependencies]
