@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v1.0.1 (2021-11-23)
+### Fix
+* Update Django Classifiers ([`17664cb`](https://github.com/chrismaille/django-google-sso/commit/17664cb89430f2be730b859a3d5926acb708300c))
+
+### Documentation
+* Add `login_required` use example and add Django Classifiers ([`fccc7b6`](https://github.com/chrismaille/django-google-sso/commit/fccc7b62174a2898e93a0ad483ffe014884b538c))
+* Update README.md ([`c2e6c3b`](https://github.com/chrismaille/django-google-sso/commit/c2e6c3b17388f9ac7d5442f3d780cc2859071afd))
+
 ## v1.0.0 (2021-11-22)
 ### Feature
 * First Release ([`54d979f`](https://github.com/chrismaille/django-google-sso/commit/54d979f06c76f6985483d642823f85c006776b19))
