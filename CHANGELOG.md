@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v1.0.2 (2022-02-23)
+### Fix
+* Change license to MIT ([`750f979`](https://github.com/chrismaille/django-google-sso/commit/750f9791dcc7057359da08b69774515b63a3578d))
+
 ## v1.0.1 (2021-11-23)
 ### Fix
 * Update Django Classifiers ([`17664cb`](https://github.com/chrismaille/django-google-sso/commit/17664cb89430f2be730b859a3d5926acb708300c))
