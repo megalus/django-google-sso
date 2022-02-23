@@ -50,7 +50,7 @@ keywords = ["google", "django", "sso"]
 license = "MIT"
 classifiers = [
     "Framework :: Django",
-    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
     "Intended Audience :: Developers",
     "Development Status :: 5 - Production/Stable",
     "Environment :: Plugins"
@@ -58,7 +58,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.8, <4.0"
-django = "^3.2"
+django = ">=4.0"
 loguru = "*"
 google-auth = "*"
 google-auth-httplib2 = "*"
