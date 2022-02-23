@@ -23,6 +23,7 @@ $ pip install django-google-sso
 ```
 
 ### Versions
+For django 4.x use version `2.x`
 For django 3.x use version `1.x`
 
 ### Configuration

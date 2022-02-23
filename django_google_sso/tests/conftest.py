@@ -40,7 +40,7 @@ def google_response():
 @pytest.fixture
 def callback_request(rf, query_string):
     request = rf.get(f"/google_sso/callback/?{query_string}")
-    middleware = SessionMiddleware()
+    middleware = SessionMiddleware(get_response=lambda req: None)
     middleware.process_request(request)
     request.session.save()
     messages = FallbackStorage(request)
@@ -53,7 +53,7 @@ def callback_request_from_reverse_proxy(rf, query_string):
     request = rf.get(
         f"/google_sso/callback/?{query_string}", HTTP_X_FORWARDED_PROTO="https"
     )
-    middleware = SessionMiddleware()
+    middleware = SessionMiddleware(get_response=lambda req: None)
     middleware.process_request(request)
     request.session.save()
     messages = FallbackStorage(request)
