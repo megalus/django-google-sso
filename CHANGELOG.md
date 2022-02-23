@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v2.0.0 (2022-02-23)
+### Feature
+* Add django 4 support ([`dcb5f9f`](https://github.com/chrismaille/django-google-sso/commit/dcb5f9ff2329e54f38985cfb2eb1c0edd06ebf5a))
+
+### Breaking
+* update tests and example app  ([`dcb5f9f`](https://github.com/chrismaille/django-google-sso/commit/dcb5f9ff2329e54f38985cfb2eb1c0edd06ebf5a))
+
 ## v1.0.2 (2022-02-23)
 ### Fix
 * Change license to MIT ([`750f979`](https://github.com/chrismaille/django-google-sso/commit/750f9791dcc7057359da08b69774515b63a3578d))
