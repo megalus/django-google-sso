@@ -47,7 +47,7 @@ authors = ["Chris Maillefaud <chrismaillefaud@gmail.com>"]
 readme = "README.md"
 repository = "https://github.com/chrismaille/django-google-sso"
 keywords = ["google", "django", "sso"]
-license = "GPL-3.0"
+license = "MIT"
 classifiers = [
     "Framework :: Django",
     "Framework :: Django :: 3.2",
