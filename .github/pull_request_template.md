@@ -2,7 +2,6 @@
 - [ ] Breaking Changes
 - [ ] New/Update documentation
 - [ ] CI/CD modifications
-- [ ] Feature Flag
 
 ### Changes
 *  Add '...'

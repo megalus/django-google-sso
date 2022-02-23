@@ -22,6 +22,9 @@ but add lots of boilerplate, specially the html templates. **Django-Google-SSO**
 $ pip install django-google-sso
 ```
 
+### Versions
+For django 3.x use version `1.x`
+
 ### Configuration
 
 1. Add the following to your `settings.py` `INSTALLED_APPS`:

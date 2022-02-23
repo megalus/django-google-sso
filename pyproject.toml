@@ -58,7 +58,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.8, <4.0"
-django = ">=3.2"
+django = "^3.2"
 loguru = "*"
 google-auth = "*"
 google-auth-httplib2 = "*"
