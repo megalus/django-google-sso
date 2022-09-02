@@ -44,7 +44,10 @@ class GoogleAuth:
             scheme = self.request.scheme
         current_site = Site.objects.get_current(self.request)
         uri = reverse("django_google_sso:oauth_callback")
-        redirect_url = f"{scheme}://{current_site.domain}{uri}"
+        if conf.GOOGLE_SSO_CALLBACK_DOMAIN:
+            redirect_url = f"{scheme}://{conf.GOOGLE_SSO_CALLBACK_DOMAIN}{uri}"
+        else:
+            redirect_url = f"{scheme}://{current_site.domain}{uri}"
         return redirect_url
 
     @property

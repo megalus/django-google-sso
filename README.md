@@ -1,4 +1,5 @@
 ## Welcome to Django Google SSO
+
 [![PyPI](https://img.shields.io/pypi/v/django-google-sso)](https://pypi.org/project/django-google-sso/)
 [![Build](https://github.com/chrismaille/django-google-sso/workflows/tests/badge.svg)](https://github.com/chrismaille/django-google-sso/actions)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django-google-sso)](https://www.python.org)
@@ -8,13 +9,17 @@
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
 
 This library aims to simplify the process of authenticating users with Google in Django Admin pages,
-inspired by libraries like [django_microsoft_auth](https://github.com/AngellusMortis/django_microsoft_auth) and [django-admin-sso](https://github.com/matthiask/django-admin-sso/)
+inspired by libraries like [django_microsoft_auth](https://github.com/AngellusMortis/django_microsoft_auth)
+and [django-admin-sso](https://github.com/matthiask/django-admin-sso/)
 
 ### Why another library?
 
-* This library aims for _simplicity_ and ease of use. [django-allauth](https://github.com/pennersr/django-allauth) is _de facto_ solution for Authentication in Django,
-but add lots of boilerplate, specially the html templates. **Django-Google-SSO** just add the "Login with Google" button in the default login page.
-* [django-admin-sso](https://github.com/matthiask/django-admin-sso/) is a good solution, but it uses a deprecated google `auth2client` version.
+* This library aims for _simplicity_ and ease of use. [django-allauth](https://github.com/pennersr/django-allauth) is _
+  de facto_ solution for Authentication in Django,
+  but add lots of boilerplate, specially the html templates. **Django-Google-SSO** just add the "Login with Google"
+  button in the default login page.
+* [django-admin-sso](https://github.com/matthiask/django-admin-sso/) is a good solution, but it uses a deprecated
+  google `auth2client` version.
 
 ### Install
 
@@ -23,6 +28,7 @@ $ pip install django-google-sso
 ```
 
 ### Versions
+
 For django 4.x use version `2.x`
 For django 3.x use version `1.x`
 
@@ -40,7 +46,8 @@ INSTALLED_APPS = [
 ```
 
 2. In [Google Console](https://console.cloud.google.com/apis/credentials) at _Api -> Credentials_, retrieve your
-Project Credentials and add them in your `settings.py`:
+   Project Credentials and add them in your `settings.py`:
+
 ```python
 GOOGLE_SSO_CLIENT_ID = "your client id here"
 GOOGLE_SSO_PROJECT_ID = "your project id here"
@@ -48,12 +55,14 @@ GOOGLE_SSO_CLIENT_SECRET = "your client secret here"
 ```
 
 3. Add the default site and allowed domains to auto-create users:
+
 ```python
 SITE_ID = 1  # Optional, just add if you want to use sites without request.
 GOOGLE_SSO_ALLOWABLE_DOMAINS = ["example.com"]
 ```
 
 4. In `urls.py` please add the **Django-Google-SSO** views:
+
 ```python
 from django.urls import include, path
 
@@ -64,12 +73,16 @@ urlpatterns = [
     ),
 ]
 ```
+
 5. In [Google Console](https://console.cloud.google.com/apis/credentials) at _Api -> Credentials -> Oauth2 Client_,
-please add **Django-Google-SSO** callback url, using this format: `https://your-domain.com/google_sso/callback/`,
-where `your-domain.com` is the domain you defined in Django Sites Framework. For example, if you change your
-Site object domain to `localhost:8000`, then your callback must be `http://localhost:8000/google_sso/callback/`.
+   please add **Django-Google-SSO** callback url, using this format: `https://your-domain.com/google_sso/callback/`,
+   where `your-domain.com` is the domain you defined in Django Sites Framework. For example, if you change your
+   Site object domain to `localhost:8000`, then your callback must be `http://localhost:8000/google_sso/callback/`. If
+   you don't want to use Sites Framework, or need a different domain, you can use the `GOOGLE_SSO_CALLBACK_DOMAIN`
+   setting to define the callback domain. For example `GOOGLE_SSO_CALLBACK_DOMAIN="my-other-domain.com"`.
 
 6. Run migrations:
+
 ```shell
 $ python manage.py migrate
 ```
@@ -91,7 +104,8 @@ matches one of the `GOOGLE_SSO_ALLOWABLE_DOMAINS`. On creation only, this user c
 `staff` or `superuser` status, if his email are in `GOGGLE_SSO_STAFF_LIST` or
 `GOGGLE_SSO_SUPERUSER_LIST` respectively.
 
-Please note if you add an email to one of these lists, the email domain must be added to `GOOGLE_SSO_ALLOWABLE_DOMAINS` too.
+Please note if you add an email to one of these lists, the email domain must be added to `GOOGLE_SSO_ALLOWABLE_DOMAINS`
+too.
 
 This session will expire in 1 hour, or the time defined, in seconds, in `GOOGLE_SSO_SESSION_COOKIE_AGE`.
 
@@ -120,9 +134,11 @@ GOOGLE_SSO_SCOPES = [  # Google default scope
 ```
 
 ### Running behind a Reverse Proxy
+
 Please make sure you're passing the correct `X-Forwarded-Proto` header.
 
 ### Using the `login_required` decorator
+
 To use the `login_required` decorator, or his Class Based View equivalent, you can redirect the `accounts/login` route
 to the modified login form page, adding this to your `urls.py`:
 
@@ -141,7 +157,9 @@ urlpatterns = [
 ````
 
 ### Example App
+
 To test this library please check the `Example App` provided [here](/example_app).
 
 ### Not working?
+
 Don't panic. Get a towel and, please, open an [issue](https://github.com/chrismaille/django-google-sso/issues).
