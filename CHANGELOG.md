@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.1.0 (2022-09-02)
+### Feature
+* Add new settings option GOOGLE_SSO_CALLBACK_DOMAIN ([`4b49059`](https://github.com/chrismaille/django-google-sso/commit/4b490596a0e2efc47f3067628bb939d832da5ae5))
+
 ## v2.0.0 (2022-02-23)
 ### Feature
 * Add django 4 support ([`dcb5f9f`](https://github.com/chrismaille/django-google-sso/commit/dcb5f9ff2329e54f38985cfb2eb1c0edd06ebf5a))
