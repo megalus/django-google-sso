@@ -73,6 +73,7 @@ pytest-django = "*"
 pytest-lazy-fixture = "*"
 pytest-mock = "*"
 twine = "*"
+python-dotenv = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

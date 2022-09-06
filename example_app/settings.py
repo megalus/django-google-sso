@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -134,6 +138,8 @@ GOOGLE_SSO_SESSION_COOKIE_AGE = 3600  # default value
 GOOGLE_SSO_CLIENT_ID = os.getenv("GOOGLE_SSO_CLIENT_ID")
 GOOGLE_SSO_PROJECT_ID = os.getenv("GOOGLE_SSO_PROJECT_ID")
 GOOGLE_SSO_CLIENT_SECRET = os.getenv("GOOGLE_SSO_CLIENT_SECRET")
+# Uncomment this line to override domain registered in Sites Framework
+# GOOGLE_SSO_CALLBACK_DOMAIN = "localhost:8000"
 GOOGLE_SSO_ALLOWABLE_DOMAINS = os.getenv("GOOGLE_SSO_ALLOWABLE_DOMAINS", "").split(",")
 GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = (
     False  # Mark as True, to create superuser on first eligible user login

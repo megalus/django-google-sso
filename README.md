@@ -40,7 +40,6 @@ For django 3.x use version `1.x`
 INSTALLED_APPS = [
     # other django apps
     "django.contrib.messages",  # Need for Auth messages
-    "django.contrib.sites",  # Add Sites framework
     "django_google_sso",  # Add django_google_sso
 ]
 ```
@@ -57,11 +56,16 @@ GOOGLE_SSO_CLIENT_SECRET = "your client secret here"
 3. Add the default site and allowed domains to auto-create users:
 
 ```python
-SITE_ID = 1  # Optional, just add if you want to use sites without request.
 GOOGLE_SSO_ALLOWABLE_DOMAINS = ["example.com"]
 ```
 
-4. In `urls.py` please add the **Django-Google-SSO** views:
+4. Add the netloc for the redirect url:
+
+```python
+GOOGLE_SSO_CALLBACK_DOMAIN = "localhost:8000"
+```
+
+5. In `urls.py` please add the **Django-Google-SSO** views:
 
 ```python
 from django.urls import include, path
@@ -74,26 +78,58 @@ urlpatterns = [
 ]
 ```
 
-5. In [Google Console](https://console.cloud.google.com/apis/credentials) at _Api -> Credentials -> Oauth2 Client_,
+6. In [Google Console](https://console.cloud.google.com/apis/credentials) at _Api -> Credentials -> Oauth2 Client_,
    please add **Django-Google-SSO** callback url, using this format: `https://your-domain.com/google_sso/callback/`,
    where `your-domain.com` is the domain you defined in Django Sites Framework. For example, if you change your
    Site object domain to `localhost:8000`, then your callback must be `http://localhost:8000/google_sso/callback/`. If
    you don't want to use Sites Framework, or need a different domain, you can use the `GOOGLE_SSO_CALLBACK_DOMAIN`
    setting to define the callback domain. For example `GOOGLE_SSO_CALLBACK_DOMAIN="my-other-domain.com"`.
 
-6. Run migrations:
+7. Run migrations:
 
 ```shell
 $ python manage.py migrate
 ```
+
+### Using Sites Framework
+
+If you want to use the [Sites Framework](https://docs.djangoproject.com/en/3.2/ref/contrib/sites/), you can define the
+Google OAuth
+callback url using the domain defined in Site model. To do this change your `settings.py`:
+
+```python
+INSTALLED_APPS = [
+    # other django apps
+    "django.contrib.messages",  # Need for Auth messages
+    "django.contrib.sites",  # Add Sites framework
+    "django_google_sso",  # Add django_google_sso
+]
+
+SITE_ID = 1  # Optional, just add if you want to use sites without request.
+
+# Comment or remove GOOGLE_SSO_CALLBACK_DOMAIN
+# GOOGLE_SSO_CALLBACK_DOMAIN = "localhost:8000"
+```
+
+Please make note if you maintain the `GOOGLE_SSO_CALLBACK_DOMAIN` settings, his value will be used instead Sites
+Framework current domain.
 
 ### How Django-Google-SSO works
 
 First, the user is redirected to the Django login page. If settings `GOOGLE_SSO_ENABLED` is True, the
 "Login with Google" button will be added to default form.
 
-On click, **Django-Google-SSO** will add, in current session, the `next_path` and Google Flow `state`.
-This session will expire in 10 minutes. Then user will be redirected to Google login page.
+On click, **Django-Google-SSO** will add, in current Django Cache system, the `next_path` and Google Flow `state`.
+This data will expire in 10 minutes. Then user will be redirected to Google login page.
+
+To generate the callback url, **Django-Google-SSO** will use this format: `{scheme}://{netloc}{uri}` where:
+
+* `scheme` is retrieved first from `HTTP_X_FORWARDED_PROTO` header, then from request.
+* `netloc` is retrieved first from `GOOGLE_SSO_CALLBACK_DOMAIN` settings, then from
+  the registered domain in current Site or from the request, as
+  per [get_current_site](https://docs.djangoproject.com/en/4.1/ref/contrib/sites/#get-current-site-shortcut) rules.
+* ``uri`` is the [reverse](https://docs.djangoproject.com/en/4.1/ref/urlresolvers/#reverse) url from
+  view `django_google_sso:oauth_callback` imported in your `urls.py`
 
 On callback, **Django-Google-SSO** will check `code` and `state` received. If they are valid,
 Google's UserInfo will be retrieved. If the user is already registered in Django, the user
@@ -102,12 +138,9 @@ will be logged in.
 Otherwise, the user will be created and logged in, if his email domain,
 matches one of the `GOOGLE_SSO_ALLOWABLE_DOMAINS`. On creation only, this user can be set the
 `staff` or `superuser` status, if his email are in `GOGGLE_SSO_STAFF_LIST` or
-`GOGGLE_SSO_SUPERUSER_LIST` respectively.
-
-Please note if you add an email to one of these lists, the email domain must be added to `GOOGLE_SSO_ALLOWABLE_DOMAINS`
-too.
-
-This session will expire in 1 hour, or the time defined, in seconds, in `GOOGLE_SSO_SESSION_COOKIE_AGE`.
+`GOGGLE_SSO_SUPERUSER_LIST` respectively. Please note if you add an email to one of these lists, the email domain
+must be added to `GOOGLE_SSO_ALLOWABLE_DOMAINS`
+too. This session will expire in 1 hour, or the time defined, in seconds, in `GOOGLE_SSO_SESSION_COOKIE_AGE`.
 
 Browser will be redirected to `next_path` if operation succeeds, or the `login` page, if operation fails.
 
@@ -121,7 +154,7 @@ GOOGLE_SSO_SESSION_COOKIE_AGE = 3600  # default value
 
 # Mark as True, to add superuser status to first user
 # created with email domain in `GOOGLE_SSO_ALLOWABLE_DOMAINS`
-GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = True
+GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = False
 
 GOGGLE_SSO_STAFF_LIST = ["email@example.com"]
 GOGGLE_SSO_SUPERUSER_LIST = ["another-email@example.com"]
@@ -150,7 +183,7 @@ urlpatterns = [
     url(
         r"^accounts/login/$",
         LoginView.as_view(
-            template_name="admin_sso/login.html"  # The modified form with google button
+            template_name="admin_sso/login.html"  # The modified form with Google button
         ),
     ),
 ]

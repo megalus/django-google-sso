@@ -3,7 +3,7 @@ from typing import Any, Dict, List, Optional
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.contrib.sites.models import Site
+from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from google.oauth2.credentials import Credentials
@@ -37,18 +37,23 @@ class GoogleAuth:
         }
         return client_config
 
+    def get_netloc(self):
+        if conf.GOOGLE_SSO_CALLBACK_DOMAIN:
+            logger.debug("Find Netloc using GOOGLE_SSO_CALLBACK_DOMAIN")
+            return conf.GOOGLE_SSO_CALLBACK_DOMAIN
+
+        site = get_current_site(self.request)
+        logger.debug("Find Netloc using Site domain")
+        return site.domain
+
     def get_redirect_uri(self) -> str:
         if "HTTP_X_FORWARDED_PROTO" in self.request.META:
             scheme = self.request.META["HTTP_X_FORWARDED_PROTO"]
         else:
             scheme = self.request.scheme
-        current_site = Site.objects.get_current(self.request)
+        netloc = self.get_netloc()
         uri = reverse("django_google_sso:oauth_callback")
-        if conf.GOOGLE_SSO_CALLBACK_DOMAIN:
-            redirect_url = f"{scheme}://{conf.GOOGLE_SSO_CALLBACK_DOMAIN}{uri}"
-        else:
-            redirect_url = f"{scheme}://{current_site.domain}{uri}"
-        return redirect_url
+        return f"{scheme}://{netloc}{uri}"
 
     @property
     def flow(self) -> Flow:

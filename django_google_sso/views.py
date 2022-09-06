@@ -2,6 +2,7 @@ from urllib.parse import urlparse
 
 from django.contrib import messages
 from django.contrib.auth import login
+from django.core.cache import cache
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -22,9 +23,7 @@ def start_login(request):
     next_path = urlparse(clean_param).path
     google = GoogleAuth(request)
     auth_url, state = google.flow.authorization_url(prompt="consent")
-    request.session["sso_next_url"] = next_path
-    request.session["sso_state"] = state
-    request.session.set_expiry(600)
+    cache.set(state, next_path, 600)
     return HttpResponseRedirect(auth_url)
 
 
@@ -48,8 +47,9 @@ def callback(request):
         )
         return HttpResponseRedirect(admin_url)
 
-    # Them, check for state
-    if not state or state != request.session["sso_state"]:
+    # Then, check for state
+    next_url = cache.get(state)
+    if not next_url:
         messages.add_message(
             request, messages.ERROR, _("State Mismatch. Time expired?")
         )
@@ -86,9 +86,5 @@ def callback(request):
     # Login User
     login(request, user)
     request.session.set_expiry(conf.GOOGLE_SSO_SESSION_COOKIE_AGE)
-    if "sso_next_url" in request.session:
-        del request.session["sso_next_url"]
-    if "sso_state" in request.session:
-        del request.session["sso_state"]
 
     return HttpResponseRedirect(next_url or admin_url)
