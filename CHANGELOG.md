@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.2.0 (2022-09-06)
+### Feature
+* Make Sites Framework optional ([`e5a3839`](https://github.com/chrismaille/django-google-sso/commit/e5a38395b68ca4614b67cc5868c5adfd2a504f82))
+
 ## v2.1.0 (2022-09-02)
 ### Feature
 * Add new settings option GOOGLE_SSO_CALLBACK_DOMAIN ([`4b49059`](https://github.com/chrismaille/django-google-sso/commit/4b490596a0e2efc47f3067628bb939d832da5ae5))
