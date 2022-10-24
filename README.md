@@ -164,6 +164,9 @@ GOOGLE_SSO_SCOPES = [  # Google default scope
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
 ]
+
+# Set authentication backend explicitly if you have multiple values in your Django settings
+GOOGLE_SSO_AUTHENTICATION_BACKEND = "example.auth.backends.ExampleBackend"
 ```
 
 ### Running behind a Reverse Proxy
