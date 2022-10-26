@@ -84,7 +84,7 @@ def callback(request):
         return HttpResponseRedirect(admin_url)
 
     # Login User
-    login(request, user)
+    login(request, user, conf.GOOGLE_SSO_AUTHENTICATION_BACKEND)
     request.session.set_expiry(conf.GOOGLE_SSO_SESSION_COOKIE_AGE)
 
     return HttpResponseRedirect(next_url or admin_url)
