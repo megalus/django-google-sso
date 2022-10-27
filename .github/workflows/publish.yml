@@ -8,17 +8,19 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.4.0
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
       - name: Set up Python
-        uses: actions/setup-python@v2.3.2
+        uses: actions/setup-python@v4
         with:
-          python-version: 3.9
+          python-version: 3.10
       - name: Setup Poetry
-        uses: abatilo/actions-poetry@v2.1.3
+        uses: abatilo/actions-poetry@v2
       - name: Python Semantic Release
         uses: relekang/python-semantic-release@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pypi_token: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+      - run: pip install mkdocs-material
+      - run: mkdocs gh-deploy --force

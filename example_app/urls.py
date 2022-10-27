@@ -14,27 +14,31 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.auth.views import LoginView, LogoutView
-from django.urls import include, path, re_path
+from django.urls import include, path
 
+from example_app.settings import INSTALLED_APPS
 from example_app.views import secret_page
 
 urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
-# You can use the login_required decorator,
-# adding the following to your urls.py:
 urlpatterns += [
     path("secret/", secret_page),
-    re_path(
-        r"^accounts/login/$",
-        LoginView.as_view(
-            template_name="admin_sso/login.html"
-        ),  # The modified form with google button
-    ),
-    re_path(r"^accounts/logout/$", LogoutView.as_view(), name="logout"),
+    # path(
+    #     "accounts/login/",
+    #     LoginView.as_view(
+    #         template_name="admin_sso/login.html"
+    #     ),  # The modified form with google button
+    # ),
+    # path("accounts/logout/", LogoutView.as_view(), name="logout"),
 ]
+
+if "grappelli" in INSTALLED_APPS:
+    urlpatterns += [path("grappelli/", include("grappelli.urls"))]
+
+if "jet" in INSTALLED_APPS:
+    urlpatterns += [path("jet/", include("jet.urls", "jet"))]
 
 urlpatterns += [
     path(
