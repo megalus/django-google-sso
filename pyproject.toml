@@ -50,15 +50,17 @@ keywords = ["google", "django", "sso"]
 license = "MIT"
 classifiers = [
     "Framework :: Django",
+    "Framework :: Django :: 3.2",
     "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
     "Intended Audience :: Developers",
-    "Development Status :: 5 - Production/Stable",
+    "Development Status :: 4 - Beta",
     "Environment :: Plugins"
 ]
 
 [tool.poetry.dependencies]
 python = ">=3.8, <4.0"
-django = ">=4.0"
+django = ">=3.2"
 loguru = "*"
 google-auth = "*"
 google-auth-httplib2 = "*"
@@ -74,6 +76,11 @@ pytest-lazy-fixture = "*"
 pytest-mock = "*"
 twine = "*"
 python-dotenv = "*"
+mkdocs-material = "*"
+django-grappelli = "*"
+django-jazzmin = "*"
+django-admin-interface = "*"
+django-jet-reboot = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

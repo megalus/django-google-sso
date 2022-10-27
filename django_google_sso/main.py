@@ -52,8 +52,10 @@ class GoogleAuth:
         else:
             scheme = self.request.scheme
         netloc = self.get_netloc()
-        uri = reverse("django_google_sso:oauth_callback")
-        return f"{scheme}://{netloc}{uri}"
+        path = reverse("django_google_sso:oauth_callback")
+        callback_uri = f"{scheme}://{netloc}{path}"
+        logger.debug(f"Callback URI: {callback_uri}")
+        return callback_uri
 
     @property
     def flow(self) -> Flow:
@@ -144,3 +146,9 @@ class UserHelper:
             logger.debug(message_text)
             user.is_superuser = True
             user.is_staff = True
+
+    def find_user(self):
+        user_model = get_user_model()
+        query = user_model.objects.find(email=self.user_email)
+        if query.exists():
+            return query.get()

@@ -8,7 +8,7 @@ User = get_user_model()
 class GoogleSSOUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     google_id = models.CharField(max_length=255)
-    picture_url = models.URLField(max_length=255)
+    picture_url = models.URLField(max_length=2000)
     locale = models.CharField(max_length=5)
 
     def __str__(self):

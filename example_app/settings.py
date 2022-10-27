@@ -36,13 +36,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # "grappelli",
+    # "jazzmin",
+    # "admin_interface",
+    # "colorfield",
+    # "jet",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",  # Need for Auth messages
     "django.contrib.staticfiles",
-    "django.contrib.sites",  # Add Sites framework
+    "django.contrib.sites",  # Optional: Add Sites framework
     "django_google_sso",  # Add django_google_sso
 ]
 
@@ -131,15 +136,18 @@ STATIC_URL = "/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# Add the following to SSO works:
+AUTHENTICATION_BACKENDS = ["backend.MyBackend"]
 
+# Uncomment GOOGLE_SSO_CALLBACK_DOMAIN to use Sites Framework site domain
+# Or comment both and use domain retrieved from accounts/login/ request
 SITE_ID = 1
+GOOGLE_SSO_CALLBACK_DOMAIN = os.getenv("GOOGLE_SSO_CALLBACK_DOMAIN")
+
 GOOGLE_SSO_SESSION_COOKIE_AGE = 3600  # default value
 GOOGLE_SSO_CLIENT_ID = os.getenv("GOOGLE_SSO_CLIENT_ID")
 GOOGLE_SSO_PROJECT_ID = os.getenv("GOOGLE_SSO_PROJECT_ID")
 GOOGLE_SSO_CLIENT_SECRET = os.getenv("GOOGLE_SSO_CLIENT_SECRET")
-# Uncomment this line to override domain registered in Sites Framework
-# GOOGLE_SSO_CALLBACK_DOMAIN = "localhost:8000"
+
 GOOGLE_SSO_ALLOWABLE_DOMAINS = os.getenv("GOOGLE_SSO_ALLOWABLE_DOMAINS", "").split(",")
 GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = (
     False  # Mark as True, to create superuser on first eligible user login
@@ -153,5 +161,11 @@ GOOGLE_SSO_SCOPES = [  # default values
     "https://www.googleapis.com/auth/userinfo.profile",
 ]
 
+# Optional: Add if you want to use custom authentication backend
+GOOGLE_SSO_AUTHENTICATION_BACKEND = "backend.MyBackend"
+
 # Uncomment to disable SSO login
 # GOOGLE_SSO_ENABLED = False  # default: True
+
+# Uncomment to disable user auto-creation
+# GOOGLE_SSO_AUTO_CREATE_USERS = False  # default: True
