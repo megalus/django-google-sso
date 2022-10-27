@@ -55,15 +55,21 @@ GOOGLE_SSO_PROJECT_ID = "your project id here"
 GOOGLE_SSO_CLIENT_SECRET = "your client secret here"
 ```
 
-3. Let Django Google SSO auto create users on allowable domains:
+3. Add the callback uri `http://localhost:8000/google_sso/callback/` in your Google Console, on the "Authorized Redirect URL".
+
+4. Let Django Google SSO auto create users for allowable domains:
 
 ```python
+# settings.py
+
 GOOGLE_SSO_ALLOWABLE_DOMAINS = ["example.com"]
 ```
 
-4. In `urls.py` please add the **Django-Google-SSO** views:
+5. In `urls.py` please add the **Django-Google-SSO** views:
 
 ```python
+# urls.py
+
 from django.urls import include, path
 
 urlpatterns = [
@@ -73,13 +79,13 @@ urlpatterns = [
     ),
 ]
 ```
-5. And run migrations:
+6. And run migrations:
 
 ```shell
 $ python manage.py migrate
 ```
 
-That's it. Open your browser in `http://127.0.0.1:8001/admin/login` and you should see the Google SSO button.
+That's it. Start django on port 8000 and open your browser in `http://localhost:8000/admin/login` and you should see the Google SSO button.
 
 ![](docs/images/django_login_with_google_white.png)
 

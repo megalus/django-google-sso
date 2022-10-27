@@ -1,3 +1,5 @@
+![](images/django-google-sso.png)
+
 # Welcome to Django Google SSO
 
 ## Motivation
