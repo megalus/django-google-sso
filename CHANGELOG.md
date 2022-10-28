@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v2.3.0 (2022-10-28)
+### Feature
+* Release 2.3.0 ([`8ef3b04`](https://github.com/chrismaille/django-google-sso/commit/8ef3b04e2c096338c4b92126ebbf4f6cfac0d208))
+* Add new settings option GOOGLE_SSO_AUTHENTICATION_BACKEND ([`4212782`](https://github.com/chrismaille/django-google-sso/commit/4212782eae4c1400e1d9634b79df83f4a5d36f3d))
+
 ## v2.2.0 (2022-09-06)
 ### Feature
 * Make Sites Framework optional ([`e5a3839`](https://github.com/chrismaille/django-google-sso/commit/e5a38395b68ca4614b67cc5868c5adfd2a504f82))
