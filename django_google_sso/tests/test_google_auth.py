@@ -20,6 +20,7 @@ def test_get_client_config(monkeypatch, callback_request):
     monkeypatch.setattr(conf, "GOOGLE_SSO_CLIENT_ID", "client_id")
     monkeypatch.setattr(conf, "GOOGLE_SSO_PROJECT_ID", "project_id")
     monkeypatch.setattr(conf, "GOOGLE_SSO_CLIENT_SECRET", "redirect_uri")
+    monkeypatch.setattr(conf, "GOOGLE_SSO_CALLBACK_DOMAIN", "localhost:8000")
 
     # Act
     google = GoogleAuth(callback_request)
@@ -32,7 +33,7 @@ def test_get_client_config(monkeypatch, callback_request):
             "client_id": "client_id",
             "client_secret": "redirect_uri",
             "project_id": "project_id",
-            "redirect_uris": ["http://example.com/google_sso/callback/"],
+            "redirect_uris": ["http://localhost:8000/google_sso/callback/"],
             "token_uri": "https://oauth2.googleapis.com/token",
         }
     }
@@ -45,8 +46,9 @@ def test_get_client_config(monkeypatch, callback_request):
         (pytest.lazy_fixture("callback_request_from_reverse_proxy"), "https"),
     ],
 )
-def test_get_redirect_uri(fixture, expected_scheme):
+def test_get_redirect_uri(fixture, expected_scheme, monkeypatch):
     # Arrange
+    monkeypatch.setattr(conf, "GOOGLE_SSO_CALLBACK_DOMAIN", None)
     current_site_domain = Site.objects.get_current().domain
 
     # Act

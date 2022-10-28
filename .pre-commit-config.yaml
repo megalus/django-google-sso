@@ -18,7 +18,7 @@ repos:
         name: isort (python)
         args: [ "--profile", "black", "--filter-files" ]
   - repo: https://github.com/psf/black
-    rev: 22.8.0
+    rev: 22.10.0
     hooks:
       - id: black
         exclude: ^.*\b(migrations)\b.*$
@@ -38,7 +38,7 @@ repos:
       - id: flake8
         args: ["--count", "--exclude", "*/migrations/*", "." ]
   - repo: https://github.com/myint/autoflake
-    rev: v1.5.3
+    rev: v1.7.7
     hooks:
       - id: autoflake
         args: [ "--in-place", "--remove-all-unused-imports", "--remove-duplicate-keys" ]
