@@ -21,8 +21,8 @@ will be logged in.
 matches one of the `GOOGLE_SSO_ALLOWABLE_DOMAINS`. You can disable the auto-creation setting `GOOGLE_SSO_AUTO_CREATE_USER`
 to False.
 
-5. On creation only, this user can be set to the`staff` or `superuser` status, if his email are in `GOGGLE_SSO_STAFF_LIST` or
-`GOGGLE_SSO_SUPERUSER_LIST` respectively. Please note if you add an email to one of these lists, the email domain
+5. On creation only, this user can be set to the`staff` or `superuser` status, if his email are in `GOOGLE_SSO_STAFF_LIST` or
+`GOOGLE_SSO_SUPERUSER_LIST` respectively. Please note if you add an email to one of these lists, the email domain
 must be added to `GOOGLE_SSO_ALLOWABLE_DOMAINS`too.
 
 6. This authenticated session will expire in 1 hour, or the time defined, in seconds, in `GOOGLE_SSO_SESSION_COOKIE_AGE`.

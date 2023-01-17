@@ -38,7 +38,7 @@ def test_get_or_create_user(
     auto_create_super_user, google_response, callback_request, settings
 ):
     # Arrange
-    settings.GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = auto_create_super_user
+    settings.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = auto_create_super_user
     importlib.reload(conf)
 
     # Act
@@ -57,8 +57,8 @@ def test_get_or_create_user(
 
 def test_create_staff_from_list(google_response, callback_request, settings):
     # Arrange
-    settings.GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = False
-    settings.GOGGLE_SSO_STAFF_LIST = [google_response["email"]]
+    settings.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = False
+    settings.GOOGLE_SSO_STAFF_LIST = [google_response["email"]]
     importlib.reload(conf)
 
     # Act
@@ -73,8 +73,8 @@ def test_create_staff_from_list(google_response, callback_request, settings):
 
 def test_create_super_user_from_list(google_response, callback_request, settings):
     # Arrange
-    settings.GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = False
-    settings.GOGGLE_SSO_SUPERUSER_LIST = [google_response["email"]]
+    settings.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = False
+    settings.GOOGLE_SSO_SUPERUSER_LIST = [google_response["email"]]
     importlib.reload(conf)
 
     # Act

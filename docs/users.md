@@ -32,14 +32,14 @@ this you can set the following options in your `settings.py`:
 
 ```python
 # List of emails that will be created as staff
-GOGGLE_SSO_STAFF_LIST = ["my-email@my-domain.com"]
+GOOGLE_SSO_STAFF_LIST = ["my-email@my-domain.com"]
 
 # List of emails that will be created as superuser
 GOOGLE_SSO_SUPERUSER_LIST = ["another-email@my-domain.com"]
 
 # If True, the first user that logs in will be created as superuser
 # if no superuser exists in the database at all
-GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = True
+GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = True
 ```
 
 !!! warning "Be careful with these options"
