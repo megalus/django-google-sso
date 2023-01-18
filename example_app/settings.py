@@ -149,11 +149,11 @@ GOOGLE_SSO_PROJECT_ID = os.getenv("GOOGLE_SSO_PROJECT_ID")
 GOOGLE_SSO_CLIENT_SECRET = os.getenv("GOOGLE_SSO_CLIENT_SECRET")
 
 GOOGLE_SSO_ALLOWABLE_DOMAINS = os.getenv("GOOGLE_SSO_ALLOWABLE_DOMAINS", "").split(",")
-GOGGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = (
+GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = (
     False  # Mark as True, to create superuser on first eligible user login
 )
-GOGGLE_SSO_STAFF_LIST = os.getenv("GOGGLE_SSO_STAFF_LIST", "").split(",")
-GOGGLE_SSO_SUPERUSER_LIST = os.getenv("GOGGLE_SSO_SUPERUSER_LIST", "").split(",")
+GOOGLE_SSO_STAFF_LIST = os.getenv("GOOGLE_SSO_STAFF_LIST", "").split(",")
+GOOGLE_SSO_SUPERUSER_LIST = os.getenv("GOOGLE_SSO_SUPERUSER_LIST", "").split(",")
 GOOGLE_SSO_TIMEOUT = 10  # default value
 GOOGLE_SSO_SCOPES = [  # default values
     "openid",
