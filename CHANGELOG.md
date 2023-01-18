@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.3.1 (2023-01-18)
+### Fix
+* Small fixes ([`1ec44cc`](https://github.com/chrismaille/django-google-sso/commit/1ec44cc5f6080e8de67a0548b3af647ba96cc262))
+
 ## v2.3.0 (2022-10-28)
 ### Feature
 * Release 2.3.0 ([`8ef3b04`](https://github.com/chrismaille/django-google-sso/commit/8ef3b04e2c096338c4b92126ebbf4f6cfac0d208))
