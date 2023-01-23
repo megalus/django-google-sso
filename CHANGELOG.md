@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v2.4.0 (2023-01-23)
+### Feature
+* Add GOOGLE_SSO_PRE_LOGIN_CALLBACK feature ([`44ade37`](https://github.com/chrismaille/django-google-sso/commit/44ade37ce4f65a530562da4edbdc4c5d122d9f85))
+
 ## v2.3.1 (2023-01-18)
 ### Fix
 * Small fixes ([`1ec44cc`](https://github.com/chrismaille/django-google-sso/commit/1ec44cc5f6080e8de67a0548b3af647ba96cc262))
