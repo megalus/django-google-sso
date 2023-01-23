@@ -17,7 +17,7 @@
         <link rel="next" href="../troubleshooting/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.5">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
     
     
       
@@ -519,6 +519,10 @@
 <tr>
 <td><code>GOOGLE_SSO_TIMEOUT</code></td>
 <td>The timeout in seconds for the Google SSO authentication returns info, in minutes. Default: <code>10</code></td>
+</tr>
+<tr>
+<td><code>GOOGLE_SSO_PRE_LOGIN_CALLBACK</code></td>
+<td>Callable for processing pre-login logic. Default: <code>django_google_sso.hooks.pre_login_user</code></td>
 </tr>
 </tbody>
 </table>

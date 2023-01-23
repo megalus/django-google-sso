@@ -17,7 +17,7 @@
         <link rel="next" href="../urls/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.5">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.0.6">
     
     
       
@@ -343,6 +343,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#fine-tuning-users-before-login" class="md-nav__link">
+    Fine-tuning users before login
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -496,6 +503,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#fine-tuning-users-before-login" class="md-nav__link">
+    Fine-tuning users before login
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -544,6 +558,21 @@ GOOGLE_SSO_SUPERUSER_LIST = [&quot;another-email@my-domain.com&quot;]
 # if no superuser exists in the database at all
 GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = True
 </code></pre>
+<h2 id="fine-tuning-users-before-login">Fine-tuning users before login<a class="headerlink" href="#fine-tuning-users-before-login" title="Permanent link">&para;</a></h2>
+<p>If you need to do some processing <em>after</em> user is created or retrieved,
+but <em>before</em> the user is logged in, you can set the
+<code>GOOGLE_SSO_PRE_LOGIN_CALLBACK</code> setting to import a custom function that will be called before the user is logged in.
+This function will receive two arguments: the <code>user</code> and <code>request</code> objects.</p>
+<pre><code class="language-python"># myapp/hooks.py
+def pre_login_user(user, request):
+    # Do something with the user
+    pass
+
+# settings.py
+GOOGLE_SSO_PRE_LOGIN_CALLBACK = &quot;myapp.hooks.pre_login_user&quot;
+</code></pre>
+<p>Please remember this function will be invoked only if user exists, and if it is active.
+In other words, if the user is eligible for login.</p>
 <div class="admonition warning">
 <p class="admonition-title">Be careful with these options</p>
 <p>The idea here is to make your life easier, especially when testing. But if you are not careful, you can give
