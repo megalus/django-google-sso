@@ -16,3 +16,4 @@
 | `GOOGLE_SSO_STAFF_LIST`                  | List of emails that will be created as staff. Default: `[]`                                                                                              |
 | `GOOGLE_SSO_SUPERUSER_LIST`              | List of emails that will be created as superuser. Default: `[]`                                                                                          |
 | `GOOGLE_SSO_TIMEOUT`                     | The timeout in seconds for the Google SSO authentication returns info, in minutes. Default: `10`                                                         |
+| `GOOGLE_SSO_PRE_LOGIN_CALLBACK`          | Callable for processing pre-login logic. Default: `django_google_sso.hooks.pre_login_user`                                                               |

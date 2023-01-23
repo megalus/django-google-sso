@@ -29,3 +29,9 @@ GOOGLE_SSO_AUTO_CREATE_USERS = getattr(settings, "GOOGLE_SSO_AUTO_CREATE_USERS",
 GOOGLE_SSO_AUTHENTICATION_BACKEND = getattr(
     settings, "GOOGLE_SSO_AUTHENTICATION_BACKEND", None
 )
+
+GOOGLE_SSO_PRE_LOGIN_CALLBACK = getattr(
+    settings,
+    "GOOGLE_SSO_PRE_LOGIN_CALLBACK",
+    "django_google_sso.hooks.pre_login_user",
+)

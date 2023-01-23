@@ -42,6 +42,27 @@ GOOGLE_SSO_SUPERUSER_LIST = ["another-email@my-domain.com"]
 GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = True
 ```
 
+## Fine-tuning users before login
+
+If you need to do some processing _after_ user is created or retrieved,
+but _before_ the user is logged in, you can set the
+`GOOGLE_SSO_PRE_LOGIN_CALLBACK` setting to import a custom function that will be called before the user is logged in.
+This function will receive two arguments: the `user` and `request` objects.
+
+```python
+# myapp/hooks.py
+def pre_login_user(user, request):
+    # Do something with the user
+    pass
+
+# settings.py
+GOOGLE_SSO_PRE_LOGIN_CALLBACK = "myapp.hooks.pre_login_user"
+```
+
+Please remember this function will be invoked only if user exists, and if it is active.
+In other words, if the user is eligible for login.
+
+
 !!! warning "Be careful with these options"
     The idea here is to make your life easier, especially when testing. But if you are not careful, you can give
     permissions to users that you don't want, or even worse, you can give permissions to users that you don't know.

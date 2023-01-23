@@ -1,3 +1,4 @@
+import importlib
 from urllib.parse import urlparse
 
 from django.contrib import messages
@@ -97,6 +98,12 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
 
     if not user or not user.is_active:
         return HttpResponseRedirect(admin_url)
+
+    # Run Pre-Login Callback
+    module_path = ".".join(conf.GOOGLE_SSO_PRE_LOGIN_CALLBACK.split(".")[:-1])
+    pre_login_fn = conf.GOOGLE_SSO_PRE_LOGIN_CALLBACK.split(".")[-1]
+    module = importlib.import_module(module_path)
+    getattr(module, pre_login_fn)(user, request)
 
     # Login User
     login(request, user, conf.GOOGLE_SSO_AUTHENTICATION_BACKEND)

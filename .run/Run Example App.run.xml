@@ -19,7 +19,7 @@
     </EXTENSION>
     <option name="launchJavascriptDebuger" value="false" />
     <option name="port" value="8001" />
-    <option name="host" value="" />
+    <option name="host" value="localhost" />
     <option name="additionalOptions" value="" />
     <option name="browserUrl" value="http://127.0.0.1:8001/secret" />
     <option name="runTestServer" value="false" />
