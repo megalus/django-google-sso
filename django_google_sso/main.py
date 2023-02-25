@@ -149,6 +149,6 @@ class UserHelper:
 
     def find_user(self):
         user_model = get_user_model()
-        query = user_model.objects.find(email=self.user_email)
+        query = user_model.objects.filter(email=self.user_email)
         if query.exists():
             return query.get()

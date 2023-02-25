@@ -1,11 +1,16 @@
+import importlib
 from copy import deepcopy
 from urllib.parse import quote, urlencode
 
 import pytest
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.contrib.sessions.middleware import SessionMiddleware
+from django.urls import reverse
 
 from django_google_sso import conf
+from django_google_sso.main import GoogleAuth
+
+SECRET_PATH = "/secret/"
 
 
 @pytest.fixture
@@ -67,3 +72,20 @@ def callback_request_with_state(callback_request):
     request.session["sso_state"] = "foo"
     request.session["sso_next_url"] = "/secret/"
     return request
+
+
+@pytest.fixture
+def client_with_session(client, settings, mocker, google_response):
+    settings.GOOGLE_SSO_ALLOWABLE_DOMAINS = ["example.com"]
+    importlib.reload(conf)
+    session = client.session
+    session.update({"sso_state": "foo", "sso_next_url": SECRET_PATH})
+    session.save()
+    mocker.patch.object(GoogleAuth, "flow")
+    mocker.patch.object(GoogleAuth, "get_user_info", return_value=google_response)
+    yield client
+
+
+@pytest.fixture
+def callback_url(query_string):
+    return f"{reverse('django_google_sso:oauth_callback')}?{query_string}"
