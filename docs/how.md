@@ -18,7 +18,7 @@ Google's UserInfo will be retrieved. If the user is already registered in Django
 will be logged in.
 
 4. Otherwise, the user will be created and logged in, if his email domain,
-matches one of the `GOOGLE_SSO_ALLOWABLE_DOMAINS`. You can disable the auto-creation setting `GOOGLE_SSO_AUTO_CREATE_USER`
+matches one of the `GOOGLE_SSO_ALLOWABLE_DOMAINS`. You can disable the auto-creation setting `GOOGLE_SSO_AUTO_CREATE_USERS`
 to False.
 
 5. On creation only, this user can be set to the`staff` or `superuser` status, if his email are in `GOOGLE_SSO_STAFF_LIST` or
