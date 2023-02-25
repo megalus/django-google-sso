@@ -8,10 +8,18 @@ jobs:
     name: Run Pre-Commit
 
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4.2.0
-      - uses: abatilo/actions-poetry@v2.2.0
-      - uses: pre-commit/action@v3.0.0
+      - name: Checkout Branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setups Python
+        uses: actions/setup-python@v4.2.0
+        with:
+          python-version: "3.10"
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2.2.0
+      - name: Run Pre-Commit
+        uses: pre-commit/action@v3.0.0
   test:
     runs-on: ubuntu-latest
     needs: [lint]

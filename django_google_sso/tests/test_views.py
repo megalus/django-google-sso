@@ -7,12 +7,12 @@ from django.urls import reverse
 
 from django_google_sso import conf
 from django_google_sso.main import GoogleAuth
+from django_google_sso.tests.conftest import SECRET_PATH
 
 ROUTE_NAME = "django_google_sso:oauth_callback"
 
-SECRET_PATH = "/secret/"
 
-pytestmark = pytest.mark.django_db
+pytestmark = pytest.mark.django_db(transaction=True)
 
 
 def test_start_login(client, mocker):
@@ -108,19 +108,15 @@ def test_bad_state(client, querystring):
     ]
 
 
-def test_invalid_email(client, query_string, mocker, google_response, settings):
+def test_invalid_email(client_with_session, settings, callback_url):
     # Arrange
+    from django_google_sso import conf
+
     settings.GOOGLE_SSO_ALLOWABLE_DOMAINS = ["foobar.com"]
     importlib.reload(conf)
-    session = client.session
-    session.update({"sso_state": "foo"})
-    session.save()
-    mocker.patch.object(GoogleAuth, "flow")
-    mocker.patch.object(GoogleAuth, "get_user_info", return_value=google_response)
 
     # Act
-    url = f"{reverse('django_google_sso:oauth_callback')}?{query_string}"
-    response = client.get(url)
+    response = client_with_session.get(callback_url)
 
     # Assert
     assert response.status_code == 302
@@ -131,15 +127,8 @@ def test_invalid_email(client, query_string, mocker, google_response, settings):
     )
 
 
-def test_inactive_user(client, query_string, mocker, google_response, settings):
+def test_inactive_user(client_with_session, callback_url, google_response):
     # Arrange
-    settings.GOOGLE_SSO_ALLOWABLE_DOMAINS = ["example.com"]
-    importlib.reload(conf)
-    session = client.session
-    session.update({"sso_state": "foo"})
-    session.save()
-    mocker.patch.object(GoogleAuth, "flow")
-    mocker.patch.object(GoogleAuth, "get_user_info", return_value=google_response)
     User.objects.create(
         username=google_response["email"],
         email=google_response["email"],
@@ -147,8 +136,7 @@ def test_inactive_user(client, query_string, mocker, google_response, settings):
     )
 
     # Act
-    url = f"{reverse('django_google_sso:oauth_callback')}?{query_string}"
-    response = client.get(url)
+    response = client_with_session.get(callback_url)
 
     # Assert
     assert response.status_code == 302
@@ -156,22 +144,59 @@ def test_inactive_user(client, query_string, mocker, google_response, settings):
     assert User.objects.get(email=google_response["email"]).is_active is False
 
 
-def test_user_login(client, query_string, mocker, google_response, settings):
+def test_new_user_login(client_with_session, callback_url):
     # Arrange
-    settings.GOOGLE_SSO_ALLOWABLE_DOMAINS = ["example.com"]
-    importlib.reload(conf)
-    session = client.session
-    session.update({"sso_state": "foo", "sso_next_url": SECRET_PATH})
-    session.save()
-    mocker.patch.object(GoogleAuth, "flow")
-    mocker.patch.object(GoogleAuth, "get_user_info", return_value=google_response)
 
     # Act
-    url = f"{reverse('django_google_sso:oauth_callback')}?{query_string}"
-    response = client.get(url)
+    response = client_with_session.get(callback_url)
 
     # Assert
     assert response.status_code == 302
     assert User.objects.count() == 1
     assert response.url == SECRET_PATH
     assert response.wsgi_request.user.is_authenticated is True
+
+
+def test_existing_user_login(
+    client_with_session, settings, google_response, callback_url
+):
+    # Arrange
+    from django_google_sso import conf
+
+    existing_user = User.objects.create(
+        username=google_response["email"],
+        email=google_response["email"],
+        is_active=True,
+    )
+
+    settings.GOOGLE_SSO_AUTO_CREATE_USERS = False
+    importlib.reload(conf)
+
+    # Act
+    response = client_with_session.get(callback_url)
+
+    # Assert
+    assert response.status_code == 302
+    assert User.objects.count() == 1
+    assert response.url == SECRET_PATH
+    assert response.wsgi_request.user.is_authenticated is True
+    assert response.wsgi_request.user.email == existing_user.email
+
+
+def test_missing_user_login(
+    client_with_session, settings, google_response, callback_url
+):
+    # Arrange
+    from django_google_sso import conf
+
+    settings.GOOGLE_SSO_AUTO_CREATE_USERS = False
+    importlib.reload(conf)
+
+    # Act
+    response = client_with_session.get(callback_url)
+
+    # Assert
+    assert response.status_code == 302
+    assert User.objects.count() == 0
+    assert response.url == "/admin/"
+    assert response.wsgi_request.user.is_authenticated is False
