@@ -2,6 +2,11 @@
 
 <!--next-version-placeholder-->
 
+## v2.4.1 (2023-02-25)
+### Fix
+* UserManager error when GOOGLE_SSO_AUTO_CREATE_USERS is set to False ([`4451c6b`](https://github.com/chrismaille/django-google-sso/commit/4451c6bf228e29cba14b11fd6ee17d9f2089cefd))
+* **docs/how.md:** Add missing S with GOOGLE_SSO_AUTO_CREATE_USERS ([`3e9b661`](https://github.com/chrismaille/django-google-sso/commit/3e9b661eaec4693541b92f85de65129f18bc3fe2))
+
 ## v2.4.0 (2023-01-23)
 ### Feature
 * Add GOOGLE_SSO_PRE_LOGIN_CALLBACK feature ([`44ade37`](https://github.com/chrismaille/django-google-sso/commit/44ade37ce4f65a530562da4edbdc4c5d122d9f85))
