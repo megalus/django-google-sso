@@ -56,14 +56,13 @@ def retrieve_user_data(request: HttpRequest) -> JsonResponse:
     })
 ```
 
-!!! tip "You can also import the model directly"
-    Like this:
+You can also import the model directly, like this:
 
-    ```python
-    from django_google_sso.models import GoogleSSOUser
+```python
+from django_google_sso.models import GoogleSSOUser
 
-    google_info = GoogleSSOUser.objects.get(user=user)
-    ```
+google_info = GoogleSSOUser.objects.get(user=user)
+```
 
 ## About Google Scopes
 

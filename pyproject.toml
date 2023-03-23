@@ -45,7 +45,7 @@ version = "2.4.1"
 description = "Easily add Google SSO login to Django Admin"
 authors = ["Chris Maillefaud <chrismaillefaud@gmail.com>"]
 readme = "README.md"
-repository = "https://github.com/chrismaille/django-google-sso"
+repository = "https://github.com/megalus/django-google-sso"
 keywords = ["google", "django", "sso"]
 license = "MIT"
 classifiers = [
@@ -82,6 +82,8 @@ django-jazzmin = "*"
 django-admin-interface = "*"
 django-jet-reboot = "*"
 click = ">8"
+bandit = "*"
+flake8 = "*"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

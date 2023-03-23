@@ -13,8 +13,8 @@
 
 ### Example App
 
-To test this library please check the `Example App` provided [here](https://github.com/chrismaille/django-google-sso/tree/main/example_app).
+To test this library please check the `Example App` provided [here](https://github.com/megalus/django-google-sso/tree/main/example_app).
 
 ### Not working?
 
-Don't panic. Get a towel and, please, open an [issue](https://github.com/chrismaille/django-google-sso/issues).
+Don't panic. Get a towel and, please, open an [issue](https://github.com/megalus/django-google-sso/issues).

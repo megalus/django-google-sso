@@ -38,7 +38,7 @@ repos:
       - id: flake8
         args: ["--count", "--exclude", "*/migrations/*", "." ]
   - repo: https://github.com/myint/autoflake
-    rev: v2.0.1
+    rev: v2.0.2
     hooks:
       - id: autoflake
         args: [ "--in-place", "--remove-all-unused-imports", "--remove-duplicate-keys" ]

@@ -40,34 +40,33 @@ GOOGLE_SSO_CLIENT_SECRET = "your client secret here"
 GOOGLE_SSO_PROJECT_ID = "your project id here"
 ```
 
-!!! tip "Don't commit this info"
-    Do not commit this info in your repository. This permits you to have different credentials for each environment and
-    mitigates security breaches. That's why we are recommend you to use environment variables to store this info.
-    To read this data, you will need to install a [Twelve-factor compatible](https://www.12factor.net/) library in your project.
+Do not commit this info in your repository. This permits you to have different credentials for each environment and
+mitigates security breaches. That's why we are recommend you to use environment variables to store this info.
+To read this data, you will need to install a [Twelve-factor compatible](https://www.12factor.net/) library in your project.
 
-    For example, you can use our sister project [stela](https://github.com/chrismaille/stela) to load the environment
-    variables from a `.env` file, like this:
+For example, you can use our sister project [stela](https://github.com/megalus/stela) to load the environment
+variables from a `.env` file, like this:
 
-    ```dotenv
-    # .env
-    GOOGLE_SSO_CLIENT_ID="your client id here"
-    GOOGLE_SSO_CLIENT_SECRET="your client secret here"
-    GOOGLE_SSO_PROJECT_ID="your project id here"
-    ```
+```dotenv
+# .env
+GOOGLE_SSO_CLIENT_ID="your client id here"
+GOOGLE_SSO_CLIENT_SECRET="your client secret here"
+GOOGLE_SSO_PROJECT_ID="your project id here"
+```
 
-    ```python
-    # settings.py
-    import os
-    from stela import settings
+```python
+# settings.py
+import os
+from stela import settings
 
-    GOOGLE_SSO_CLIENT_ID = settings["GOOGLE_SSO_CLIENT_ID"]
-    GOOGLE_SSO_CLIENT_SECRET = settings["GOOGLE_SSO_CLIENT_SECRET"]
-    GOOGLE_SSO_PROJECT_ID = settings["GOOGLE_SSO_PROJECT_ID"]
-    ```
+GOOGLE_SSO_CLIENT_ID = settings["GOOGLE_SSO_CLIENT_ID"]
+GOOGLE_SSO_CLIENT_SECRET = settings["GOOGLE_SSO_CLIENT_SECRET"]
+GOOGLE_SSO_PROJECT_ID = settings["GOOGLE_SSO_PROJECT_ID"]
+```
 
-    But in fact, you can use any library you want, like
-    [django-environ](https://pypi.org/project/django-environ/), [django-constance](https://github.com/jazzband/django-constance),
-    [python-dotenv](https://pypi.org/project/python-dotenv/), etc...
+But in fact, you can use any library you want, like
+[django-environ](https://pypi.org/project/django-environ/), [django-constance](https://github.com/jazzband/django-constance),
+[python-dotenv](https://pypi.org/project/python-dotenv/), etc...
 
 ---
 

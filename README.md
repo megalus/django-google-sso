@@ -3,7 +3,7 @@
 </p>
 
 [![PyPI](https://img.shields.io/pypi/v/django-google-sso)](https://pypi.org/project/django-google-sso/)
-[![Build](https://github.com/chrismaille/django-google-sso/workflows/tests/badge.svg)](https://github.com/chrismaille/django-google-sso/actions)
+[![Build](https://github.com/megalus/django-google-sso/workflows/tests/badge.svg)](https://github.com/chrismaille/django-google-sso/actions)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/django-google-sso)](https://www.python.org)
 [![PyPI - Django Version](https://img.shields.io/pypi/djversions/django-google-sso)](https://www.djangoproject.com/)
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
@@ -20,7 +20,7 @@ and [django-admin-sso](https://github.com/matthiask/django-admin-sso/)
 
 ### Documentation
 
-* Docs: https://chrismaille.github.io/django-google-sso/
+* Docs: https://megalus.github.io/django-google-sso/
 
 ---
 

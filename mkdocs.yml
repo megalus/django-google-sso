@@ -1,8 +1,8 @@
 # yaml-language-server: $schema=https://squidfunk.github.io/mkdocs-material/schema.json
 site_name: Django Google SSO
 site_description: Easily add Google SSO login to Django Admin
-repo_url: https://github.com/chrismaille/django-google-sso
-repo_name: chrismaille/django-google-sso
+repo_url: https://github.com/megalus/django-google-sso
+repo_name: megalus/django-google-sso
 
 theme:
   name: material
