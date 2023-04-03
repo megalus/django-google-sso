@@ -12,12 +12,14 @@ theme:
   palette:
     # Palette toggle for light mode
     - scheme: default
+      media: "(prefers-color-scheme: light)"
       primary: teal
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
     # Palette toggle for dark mode
     - scheme: slate
+      media: "(prefers-color-scheme: dark)"
       primary: teal
       toggle:
         icon: material/brightness-4
@@ -49,8 +51,12 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.keys
+  - pymdownx.snippets
+  - pymdownx.superfences
   - pymdownx.magiclink:
       repo_url_shorthand: true
       user: squidfunk

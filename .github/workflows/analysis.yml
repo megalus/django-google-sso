@@ -17,11 +17,11 @@ jobs:
         with:
           fetch-depth: 0
       - name: Set up Python 3.10
-        uses: actions/setup-python@v4.2.0
+        uses: actions/setup-python@v3
         with:
           python-version: "3.10"
       - name: Setup Poetry
-        uses: abatilo/actions-poetry@v2.3.0
+        uses: abatilo/actions-poetry@v2
       - name: Install Project
         run: |
           poetry install

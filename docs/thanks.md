@@ -4,9 +4,9 @@ Thank you for using this project. And for all the appreciation, patience and sup
 
 I really hope this project can make your life a little easier.
 
-Please feel free to check my other projects:
+Please feel free to check our other projects:
 
-* [stela](https://github.com/megalus/stela): Easily manage project settings and secrets in python projects.
+* [stela](https://github.com/megalus/stela): Easily manage project settings and secrets in any python project.
 
 ## Donating
 

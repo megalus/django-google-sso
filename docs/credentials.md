@@ -47,7 +47,7 @@ To read this data, you will need to install a [Twelve-factor compatible](https:/
 For example, you can use our sister project [stela](https://github.com/megalus/stela) to load the environment
 variables from a `.env` file, like this:
 
-```dotenv
+```ini
 # .env
 GOOGLE_SSO_CLIENT_ID="your client id here"
 GOOGLE_SSO_CLIENT_SECRET="your client secret here"

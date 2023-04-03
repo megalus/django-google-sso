@@ -57,7 +57,10 @@ from django.urls import include, path
 urlpatterns = [
     # other urlpatterns...
     path(
-        "google_sso/", include("django_google_sso.urls", namespace="django_google_sso")
+        "google_sso/", include(
+            "django_google_sso.urls",
+            namespace="django_google_sso"
+        )
     ),
 ]
 ```
@@ -67,7 +70,7 @@ urlpatterns = [
 Finally, run migrations
 
 ```shell
-python manage.py migrate
+$ python manage.py migrate
 ```
 
 ---

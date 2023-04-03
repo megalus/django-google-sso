@@ -9,7 +9,10 @@ from django.urls import include, path
 urlpatterns = [
     # other urlpatterns...
     path(
-        "google_sso/", include("django_google_sso.urls", namespace="django_google_sso")
+        "google_sso/", include(
+            "django_google_sso.urls",
+            namespace="django_google_sso"
+        )
     ),
 ]
 ```

@@ -6,7 +6,6 @@ For example, if any user with a gmail account can sign in, you can set:
 
 ```python
 # settings.py
-
 GOOGLE_SSO_ALLOWABLE_DOMAINS = ["gmail.com"]
 ```
 
@@ -21,7 +20,6 @@ GOOGLE_SSO_AUTO_CREATE_USERS = False
 You can also disable the plugin completely:
 
 ```python
-
 GOOGLE_SSO_ENABLED = False
 ```
 
