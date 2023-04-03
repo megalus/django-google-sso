@@ -17,7 +17,7 @@
         <link rel="next" href="../credentials/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.5">
     
     
       
@@ -25,7 +25,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.7a7fce14.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
@@ -118,7 +118,7 @@
       <form class="md-header__option" data-md-component="palette">
         
           
-          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
           
             <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
@@ -126,7 +126,7 @@
           
         
           
-          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
           
             <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
@@ -575,22 +575,22 @@
 <h1 id="quick-setup">Quick Setup<a class="headerlink" href="#quick-setup" title="Permanent link">&para;</a></h1>
 <h2 id="setup-django-settings">Setup Django Settings<a class="headerlink" href="#setup-django-settings" title="Permanent link">&para;</a></h2>
 <p>To add this package in your Django Project, please modify the <code>INSTALLED_APPS</code> in your <code>settings.py</code>:</p>
-<pre><code class="language-python"># settings.py
-
-INSTALLED_APPS = [
-    # other django apps
-    &quot;django.contrib.messages&quot;,  # Need for Auth messages
-    &quot;django_google_sso&quot;,  # Add django_google_sso
-]
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># settings.py</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    <span class="c1"># other django apps</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="s2">&quot;django.contrib.messages&quot;</span><span class="p">,</span>  <span class="c1"># Need for Auth messages</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="s2">&quot;django_google_sso&quot;</span><span class="p">,</span>  <span class="c1"># Add django_google_sso</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">]</span>
+</span></code></pre></div>
 <h2 id="setup-google-credentials">Setup Google Credentials<a class="headerlink" href="#setup-google-credentials" title="Permanent link">&para;</a></h2>
 <p>Now, add your <a href="https://console.cloud.google.com/apis/credentials">Google Project Web App API Credentials</a> in your <code>settings.py</code>:</p>
-<pre><code class="language-python"># settings.py
-
-GOOGLE_SSO_CLIENT_ID = &quot;your Web App Client Id here&quot;
-GOOGLE_SSO_CLIENT_SECRET = &quot;your Web App Client Secret here&quot;
-GOOGLE_SSO_PROJECT_ID = &quot;your Google Project Id here&quot;
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># settings.py</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">GOOGLE_SSO_CLIENT_ID</span> <span class="o">=</span> <span class="s2">&quot;your Web App Client Id here&quot;</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">GOOGLE_SSO_CLIENT_SECRET</span> <span class="o">=</span> <span class="s2">&quot;your Web App Client Secret here&quot;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">GOOGLE_SSO_PROJECT_ID</span> <span class="o">=</span> <span class="s2">&quot;your Google Project Id here&quot;</span>
+</span></code></pre></div>
 <h2 id="setup-callback-uri">Setup Callback URI<a class="headerlink" href="#setup-callback-uri" title="Permanent link">&para;</a></h2>
 <p>In <a href="https://console.cloud.google.com/apis/credentials">Google Console</a> at <em>Api -&gt; Credentials -&gt; Oauth2 Client</em>,
 add the following <em>Authorized Redirect URI</em>: <code>https://your-domain.com/google_sso/callback/</code> replacing <code>your-domain.com</code> with your
@@ -601,27 +601,30 @@ real domain (and Port). For example, if you are running locally, you can use <co
 <h2 id="setup-auto-create-users">Setup Auto-Create Users<a class="headerlink" href="#setup-auto-create-users" title="Permanent link">&para;</a></h2>
 <p>The next option is to set up the auto-create users from Django Google SSO. Only emails with the allowed domains will be
 created automatically. If the email is not in the allowed domains, the user will be redirected to the login page.</p>
-<pre><code class="language-python"># settings.py
-
-GOOGLE_SSO_ALLOWABLE_DOMAINS = [&quot;your-domain.com&quot;]
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># settings.py</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">GOOGLE_SSO_ALLOWABLE_DOMAINS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;your-domain.com&quot;</span><span class="p">]</span>
+</span></code></pre></div>
 <h2 id="setup-django-urls">Setup Django URLs<a class="headerlink" href="#setup-django-urls" title="Permanent link">&para;</a></h2>
 <p>And in your <code>urls.py</code> please add the <strong>Django-Google-SSO</strong> views:</p>
-<pre><code class="language-python"># urls.py
-
-from django.urls import include, path
-
-urlpatterns = [
-    # other urlpatterns...
-    path(
-        &quot;google_sso/&quot;, include(&quot;django_google_sso.urls&quot;, namespace=&quot;django_google_sso&quot;)
-    ),
-]
-</code></pre>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># urls.py</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">include</span><span class="p">,</span> <span class="n">path</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="c1"># other urlpatterns...</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">path</span><span class="p">(</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>        <span class="s2">&quot;google_sso/&quot;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>            <span class="s2">&quot;django_google_sso.urls&quot;</span><span class="p">,</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>            <span class="n">namespace</span><span class="o">=</span><span class="s2">&quot;django_google_sso&quot;</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="p">)</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="p">),</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">]</span>
+</span></code></pre></div>
 <h2 id="run-django-migrations">Run Django migrations<a class="headerlink" href="#run-django-migrations" title="Permanent link">&para;</a></h2>
 <p>Finally, run migrations</p>
-<pre><code class="language-shell">python manage.py migrate
-</code></pre>
+<div class="language-shell highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>python<span class="w"> </span>manage.py<span class="w"> </span>migrate
+</span></code></pre></div>
 <hr />
 <p>And, that's it: <strong>Django Google SSO</strong> is ready for use. When you open the admin page, you will see the "Login with Google" button:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Light Mode</label><label for="__tabbed_1_2">Dark Mode</label></div>
@@ -740,7 +743,7 @@ urlpatterns = [
     <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      <script src="../assets/javascripts/bundle.407015b8.min.js"></script>
       
     
   </body>
