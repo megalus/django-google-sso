@@ -42,26 +42,26 @@ GOOGLE_SSO_PROJECT_ID = "your project id here"
 
 Do not commit this info in your repository. This permits you to have different credentials for each environment and
 mitigates security breaches. That's why we are recommend you to use environment variables to store this info.
-To read this data, you will need to install a [Twelve-factor compatible](https://www.12factor.net/) library in your project.
+To read this data, we recommend you to install and use a [Twelve-factor compatible](https://www.12factor.net/) library
+in your project.
 
-For example, you can use our sister project [stela](https://github.com/megalus/stela) to load the environment
-variables from a `.env` file, like this:
+For example, you can use our [sister project Stela](https://github.com/megalus/stela) to load the environment
+variables from a `.env.local` file, like this:
 
 ```ini
-# .env
+# .env.local
 GOOGLE_SSO_CLIENT_ID="your client id here"
 GOOGLE_SSO_CLIENT_SECRET="your client secret here"
 GOOGLE_SSO_PROJECT_ID="your project id here"
 ```
 
 ```python
-# settings.py
-import os
-from stela import settings
+# Django settings.py
+from stela import env
 
-GOOGLE_SSO_CLIENT_ID = settings["GOOGLE_SSO_CLIENT_ID"]
-GOOGLE_SSO_CLIENT_SECRET = settings["GOOGLE_SSO_CLIENT_SECRET"]
-GOOGLE_SSO_PROJECT_ID = settings["GOOGLE_SSO_PROJECT_ID"]
+GOOGLE_SSO_CLIENT_ID = env.GOOGLE_SSO_CLIENT_ID
+GOOGLE_SSO_CLIENT_SECRET = env.GOOGLE_SSO_CLIENT_SECRET
+GOOGLE_SSO_PROJECT_ID = env.GOOGLE_SSO_PROJECT_ID
 ```
 
 But in fact, you can use any library you want, like
