@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
@@ -17,10 +17,10 @@ from django_google_sso.models import GoogleSSOUser
 @dataclass
 class GoogleAuth:
     request: Any
-    _flow: Optional[Flow] = None
+    _flow: Flow | None = None
 
     @property
-    def scopes(self) -> List[str]:
+    def scopes(self) -> list[str]:
         return conf.GOOGLE_SSO_SCOPES
 
     def get_client_config(self) -> Credentials:
@@ -75,7 +75,7 @@ class GoogleAuth:
 
 @dataclass
 class UserHelper:
-    user_info: Dict[Any, Any]
+    user_info: dict[Any, Any]
     request: Any
 
     @property

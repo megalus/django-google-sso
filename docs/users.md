@@ -1,4 +1,4 @@
-# Auto Create Users
+# Auto Creating Users
 
 **Django Google SSO** can automatically create users from Google SSO authentication. To enable this feature, you need to
 set the `GOOGLE_SSO_ALLOWABLE_DOMAINS` setting in your `settings.py`, with a list of domains that will be allowed to create.

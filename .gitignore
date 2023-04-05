@@ -106,7 +106,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+!.env
 .venv
 env/
 venv/
@@ -142,3 +142,8 @@ poetry.lock
 *.sqlite*
 
 .idea/
+
+# Stela
+*.stela.back
+.env.local
+.env.*.local

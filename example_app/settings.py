@@ -9,12 +9,9 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-import os
 from pathlib import Path
 
-from dotenv import load_dotenv
-
-load_dotenv()
+from stela import env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 
@@ -163,19 +160,23 @@ AUTHENTICATION_BACKENDS = ["backend.MyBackend"]
 # Uncomment GOOGLE_SSO_CALLBACK_DOMAIN to use Sites Framework site domain
 # Or comment both and use domain retrieved from accounts/login/ request
 SITE_ID = 1
-GOOGLE_SSO_CALLBACK_DOMAIN = os.getenv("GOOGLE_SSO_CALLBACK_DOMAIN")
+GOOGLE_SSO_CALLBACK_DOMAIN = env.GOOGLE_SSO_CALLBACK_DOMAIN
 
 GOOGLE_SSO_SESSION_COOKIE_AGE = 3600  # default value
-GOOGLE_SSO_CLIENT_ID = os.getenv("GOOGLE_SSO_CLIENT_ID")
-GOOGLE_SSO_PROJECT_ID = os.getenv("GOOGLE_SSO_PROJECT_ID")
-GOOGLE_SSO_CLIENT_SECRET = os.getenv("GOOGLE_SSO_CLIENT_SECRET")
+GOOGLE_SSO_CLIENT_ID = env.GOOGLE_SSO_CLIENT_ID
+GOOGLE_SSO_PROJECT_ID = env.GOOGLE_SSO_PROJECT_ID
+GOOGLE_SSO_CLIENT_SECRET = env.GOOGLE_SSO_CLIENT_SECRET
 
-GOOGLE_SSO_ALLOWABLE_DOMAINS = os.getenv("GOOGLE_SSO_ALLOWABLE_DOMAINS", "").split(",")
+GOOGLE_SSO_ALLOWABLE_DOMAINS = env.get_or_default(
+    "GOOGLE_SSO_ALLOWABLE_DOMAINS", ""
+).split(",")
 GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = (
     False  # Mark as True, to create superuser on first eligible user login
 )
-GOOGLE_SSO_STAFF_LIST = os.getenv("GOOGLE_SSO_STAFF_LIST", "").split(",")
-GOOGLE_SSO_SUPERUSER_LIST = os.getenv("GOOGLE_SSO_SUPERUSER_LIST", "").split(",")
+GOOGLE_SSO_STAFF_LIST = env.get_or_default("GOOGLE_SSO_STAFF_LIST", "").split(",")
+GOOGLE_SSO_SUPERUSER_LIST = env.get_or_default("GOOGLE_SSO_SUPERUSER_LIST", "").split(
+    ","
+)
 GOOGLE_SSO_TIMEOUT = 10  # default value
 GOOGLE_SSO_SCOPES = [  # default values
     "openid",

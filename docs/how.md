@@ -3,14 +3,14 @@
 ## Current Flow
 
 1. First, the user is redirected to the Django login page. If settings `GOOGLE_SSO_ENABLED` is True, the
-"Login with Google" button will be added to default form.
+"Login with Google" button will be added to a default form.
 
 2. On click, **Django-Google-SSO** will add, in a anonymous request session, the `next_path` and Google Flow `state`.
 This data will expire in 10 minutes. Then user will be redirected to Google login page.
 
     !!! info "Using Request Anonymous session"
-        If you make any actions which changes or destroy this session, like restart django, clear cookies or change
-        browsers, the login will fail and you can see the message "State Mismatched. Time expired?" in the next time
+        If you make any actions which change or destroy this session, like restart django, clear cookies or change
+        browsers, the login will fail, and you can see the message "State Mismatched. Time expired?" in the next time
         you log in again.
 
 3. On callback, **Django-Google-SSO** will check `code` and `state` received. If they are valid,
