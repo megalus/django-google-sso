@@ -2,6 +2,14 @@
 
 <!--next-version-placeholder-->
 
+## v2.5.0 (2023-04-05)
+### Feature
+* Update to Django 4.2 ([`677a5da`](https://github.com/megalus/django-google-sso/commit/677a5da8c4d0815595e4aaa72c363f8feb409a93))
+
+### Documentation
+* Update Stela example ([`6ff6676`](https://github.com/megalus/django-google-sso/commit/6ff6676b04729ef8d2687ee7f54bd31e68cba3a0))
+* Improve documentation ([`131f1b1`](https://github.com/megalus/django-google-sso/commit/131f1b10a1398cc17a8eec95feb571de3cf6a0c8))
+
 ## v2.4.1 (2023-02-25)
 ### Fix
 * UserManager error when GOOGLE_SSO_AUTO_CREATE_USERS is set to False ([`4451c6b`](https://github.com/chrismaille/django-google-sso/commit/4451c6bf228e29cba14b11fd6ee17d9f2089cefd))
