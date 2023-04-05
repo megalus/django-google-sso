@@ -34,4 +34,4 @@ pip install django-google-sso
 !!! info "Currently this project supports:"
     * Python 3.9, 3.10 and 3.11
     * Django 4.0, 4.1 and 4.2
-    For python 3.8 please use version 2.x
+    For python 3.8 please use version 2.4.1

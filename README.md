@@ -99,7 +99,9 @@ $ python manage.py migrate
 That's it. Start django on port 8000 and open your browser in `http://localhost:8000/admin/login` and you should see the
 Google SSO button.
 
-![](docs/images/django_login_with_google_white.png)
+<p align="center">
+   <img src="docs/images/django_login_with_google_white.png"/>
+</p>
 
 ---
 
