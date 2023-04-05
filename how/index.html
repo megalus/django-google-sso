@@ -299,7 +299,7 @@
   
     <li class="md-nav__item">
       <a href="../users/" class="md-nav__link">
-        Auto Create Users
+        Auto Creating Users
       </a>
     </li>
   
@@ -521,15 +521,15 @@
 <ol>
 <li>
 <p>First, the user is redirected to the Django login page. If settings <code>GOOGLE_SSO_ENABLED</code> is True, the
-"Login with Google" button will be added to default form.</p>
+"Login with Google" button will be added to a default form.</p>
 </li>
 <li>
 <p>On click, <strong>Django-Google-SSO</strong> will add, in a anonymous request session, the <code>next_path</code> and Google Flow <code>state</code>.
 This data will expire in 10 minutes. Then user will be redirected to Google login page.</p>
 <div class="admonition info">
 <p class="admonition-title">Using Request Anonymous session</p>
-<p>If you make any actions which changes or destroy this session, like restart django, clear cookies or change
-browsers, the login will fail and you can see the message "State Mismatched. Time expired?" in the next time
+<p>If you make any actions which change or destroy this session, like restart django, clear cookies or change
+browsers, the login will fail, and you can see the message "State Mismatched. Time expired?" in the next time
 you log in again.</p>
 </div>
 </li>

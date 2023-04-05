@@ -299,7 +299,7 @@
   
     <li class="md-nav__item">
       <a href="../users/" class="md-nav__link">
-        Auto Create Users
+        Auto Creating Users
       </a>
     </li>
   
@@ -593,8 +593,8 @@ relation attribute:</p>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">]</span>
 </span></code></pre></div>
 <p>You can change this scopes overriding the <code>GOOGLE_SSO_SCOPES</code> setting in your <code>settings.py</code> file. But if you ask the user
-to authorize more scopes, this additional data will not be saved in the database by this plugin. You will need to implement
-your own logic to save this data, calling google again.</p>
+to authorize more scopes, this plugin will not save this additional data in the database. You will need to implement
+your own logic to save this data, calling Google again.</p>
 <div class="admonition info">
 <p class="admonition-title">The main goal here is simplicity</p>
 <p>The main goal of this plugin is to be simple to use as possible. But it is important to ask the user <strong><em>once</em></strong> for the scopes.
