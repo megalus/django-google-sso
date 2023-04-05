@@ -1,6 +1,6 @@
 # Using Django Admin
 
-**Django Google SSO** integrates with Django Admin, adding a Inline Model Admin to the User model. This way, you can
+**Django Google SSO** integrates with Django Admin, adding an Inline Model Admin to the User model. This way, you can
 access the Google SSO data for each user.
 
 ## Using Custom User model

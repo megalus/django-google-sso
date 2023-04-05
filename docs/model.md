@@ -77,8 +77,8 @@ GOOGLE_SSO_SCOPES = [  # Google default scope
 ```
 
 You can change this scopes overriding the `GOOGLE_SSO_SCOPES` setting in your `settings.py` file. But if you ask the user
-to authorize more scopes, this additional data will not be saved in the database by this plugin. You will need to implement
-your own logic to save this data, calling google again.
+to authorize more scopes, this plugin will not save this additional data in the database. You will need to implement
+your own logic to save this data, calling Google again.
 
 !!! info "The main goal here is simplicity"
     The main goal of this plugin is to be simple to use as possible. But it is important to ask the user **_once_** for the scopes.

@@ -16,7 +16,7 @@ So, let's break each part of this URI:
 The scheme is the protocol used to access the URL. It can be `http` or `https`. **Django-Google-SSO** will select the
 same scheme used by the URL which shows to you the login page.
 
-For example, if you are running locally, like `http://localhost:8000/accounts/login`, then the callback URL scheme
+For example, if you're running locally, like `http://localhost:8000/accounts/login`, then the callback URL scheme
 will be `http://`.
 
 ??? question "How about a Reverse-Proxy?"
@@ -28,9 +28,9 @@ The NetLoc is the domain of your Django project. It can be a dns name, or an IP 
 needed. Some examples are: `example.com`, `localhost:8000`, `api.my-domain.com`, and so on. To find the correct netloc,
 **Django-Google-SSO** will check, in that order:
 
-- If settings contains the variable `GOOGLE_SSO_CALLBACK_DOMAIN`, it will use this value.
+- If settings contain the variable `GOOGLE_SSO_CALLBACK_DOMAIN`, it will use this value.
 - If Sites Framework is active, it will use the domain field for the current site.
-- The netloc found in the URL which shows to you the login page.
+- The netloc found in the URL which shows you the login page.
 
 ### The Path
 The path is the path to the callback view. It will be always `/<path in urls.py>/callback/`.

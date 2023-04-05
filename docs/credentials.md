@@ -8,13 +8,12 @@ authentication.
 ## Getting Google Credentials
 
 In your [Google Console](https://console.cloud.google.com/apis/credentials) navigate to _Api -> Credentials_ to access
-the credentials your
-for your all Google Cloud Projects.
+the credentials for your all Google Cloud Projects.
 
 !!! tip "Your first Google Cloud Project"
     If you don't have a Google Cloud Project, you can create one by clicking on the _**Create**_ button.
 
-Then, you can select one of existing Web App Oauth 2.0 Client Ids in you Google project, or create a new one.
+Then, you can select one of existing Web App Oauth 2.0 Client Ids in your Google project, or create a new one.
 
 ??? question "Do I need to create a new Oauth 2.0 Client Web App?"
     Normally you will have one credential per environment in your Django project. For example, if you have
@@ -40,8 +39,9 @@ GOOGLE_SSO_CLIENT_SECRET = "your client secret here"
 GOOGLE_SSO_PROJECT_ID = "your project id here"
 ```
 
-Do not commit this info in your repository. This permits you to have different credentials for each environment and
-mitigates security breaches. That's why we are recommend you to use environment variables to store this info.
+Don't commit this info in your repository.
+This permits you to have different credentials for each environment and mitigates security breaches.
+That's why we recommend you to use environment variables to store this info.
 To read this data, we recommend you to install and use a [Twelve-factor compatible](https://www.12factor.net/) library
 in your project.
 

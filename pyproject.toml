@@ -59,8 +59,8 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.8, <4.0"
-django = ">=3.2"
+python = ">=3.9, <4.0"
+django = ">=4.0"
 loguru = "*"
 google-auth = "*"
 google-auth-httplib2 = "*"
@@ -84,6 +84,15 @@ django-jet-reboot = "*"
 click = ">8"
 bandit = "*"
 flake8 = "*"
+stela = "*"
+
+[tool.stela]
+environment_variable_name = "STELA_ENV"
+evaluate_data = true
+show_logs = false
+dotenv_overwrites_memory = true
+env_file = ".env"
+config_file_path = "./example_app"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -30,7 +30,7 @@ GOOGLE_SSO_PROJECT_ID = "your Google Project Id here"
 
 In [Google Console](https://console.cloud.google.com/apis/credentials) at _Api -> Credentials -> Oauth2 Client_,
 add the following _Authorized Redirect URI_: `https://your-domain.com/google_sso/callback/` replacing `your-domain.com` with your
-real domain (and Port). For example, if you are running locally, you can use `http://localhost:8000/google_sso/callback/`.
+real domain (and Port). For example, if you're running locally, you can use `http://localhost:8000/google_sso/callback/`.
 
 !!! tip "Do not forget the trailing slash!"
 
@@ -92,4 +92,4 @@ And, that's it: **Django Google SSO** is ready for use. When you open the admin 
 
 ---
 
-For the next pages, lets see each one of these steps with more details.
+For the next pages, let's see each one of these steps with more details.

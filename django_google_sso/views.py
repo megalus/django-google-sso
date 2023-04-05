@@ -14,8 +14,8 @@ from django_google_sso.main import GoogleAuth, UserHelper
 
 @require_http_methods(["GET"])
 def start_login(request: HttpRequest) -> HttpResponseRedirect:
-    # Get next url
-    next_param = request.GET.get("next")
+    # Get the next url
+    next_param = request.GET.get(key="next")
     clean_param = (
         next_param
         if next_param.startswith("http") or next_param.startswith("/")
