@@ -10,6 +10,11 @@ if conf.GOOGLE_SSO_ENABLED:
 
 User = get_user_model()
 
+existing_user_admin = admin.site._registry.get(User)
+user_admin_model = (
+    UserAdmin if existing_user_admin is None else existing_user_admin.__class__
+)
+
 if admin.site.is_registered(User):
     admin.site.unregister(User)
 
@@ -26,6 +31,6 @@ class GoogleSSOAdmin(admin.ModelAdmin):
 
 
 @admin.register(User)
-class SSOUserAdmin(UserAdmin):
+class SSOUserAdmin(user_admin_model):
     model = User
     inlines = [GoogleSSOInlineAdmin]
