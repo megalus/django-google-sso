@@ -191,7 +191,7 @@ GOOGLE_SSO_SCOPES = [  # default values
 GOOGLE_SSO_AUTHENTICATION_BACKEND = "backend.MyBackend"
 
 # Optional: Change default login text
-GOOGLE_SSO_TEXT = "Login using Google Account"
+# GOOGLE_SSO_TEXT = "Login using Google Account"
 
 # Optional: Add pre-login logic
 # GOOGLE_SSO_PRE_LOGIN_CALLBACK = "backend.pre_login_callback"

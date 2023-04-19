@@ -78,7 +78,7 @@ $ python manage.py migrate
 And, that's it: **Django Google SSO** is ready for use. When you open the admin page, you will see the "Login with Google" button:
 
 === "Light Mode"
-    ![](images/django_login_with_google_white.png)
+    ![](images/django_login_with_google_light.png)
 
 === "Dark Mode"
     ![](images/django_login_with_google_dark.png)
