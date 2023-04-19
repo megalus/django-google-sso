@@ -11,17 +11,17 @@
       
       
       
-        <link rel="prev" href="../quick_setup/">
+        <link rel="prev" href="../admin/">
       
       
-        <link rel="next" href="../callback/">
+        <link rel="next" href="../how/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.6">
     
     
       
-        <title>Adding Google Credentials - Django Google SSO</title>
+        <title>Customizing the Login button - Django Google SSO</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adding-google-credentials" class="md-skip">
+        <a href="#customizing-the-login-button" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Adding Google Credentials
+              Customizing the Login button
             
           </span>
         </div>
@@ -266,52 +266,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Adding Google Credentials
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../credentials/" class="md-nav__link">
         Adding Google Credentials
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#getting-google-credentials" class="md-nav__link">
-    Getting Google Credentials
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -397,11 +356,79 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../customize/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Customizing the Login button
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Customizing the Login button
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-button-logo" class="md-nav__link">
+    The button logo
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-button-text" class="md-nav__link">
+    The button text
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-button-style" class="md-nav__link">
+    The button style
+  </a>
+  
+    <nav class="md-nav" aria-label="The button style">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#an-example" class="md-nav__link">
+    An example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -493,9 +520,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#getting-google-credentials" class="md-nav__link">
-    Getting Google Credentials
+  <a href="#the-button-logo" class="md-nav__link">
+    The button logo
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-button-text" class="md-nav__link">
+    The button text
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-button-style" class="md-nav__link">
+    The button style
+  </a>
+  
+    <nav class="md-nav" aria-label="The button style">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#an-example" class="md-nav__link">
+    An example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -517,63 +571,44 @@
   
 
 
-<h1 id="adding-google-credentials">Adding Google Credentials<a class="headerlink" href="#adding-google-credentials" title="Permanent link">&para;</a></h1>
-<p>To make the SSO work, we need to set up, in your Django project, the Google credentials needed to perform the
-authentication.</p>
-<hr />
-<h2 id="getting-google-credentials">Getting Google Credentials<a class="headerlink" href="#getting-google-credentials" title="Permanent link">&para;</a></h2>
-<p>In your <a href="https://console.cloud.google.com/apis/credentials">Google Console</a> navigate to <em>Api -&gt; Credentials</em> to access
-the credentials for your all Google Cloud Projects.</p>
-<div class="admonition tip">
-<p class="admonition-title">Your first Google Cloud Project</p>
-<p>If you don't have a Google Cloud Project, you can create one by clicking on the <em><strong>Create</strong></em> button.</p>
-</div>
-<p>Then, you can select one of existing Web App Oauth 2.0 Client Ids in your Google project, or create a new one.</p>
-<details class="question">
-<summary>Do I need to create a new Oauth 2.0 Client Web App?</summary>
-<p>Normally you will have one credential per environment in your Django project. For example, if you have
-a <em>development</em>, <em>staging</em> and <em>production</em> environments, then you will have three credentials, one for each one.
-This mitigates the risk of exposing all your data in case of a security breach.</p>
-<p>If you decide to create a new one, please check <a href="https://developers.google.com/identity/protocols/oauth2/">https://developers.google.com/identity/protocols/oauth2/</a> for additional info.</p>
-</details>
-<p>When you open your Web App Client Id, please get the following information:</p>
-<ul>
-<li>The <strong>Client ID</strong>. This is something like <code>XXXX.apps.googleusercontent.com</code> and will be the <code>GOOGLE_SSO_CLIENT_ID</code> in
-  your Django project.</li>
-<li>The <strong>Client Secret Key</strong>. This is a long string and will be the <code>GOOGLE_SSO_CLIENT_SECRET</code> in your Django project.</li>
-<li>The <strong>Project ID</strong>. This is the Project ID, you can get click on the Project Name, and will be
-  the <code>GOOGLE_SSO_PROJECT_ID</code> in your Django project.</li>
-</ul>
-<p>After that, add them in your <code>settings.py</code> file:</p>
+<h1 id="customizing-the-login-button">Customizing the Login button<a class="headerlink" href="#customizing-the-login-button" title="Permanent link">&para;</a></h1>
+<p>Customizing the Login button is very simple. For the logo and text change is straightforward, just inform the new
+values. For
+the style, you can override the css file.</p>
+<h2 id="the-button-logo">The button logo<a class="headerlink" href="#the-button-logo" title="Permanent link">&para;</a></h2>
+<p>To change the logo, use the <code>GOOGLE_SSO_BUTTON_LOGO</code> setting.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># settings.py</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">GOOGLE_SSO_CLIENT_ID</span> <span class="o">=</span> <span class="s2">&quot;your client id here&quot;</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">GOOGLE_SSO_CLIENT_SECRET</span> <span class="o">=</span> <span class="s2">&quot;your client secret here&quot;</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">GOOGLE_SSO_PROJECT_ID</span> <span class="o">=</span> <span class="s2">&quot;your project id here&quot;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">GOOGLE_SSO_LOGO_URL</span> <span class="o">=</span> <span class="s2">&quot;https://example.com/logo.png&quot;</span>
 </span></code></pre></div>
-<p>Don't commit this info in your repository.
-This permits you to have different credentials for each environment and mitigates security breaches.
-That's why we recommend you to use environment variables to store this info.
-To read this data, we recommend you to install and use a <a href="https://www.12factor.net/">Twelve-factor compatible</a> library
-in your project.</p>
-<p>For example, you can use our <a href="https://github.com/megalus/stela">sister project Stela</a> to load the environment
-variables from a <code>.env.local</code> file, like this:</p>
-<div class="language-ini highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># .env.local</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="na">GOOGLE_SSO_CLIENT_ID</span><span class="o">=</span><span class="s">&quot;your client id here&quot;</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="na">GOOGLE_SSO_CLIENT_SECRET</span><span class="o">=</span><span class="s">&quot;your client secret here&quot;</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="na">GOOGLE_SSO_PROJECT_ID</span><span class="o">=</span><span class="s">&quot;your project id here&quot;</span>
+<h2 id="the-button-text">The button text<a class="headerlink" href="#the-button-text" title="Permanent link">&para;</a></h2>
+<p>To change the text, use the <code>GOOGLE_SSO_BUTTON_TEXT</code> setting.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># settings.py</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">GOOGLE_SSO_TEXT</span> <span class="o">=</span> <span class="s2">&quot;New login message&quot;</span>
 </span></code></pre></div>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Django settings.py</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">stela</span> <span class="kn">import</span> <span class="n">env</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">GOOGLE_SSO_CLIENT_ID</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">GOOGLE_SSO_CLIENT_ID</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">GOOGLE_SSO_CLIENT_SECRET</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">GOOGLE_SSO_CLIENT_SECRET</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">GOOGLE_SSO_PROJECT_ID</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">GOOGLE_SSO_PROJECT_ID</span>
+<h2 id="the-button-style">The button style<a class="headerlink" href="#the-button-style" title="Permanent link">&para;</a></h2>
+<p>The login button css style is located at
+<code>static/django_google_sso/google_button.css</code>. You can override this file as per Django
+<a href="https://docs.djangoproject.com/en/4.2/howto/static-files/">static files documentation</a>.</p>
+<h3 id="an-example">An example<a class="headerlink" href="#an-example" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># settings.py</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">GOOGLE_SSO_TEXT</span> <span class="o">=</span> <span class="s2">&quot;Login using Google Account&quot;</span>
 </span></code></pre></div>
-<p>But in fact, you can use any library you want, like
-<a href="https://pypi.org/project/django-environ/">django-environ</a>, <a href="https://github.com/jazzband/django-constance">django-constance</a>,
-<a href="https://pypi.org/project/python-dotenv/">python-dotenv</a>, etc...</p>
-<hr />
-<p>In the next step, we need to configure the authorized callback URI for your Django project.</p>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c">/* static/django_google_sso/google_button.css */</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c">/* other css... */</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">.</span><span class="nc">google-login-btn</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="kc">red</span><span class="p">;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="p">;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="p">;</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>The result:</p>
+<p><img alt="" src="../images/django_login_with_google_custom.png" /></p>
 
 
 
