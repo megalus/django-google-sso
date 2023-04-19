@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v3.0.0 (2023-04-19)
+### Feature
+* Version 3.0 ([`24bfb2e`](https://github.com/megalus/django-google-sso/commit/24bfb2e5849f3a637de68193506c3a943fcdbba7))
+
+### Breaking
+*  ([`24bfb2e`](https://github.com/megalus/django-google-sso/commit/24bfb2e5849f3a637de68193506c3a943fcdbba7))
+
+### Documentation
+* Fix typo ([`08c782d`](https://github.com/megalus/django-google-sso/commit/08c782df65519afac67d4662f568b3b3841b26c2))
+* Update docs ([`a2ef5b7`](https://github.com/megalus/django-google-sso/commit/a2ef5b7026a84e971b6a1b1bf3544e53c7bf60e5))
+
 ## v2.5.0 (2023-04-05)
 ### Feature
 * Update to Django 4.2 ([`677a5da`](https://github.com/megalus/django-google-sso/commit/677a5da8c4d0815595e4aaa72c363f8feb409a93))
