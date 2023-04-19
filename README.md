@@ -100,7 +100,7 @@ That's it. Start django on port 8000 and open your browser in `http://localhost:
 Google SSO button.
 
 <p align="center">
-   <img src="docs/images/django_login_with_google_white.png"/>
+   <img src="docs/images/django_login_with_google_light.png"/>
 </p>
 
 ---

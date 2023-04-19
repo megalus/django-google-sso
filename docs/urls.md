@@ -32,7 +32,7 @@ urlpatterns = [
         "accounts/login/",
         LoginView.as_view(
             # The modified form with Google button
-            template_name="admin_sso/login.html"
+            template_name="google_sso/login.html"
         ),
     ),
 ]
@@ -43,6 +43,7 @@ or
 ```python
 from django.contrib.auth.views import LoginView
 
+
 class MyLoginView(LoginView):
-    template_name = "admin_sso/login.html"
+    template_name = "google_sso/login.html"
 ```

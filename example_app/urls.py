@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import include, path
@@ -29,7 +31,7 @@ urlpatterns += [
     path(
         "accounts/login/",
         LoginView.as_view(
-            template_name="admin_sso/login.html"
+            template_name="google_sso/login.html"
         ),  # The modified form with google button
     ),
     path("accounts/logout/", LogoutView.as_view(), name="logout"),
@@ -48,4 +50,4 @@ urlpatterns += [
     path(
         "google_sso/", include("django_google_sso.urls", namespace="django_google_sso")
     ),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

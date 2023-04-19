@@ -34,7 +34,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # Uncomment for Grappelli
-    "grappelli",
+    # "grappelli",
     # Uncomment for Jazzmin
     # "jazzmin",
     # Uncomment for Admin Interface
@@ -76,6 +76,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "django.template.context_processors.static",
             ],
         },
     },
@@ -100,7 +101,8 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation."
+        "UserAttributeSimilarityValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -148,7 +150,8 @@ if "jet" in INSTALLED_APPS:
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_URL = "/static/"
+STATIC_URL = "static/"
+STATICFILES_DIRS = [BASE_DIR / "example_app" / "static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -186,6 +189,9 @@ GOOGLE_SSO_SCOPES = [  # default values
 
 # Optional: Add if you want to use custom authentication backend
 GOOGLE_SSO_AUTHENTICATION_BACKEND = "backend.MyBackend"
+
+# Optional: Change default login text
+GOOGLE_SSO_TEXT = "Login using Google Account"
 
 # Optional: Add pre-login logic
 # GOOGLE_SSO_PRE_LOGIN_CALLBACK = "backend.pre_login_callback"

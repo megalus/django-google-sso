@@ -1,5 +1,5 @@
 [tool.black]
-target-version = ['py38', 'py39']
+target-version = ['py39']
 include = '\.pyi?$'
 exclude = '''
 (
@@ -42,17 +42,17 @@ build_command = "python -m pip install -U twine poetry && poetry build"
 [tool.poetry]
 name = "django-google-sso"
 version = "2.5.0"
-description = "Easily add Google SSO login to Django Admin"
-authors = ["Chris Maillefaud <chrismaillefaud@gmail.com>"]
+description = "Easily add Google Authentication to your Django Projects"
+authors = ["Chris Maillefaud <chrismaille@megalus.com.br>"]
 readme = "README.md"
 repository = "https://github.com/megalus/django-google-sso"
 keywords = ["google", "django", "sso"]
 license = "MIT"
 classifiers = [
     "Framework :: Django",
-    "Framework :: Django :: 3.2",
     "Framework :: Django :: 4.0",
     "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
     "Intended Audience :: Developers",
     "Development Status :: 4 - Beta",
     "Environment :: Plugins"

@@ -1,0 +1,48 @@
+/*
+
+  Please rename this file to google_button.css to override works.
+
+
+  login-btn
+  ---------------------------------
+  | --------------                 |
+  | | btn-logo   |    btn-label    |
+  | --------------                 |
+  ----------------------------------
+*/
+
+/* Goggle Login Button */
+.google-login-btn {
+    background-color: darkred;
+    border-radius: 3px;
+    padding: 2px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+/* Google Login Button Hover */
+.google-login-btn:hover {
+    background-color: #611818;
+}
+
+/* Google Login Button Remove Decoration */
+.google-login-btn a {
+    text-decoration: none;
+}
+
+/* Google Login Button Logo Area */
+.google-btn-logo {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    padding: 4px;
+}
+
+
+/* Google Login Button Label Area */.google-btn-label {
+    color: #ffffff;
+    margin-top: -1px;
+    width: 100%;
+    text-align: center;
+    padding: 0 10px;
+}
