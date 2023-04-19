@@ -35,3 +35,12 @@ GOOGLE_SSO_PRE_LOGIN_CALLBACK = getattr(
     "GOOGLE_SSO_PRE_LOGIN_CALLBACK",
     "django_google_sso.hooks.pre_login_user",
 )
+
+GOOGLE_SSO_LOGO_URL = getattr(
+    settings,
+    "GOOGLE_SSO_LOGO_URL",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/"
+    "Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png",
+)
+
+GOOGLE_SSO_TEXT = getattr(settings, "GOOGLE_SSO_TEXT", "Sign in with Google")

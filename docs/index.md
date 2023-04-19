@@ -12,10 +12,10 @@ and [django-admin-sso](https://github.com/matthiask/django-admin-sso/)
 
 * This library aims for _simplicity_ and ease of use. [django-allauth](https://github.com/pennersr/django-allauth) is
   _de facto_ solution for Authentication in Django, but add lots of boilerplate, specially the html templates.
-  **Django-Google-SSO** just add the "Login with Google" button in the default login page.
+  **Django-Google-SSO** just add a fully customizable "Login with Google" button in the default login page.
 
     === "Light Mode"
-        ![](images/django_login_with_google_white.png)
+        ![](images/django_login_with_google_light.png)
 
     === "Dark Mode"
         ![](images/django_login_with_google_dark.png)

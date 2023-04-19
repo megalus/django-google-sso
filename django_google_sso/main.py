@@ -30,7 +30,9 @@ class GoogleAuth:
                 "project_id": conf.GOOGLE_SSO_PROJECT_ID,
                 "client_secret": conf.GOOGLE_SSO_CLIENT_SECRET,
                 "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+                "auth_provider_x509_cert_url": (
+                    "https://www.googleapis.com/oauth2/v1/certs"
+                ),
                 "token_uri": "https://oauth2.googleapis.com/token",
                 "redirect_uris": [self.get_redirect_uri()],
             }

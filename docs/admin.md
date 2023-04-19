@@ -5,24 +5,38 @@ access the Google SSO data for each user.
 
 ## Using Custom User model
 
-If you are using a custom user model, you may need to add the `GoogleSSOInlineAdmin` inline model admin to your custom user model admin, like this:
+If you are using a custom user model, you may need to add the `GoogleSSOInlineAdmin` inline model admin to your custom
+user model admin, like this:
 
 ```python
 # admin.py
 
 from django.contrib import admin
-from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
-from django_google_sso.admin import GoogleSSOInlineAdmin
+from django_google_sso.admin import (
+    GoogleSSOInlineAdmin, get_current_user_and_admin
+)
 
-CustomUser = get_user_model()
+CurrentUserModel, last_admin, LastUserAdmin = get_current_user_and_admin()
 
-if admin.site.is_registered(CustomUser):
-    admin.site.unregister(CustomUser)
+if admin.site.is_registered(CurrentUserModel):
+    admin.site.unregister(CurrentUserModel)
 
 
-@admin.register(CustomUser)
-class CustomUserAdmin(UserAdmin):
-
-    inlines = [GoogleSSOInlineAdmin]
+@admin.register(CurrentUserModel)
+class CustomUserAdmin(LastUserAdmin):
+    inlines = (
+        set(list(last_admin.inlines) + [GoogleSSOInlineAdmin])
+        if last_admin
+        else (GoogleSSOInlineAdmin,)
+    )
 ```
+
+The `get_current_user_and_admin` helper function will return:
+
+* the current registered **UserModel** in Django Admin (default: `django.contrib.auth.models.User`)
+* the current registered **UserAdmin** in Django (default: `django.contrib.auth.admin.UserAdmin`)
+* the **instance** of the current registered UserAdmin in Django (default: `None`)
+
+
+Use this objects to maintain previous inlines and register your custom user model in Django Admin.
