@@ -29,6 +29,20 @@ def test_start_login(client, mocker):
     assert client.session["sso_next_url"] == SECRET_PATH
     assert client.session["sso_state"] == "foo"
 
+def test_start_login_none_next_param(client, mocker):
+    # Arrange
+    flow_mock = mocker.patch.object(GoogleAuth, "flow")
+    flow_mock.authorization_url.return_value = ("https://foo/bar", "foo")
+
+    # Act
+    url = reverse("django_google_sso:oauth_start_login")
+    response = client.get(url)
+
+    # Assert
+    assert response.status_code == 302
+    assert client.session["sso_next_url"] == "/admin/index"
+    assert client.session["sso_state"] == "foo"
+
 
 @pytest.mark.parametrize(
     "test_parameter",

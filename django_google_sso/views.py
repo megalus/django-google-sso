@@ -18,7 +18,7 @@ def start_login(request: HttpRequest) -> HttpResponseRedirect:
     next_param = request.GET.get(key="next")
     clean_param = (
         next_param
-        if next_param.startswith("http") or next_param.startswith("/")
+        if next_param and (next_param.startswith("http") or next_param.startswith("/"))
         else f"//{next_param}"
     )
     next_path = urlparse(clean_param).path
