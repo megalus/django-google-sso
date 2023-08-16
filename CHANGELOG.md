@@ -2,6 +2,13 @@
 
 <!--next-version-placeholder-->
 
+## v3.1.0 (2023-08-16)
+
+### Feature
+
+* Add option to save access token ([`cd23c76`](https://github.com/megalus/django-google-sso/commit/cd23c76010a589e0bbe56e4bbab673668394e378))
+* Add new configuration parameters and fix bugs ([`3b26037`](https://github.com/megalus/django-google-sso/commit/3b26037c1ebe549d10b4a25533d5ed72ad4e4c99))
+
 ## v3.0.0 (2023-04-19)
 ### Feature
 * Version 3.0 ([`24bfb2e`](https://github.com/megalus/django-google-sso/commit/24bfb2e5849f3a637de68193506c3a943fcdbba7))
