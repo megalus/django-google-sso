@@ -85,6 +85,7 @@ click = ">8"
 bandit = "*"
 flake8 = "*"
 stela = "*"
+httpx = "*"
 
 [tool.stela]
 environment_variable_name = "STELA_ENV"

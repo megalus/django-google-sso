@@ -24,6 +24,10 @@ GOOGLE_SSO_ENABLED = getattr(settings, "GOOGLE_SSO_ENABLED", True)
 GOOGLE_SSO_SUPERUSER_LIST = getattr(settings, "GOOGLE_SSO_SUPERUSER_LIST", [])
 GOOGLE_SSO_STAFF_LIST = getattr(settings, "GOOGLE_SSO_STAFF_LIST", [])
 GOOGLE_SSO_CALLBACK_DOMAIN = getattr(settings, "GOOGLE_SSO_CALLBACK_DOMAIN", None)
+GOOGLE_SSO_LOGIN_FAILED_URL = getattr(
+    settings, "GOOGLE_SSO_LOGIN_FAILED_URL", "admin:index"
+)
+GOOGLE_SSO_NEXT_URL = getattr(settings, "GOOGLE_SSO_NEXT_URL", "admin:index")
 GOOGLE_SSO_AUTO_CREATE_USERS = getattr(settings, "GOOGLE_SSO_AUTO_CREATE_USERS", True)
 
 GOOGLE_SSO_AUTHENTICATION_BACKEND = getattr(
@@ -44,3 +48,4 @@ GOOGLE_SSO_LOGO_URL = getattr(
 )
 
 GOOGLE_SSO_TEXT = getattr(settings, "GOOGLE_SSO_TEXT", "Sign in with Google")
+GOOGLE_SSO_SAVE_ACCESS_TOKEN = getattr(settings, "GOOGLE_SSO_SAVE_ACCESS_TOKEN", False)

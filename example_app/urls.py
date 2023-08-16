@@ -16,11 +16,11 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 from django.urls import include, path
 
 from example_app.settings import INSTALLED_APPS
-from example_app.views import secret_page
+from example_app.views import secret_page, single_logout_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -34,7 +34,7 @@ urlpatterns += [
             template_name="google_sso/login.html"
         ),  # The modified form with google button
     ),
-    path("accounts/logout/", LogoutView.as_view(), name="logout"),
+    path("accounts/logout/", single_logout_view, name="logout"),
 ]
 
 if "grappelli" in INSTALLED_APPS:

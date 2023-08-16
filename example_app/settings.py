@@ -59,6 +59,7 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "example_app.backend.GoogleSLOMiddlewareExample",  # Must be after Authentication
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -189,6 +190,9 @@ GOOGLE_SSO_SCOPES = [  # default values
 
 # Optional: Add if you want to use custom authentication backend
 GOOGLE_SSO_AUTHENTICATION_BACKEND = "backend.MyBackend"
+
+# Optional: You can save access token to session
+# GOOGLE_SSO_SAVE_ACCESS_TOKEN = True
 
 # Optional: Change default login text
 # GOOGLE_SSO_TEXT = "Login using Google Account"

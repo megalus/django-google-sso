@@ -16,11 +16,14 @@ from django_google_sso.main import GoogleAuth, UserHelper
 def start_login(request: HttpRequest) -> HttpResponseRedirect:
     # Get the next url
     next_param = request.GET.get(key="next")
-    clean_param = (
-        next_param
-        if next_param.startswith("http") or next_param.startswith("/")
-        else f"//{next_param}"
-    )
+    if next_param:
+        clean_param = (
+            next_param
+            if next_param.startswith("http") or next_param.startswith("/")
+            else f"//{next_param}"
+        )
+    else:
+        clean_param = reverse(conf.GOOGLE_SSO_NEXT_URL)
     next_path = urlparse(clean_param).path
 
     # Get Google Auth URL
@@ -41,7 +44,7 @@ def start_login(request: HttpRequest) -> HttpResponseRedirect:
 
 @require_http_methods(["GET"])
 def callback(request: HttpRequest) -> HttpResponseRedirect:
-    admin_url = reverse("admin:index")
+    login_failed_url = reverse(conf.GOOGLE_SSO_LOGIN_FAILED_URL)
     google = GoogleAuth(request)
     code = request.GET.get("code")
     state = request.GET.get("state")
@@ -49,14 +52,14 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     # Check if Google SSO is enabled
     if not conf.GOOGLE_SSO_ENABLED:
         messages.add_message(request, messages.ERROR, _("Google SSO not enabled."))
-        return HttpResponseRedirect(admin_url)
+        return HttpResponseRedirect(login_failed_url)
 
     # First, check for authorization code
     if not code:
         messages.add_message(
             request, messages.ERROR, _("Authorization Code not received from SSO.")
         )
-        return HttpResponseRedirect(admin_url)
+        return HttpResponseRedirect(login_failed_url)
 
     # Then, check state.
     request_state = request.session.get("sso_state")
@@ -66,14 +69,14 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
         messages.add_message(
             request, messages.ERROR, _("State Mismatch. Time expired?")
         )
-        return HttpResponseRedirect(admin_url)
+        return HttpResponseRedirect(login_failed_url)
 
     # Get Access Token from Google
     try:
         google.flow.fetch_token(code=code)
     except Exception as error:
         messages.add_message(request, messages.ERROR, str(error))
-        return HttpResponseRedirect(admin_url)
+        return HttpResponseRedirect(login_failed_url)
 
     # Get User Info from Google
     user_helper = UserHelper(google.get_user_info(), request)
@@ -88,7 +91,7 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
                 f"Please contact your administrator."
             ),
         )
-        return HttpResponseRedirect(admin_url)
+        return HttpResponseRedirect(login_failed_url)
 
     # Get or Create User
     if conf.GOOGLE_SSO_AUTO_CREATE_USERS:
@@ -97,7 +100,7 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
         user = user_helper.find_user()
 
     if not user or not user.is_active:
-        return HttpResponseRedirect(admin_url)
+        return HttpResponseRedirect(login_failed_url)
 
     # Run Pre-Login Callback
     module_path = ".".join(conf.GOOGLE_SSO_PRE_LOGIN_CALLBACK.split(".")[:-1])
@@ -109,4 +112,10 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     login(request, user, conf.GOOGLE_SSO_AUTHENTICATION_BACKEND)
     request.session.set_expiry(conf.GOOGLE_SSO_SESSION_COOKIE_AGE)
 
-    return HttpResponseRedirect(next_url or admin_url)
+    # Save Token in Session
+    if conf.GOOGLE_SSO_SAVE_ACCESS_TOKEN:
+        access_token = google.flow.credentials.token
+        request.session["google_sso_access_token"] = access_token
+        request.session.save()
+
+    return HttpResponseRedirect(next_url or reverse(conf.GOOGLE_SSO_NEXT_URL))

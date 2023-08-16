@@ -12,15 +12,16 @@ jobs:
         with:
           fetch-depth: 0
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: "3.10"
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2
       - name: Python Semantic Release
-        uses: relekang/python-semantic-release@master
+        uses: python-semantic-release/python-semantic-release@v7.34.6
         with:
-          github_token: ${{ secrets.GIT_TOKEN }}
-          pypi_token: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          repository_username: __token__
+          repository_password: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
       - run: pip install mkdocs-material
       - run: mkdocs gh-deploy --force

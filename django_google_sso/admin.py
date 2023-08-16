@@ -60,7 +60,7 @@ class GoogleSSOAdmin(admin.ModelAdmin):
 class GoogleSsoUserAdmin(LastUserAdmin):
     model = CurrentUserModel
     inlines = (
-        set(list(last_admin.inlines) + [GoogleSSOInlineAdmin])
+        tuple(set(list(last_admin.inlines) + [GoogleSSOInlineAdmin]))
         if last_admin
         else (GoogleSSOInlineAdmin,)
     )
