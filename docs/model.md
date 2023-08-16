@@ -83,3 +83,32 @@ your own logic to save this data, calling Google again.
 !!! info "The main goal here is simplicity"
     The main goal of this plugin is to be simple to use as possible. But it is important to ask the user **_once_** for the scopes.
     That's why this plugin permits you to change the scopes, but will not save the additional data from it.
+
+## The Access Token
+To make login possible, **Django Google SSO** needs to get an access token from Google. This token is used to retrieve
+User info to get or create the user in the database. If you need this access token, you can get it inside the User Request
+Session, like this:
+
+```python
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse, HttpRequest
+
+@login_required
+def retrieve_user_data(request: HttpRequest) -> JsonResponse:
+    user = request.user
+    return JsonResponse({
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "username": user.username,
+        "picture": user.googlessouser.picture_url,
+        "google_id": user.googlessouser.google_id,
+        "locale": user.googlessouser.locale,
+        "access_token": request.session["google_sso_access_token"],
+    })
+```
+
+Saving the Access Token in User Session is disabled, by default, to avoid security issues. If you need to enable it,
+you can set the configuration `GOOGLE_SSO_SAVE_ACCESS_TOKEN` to `True` in your `settings.py` file. Please make sure you
+understand how to [secure your cookies](https://docs.djangoproject.com/en/4.2/ref/settings/#session-cookie-secure)
+before enabling this option.

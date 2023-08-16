@@ -26,7 +26,7 @@ if admin.site.is_registered(CurrentUserModel):
 @admin.register(CurrentUserModel)
 class CustomUserAdmin(LastUserAdmin):
     inlines = (
-        set(list(last_admin.inlines) + [GoogleSSOInlineAdmin])
+        tuple(set(list(last_admin.inlines) + [GoogleSSOInlineAdmin]))
         if last_admin
         else (GoogleSSOInlineAdmin,)
     )
