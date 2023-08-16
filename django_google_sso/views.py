@@ -112,4 +112,10 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     login(request, user, conf.GOOGLE_SSO_AUTHENTICATION_BACKEND)
     request.session.set_expiry(conf.GOOGLE_SSO_SESSION_COOKIE_AGE)
 
+    # Save Token in Session
+    if conf.GOOGLE_SSO_SAVE_ACCESS_TOKEN:
+        access_token = google.flow.credentials.token
+        request.session["google_sso_access_token"] = access_token
+        request.session.save()
+
     return HttpResponseRedirect(next_url or reverse(conf.GOOGLE_SSO_NEXT_URL))
