@@ -29,6 +29,7 @@ def test_start_login(client, mocker):
     assert client.session["sso_next_url"] == SECRET_PATH
     assert client.session["sso_state"] == "foo"
 
+
 def test_start_login_none_next_param(client, mocker):
     # Arrange
     flow_mock = mocker.patch.object(GoogleAuth, "flow")
@@ -40,7 +41,7 @@ def test_start_login_none_next_param(client, mocker):
 
     # Assert
     assert response.status_code == 302
-    assert client.session["sso_next_url"] == "/admin/index"
+    assert client.session["sso_next_url"] == reverse(conf.GOOGLE_SSO_NEXT_URL)
     assert client.session["sso_state"] == "foo"
 
 

@@ -27,8 +27,11 @@ must be added to `GOOGLE_SSO_ALLOWABLE_DOMAINS`too.
 
 6. This authenticated session will expire in 1 hour, or the time defined, in seconds, in `GOOGLE_SSO_SESSION_COOKIE_AGE`.
 
-7. Browser will be redirected to `next_path` if operation succeeds, or the `login` page, if operation fails.
+7.  If login fails, you will be redirected to route defined in `GOOGLE_SSO_LOGIN_FAILED_URL` (default: `admin:index`)
+which will use Django Messaging system to show the error message.
 
+8. If login succeeds, the user will be redirected to the `next_path` saved in the anonymous session, or to the route
+defined in `GOOGLE_SSO_NEXT_URL` (default: `admin:index`) as a fallback.
 
 ## Using Custom Authentication Backend
 
