@@ -19,3 +19,4 @@
 | `GOOGLE_SSO_SUPERUSER_LIST`              | List of emails that will be created as superuser. Default: `[]`                                                                                                                    |
 | `GOOGLE_SSO_TEXT`                        | The text to be used on the login button. Default: `Sign in with Google`                                                                                                            |
 | `GOOGLE_SSO_TIMEOUT`                     | The timeout in seconds for the Google SSO authentication returns info, in minutes. Default: `10`                                                                                   |
+| `GOOGLE_SSO_CALLBACK_INDEX_URL`          | The named url path that the user will be redirected to if an authentication error is encountered, or if there is no next url after successful authentication. Default: `admin:index` |
