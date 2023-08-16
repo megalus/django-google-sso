@@ -388,6 +388,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#the-access-token" class="md-nav__link">
+    The Access Token
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -533,6 +540,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#the-access-token" class="md-nav__link">
+    The Access Token
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -621,6 +635,31 @@ your own logic to save this data, calling Google again.</p>
 <p>The main goal of this plugin is to be simple to use as possible. But it is important to ask the user <strong><em>once</em></strong> for the scopes.
 That's why this plugin permits you to change the scopes, but will not save the additional data from it.</p>
 </div>
+<h2 id="the-access-token">The Access Token<a class="headerlink" href="#the-access-token" title="Permanent link">&para;</a></h2>
+<p>To make login possible, <strong>Django Google SSO</strong> needs to get an access token from Google. This token is used to retrieve
+User info to get or create the user in the database. If you need this access token, you can get it inside the User Request
+Session, like this:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">django.contrib.auth.decorators</span> <span class="kn">import</span> <span class="n">login_required</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">JsonResponse</span><span class="p">,</span> <span class="n">HttpRequest</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="nd">@login_required</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">def</span> <span class="nf">retrieve_user_data</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">HttpRequest</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">JsonResponse</span><span class="p">:</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">user</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>        <span class="s2">&quot;email&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">email</span><span class="p">,</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="s2">&quot;first_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">first_name</span><span class="p">,</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>        <span class="s2">&quot;last_name&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">last_name</span><span class="p">,</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>        <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">username</span><span class="p">,</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>        <span class="s2">&quot;picture&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">googlessouser</span><span class="o">.</span><span class="n">picture_url</span><span class="p">,</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a>        <span class="s2">&quot;google_id&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">googlessouser</span><span class="o">.</span><span class="n">google_id</span><span class="p">,</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        <span class="s2">&quot;locale&quot;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">googlessouser</span><span class="o">.</span><span class="n">locale</span><span class="p">,</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>        <span class="s2">&quot;access_token&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="p">[</span><span class="s2">&quot;google_sso_access_token&quot;</span><span class="p">],</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>    <span class="p">})</span>
+</span></code></pre></div>
+<p>Saving the Access Token in User Session is disabled, by default, to avoid security issues. If you need to enable it,
+you can set the configuration <code>GOOGLE_SSO_SAVE_ACCESS_TOKEN</code> to <code>True</code> in your <code>settings.py</code> file. Please make sure you
+understand how to <a href="https://docs.djangoproject.com/en/4.2/ref/settings/#session-cookie-secure">secure your cookies</a>
+before enabling this option.</p>
 
 
 
