@@ -55,6 +55,38 @@ def test_get_or_create_user(
     assert user.is_superuser == auto_create_super_user
 
 
+@pytest.mark.parametrize(
+    "always_update_user_data, expected_is_equal", [(True, True), (False, False)]
+)
+def test_update_existing_user_record(
+    always_update_user_data,
+    google_response,
+    google_response_update,
+    callback_request,
+    expected_is_equal,
+    settings,
+):
+    # Arrange
+    settings.GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA = always_update_user_data
+    importlib.reload(conf)
+    helper = UserHelper(google_response, callback_request)
+    helper.get_or_create_user()
+
+    # Act
+    helper = UserHelper(google_response_update, callback_request)
+    user = helper.get_or_create_user()
+
+    # Assert
+    assert (
+        user.first_name == google_response_update["given_name"]
+    ) == expected_is_equal
+    assert (
+        user.last_name == google_response_update["family_name"]
+    ) == expected_is_equal
+    assert user.username == google_response_update["email"]
+    assert user.email == google_response_update["email"]
+
+
 def test_create_staff_from_list(google_response, callback_request, settings):
     # Arrange
     settings.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = False
