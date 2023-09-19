@@ -102,6 +102,12 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     if not user or not user.is_active:
         return HttpResponseRedirect(login_failed_url)
 
+    # Save Token in Session
+    if conf.GOOGLE_SSO_SAVE_ACCESS_TOKEN:
+        access_token = google.get_user_token()
+        request.session["google_sso_access_token"] = access_token
+        request.session.save()
+
     # Run Pre-Login Callback
     module_path = ".".join(conf.GOOGLE_SSO_PRE_LOGIN_CALLBACK.split(".")[:-1])
     pre_login_fn = conf.GOOGLE_SSO_PRE_LOGIN_CALLBACK.split(".")[-1]
@@ -111,11 +117,5 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     # Login User
     login(request, user, conf.GOOGLE_SSO_AUTHENTICATION_BACKEND)
     request.session.set_expiry(conf.GOOGLE_SSO_SESSION_COOKIE_AGE)
-
-    # Save Token in Session
-    if conf.GOOGLE_SSO_SAVE_ACCESS_TOKEN:
-        access_token = google.flow.credentials.token
-        request.session["google_sso_access_token"] = access_token
-        request.session.save()
 
     return HttpResponseRedirect(next_url or reverse(conf.GOOGLE_SSO_NEXT_URL))

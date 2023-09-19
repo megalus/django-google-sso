@@ -92,12 +92,14 @@ def callback_request_with_state(callback_request):
 @pytest.fixture
 def client_with_session(client, settings, mocker, google_response):
     settings.GOOGLE_SSO_ALLOWABLE_DOMAINS = ["example.com"]
+    settings.GOOGLE_SSO_PRE_LOGIN_CALLBACK = "django_google_sso.hooks.pre_login_user"
     importlib.reload(conf)
     session = client.session
     session.update({"sso_state": "foo", "sso_next_url": SECRET_PATH})
     session.save()
     mocker.patch.object(GoogleAuth, "flow")
     mocker.patch.object(GoogleAuth, "get_user_info", return_value=google_response)
+    mocker.patch.object(GoogleAuth, "get_user_token", return_value="12345")
     yield client
 
 

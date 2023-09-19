@@ -182,23 +182,24 @@ GOOGLE_SSO_SUPERUSER_LIST = env.get_or_default("GOOGLE_SSO_SUPERUSER_LIST", "").
     ","
 )
 GOOGLE_SSO_TIMEOUT = 10  # default value
-GOOGLE_SSO_SCOPES = [  # default values
+GOOGLE_SSO_SCOPES = [
     "openid",
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/user.birthday.read",  # Custom data
 ]
 
 # Optional: Add if you want to use custom authentication backend
 GOOGLE_SSO_AUTHENTICATION_BACKEND = "backend.MyBackend"
 
 # Optional: You can save access token to session
-# GOOGLE_SSO_SAVE_ACCESS_TOKEN = True
+GOOGLE_SSO_SAVE_ACCESS_TOKEN = True
 
 # Optional: Change default login text
 # GOOGLE_SSO_TEXT = "Login using Google Account"
 
 # Optional: Add pre-login logic
-# GOOGLE_SSO_PRE_LOGIN_CALLBACK = "backend.pre_login_callback"
+GOOGLE_SSO_PRE_LOGIN_CALLBACK = "backend.pre_login_callback"
 
 # Uncomment to disable SSO login
 # GOOGLE_SSO_ENABLED = False  # default: True

@@ -74,6 +74,9 @@ class GoogleAuth:
         user_info = session.get("https://www.googleapis.com/oauth2/v2/userinfo").json()
         return user_info
 
+    def get_user_token(self):
+        return self.flow.credentials.token
+
 
 @dataclass
 class UserHelper:
