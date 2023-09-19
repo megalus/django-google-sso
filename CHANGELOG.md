@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v3.2.0 (2023-09-19)
+
+### Feature
+
+* Add GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA option ([`a106fcf`](https://github.com/megalus/django-google-sso/commit/a106fcf166b1463ddf159112ffa0d43ee999868f))
+
+### Documentation
+
+* Update example code in admin.md ([`4c38551`](https://github.com/megalus/django-google-sso/commit/4c38551647b45ff55872929230ac8c8697bab137))
+
 ## v3.1.0 (2023-08-16)
 
 ### Feature
