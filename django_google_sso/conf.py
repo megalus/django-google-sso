@@ -49,3 +49,6 @@ GOOGLE_SSO_LOGO_URL = getattr(
 
 GOOGLE_SSO_TEXT = getattr(settings, "GOOGLE_SSO_TEXT", "Sign in with Google")
 GOOGLE_SSO_SAVE_ACCESS_TOKEN = getattr(settings, "GOOGLE_SSO_SAVE_ACCESS_TOKEN", False)
+GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA = getattr(
+    settings, "GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA", False
+)

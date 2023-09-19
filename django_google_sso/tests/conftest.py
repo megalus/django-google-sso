@@ -43,6 +43,21 @@ def google_response():
 
 
 @pytest.fixture
+def google_response_update():
+    return {
+        "id": "12345",
+        "email": "foo@example.com",
+        "verified_email": True,
+        "name": "Clark Kent",
+        "given_name": "Clark",
+        "family_name": "Kent",
+        "picture": "https://lh3.googleusercontent.com/a-/12345",
+        "locale": "en-US",
+        "hd": "example.com",
+    }
+
+
+@pytest.fixture
 def callback_request(rf, query_string):
     request = rf.get(f"/google_sso/callback/?{query_string}")
     middleware = SessionMiddleware(get_response=lambda req: None)
