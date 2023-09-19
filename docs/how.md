@@ -50,6 +50,12 @@ If you want to use Google as the single source of truth for your users, you can 
 `GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA`. This will enforce the basic user data (first name, last name, email and picture) to be
 updated at every login.
 
+```python
+# settings.py
+
+GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA = True  # Always update user data on login
+```
+
 If you need more advanced logic, you can use the `GOOGLE_SSO_PRE_LOGIN_CALLBACK` setting to import custom data from Google
 (considering you have configured the right scopes and possibly a Custom User model to store these fields).
 
