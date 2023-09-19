@@ -74,6 +74,9 @@ class GoogleAuth:
         user_info = session.get("https://www.googleapis.com/oauth2/v2/userinfo").json()
         return user_info
 
+    def get_user_token(self):
+        return self.flow.credentials.token
+
 
 @dataclass
 class UserHelper:
@@ -99,7 +102,7 @@ class UserHelper:
         user_model = get_user_model()
         user, created = user_model.objects.get_or_create(email=self.user_email)
         self.check_first_super_user(user, user_model)
-        if created:
+        if created or conf.GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA:
             self.check_for_permissions(user)
             user.first_name = self.user_info["given_name"]
             user.last_name = self.user_info["family_name"]

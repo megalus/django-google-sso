@@ -10,7 +10,7 @@ repos:
     rev: v1.0.6
     hooks:
       - id: python-bandit-vulnerability-check
-        args: [ "-s", "B101,B105", "-r", "." ]
+        args: [ "-s", "B101,B105", "-r", "--exclude", "*/.venv/*", "." ]
   - repo: https://github.com/pycqa/isort
     rev: 5.12.0
     hooks:
@@ -36,7 +36,7 @@ repos:
     rev: 6.0.0
     hooks:
       - id: flake8
-        args: ["--count", "--exclude", "*/migrations/*", "." ]
+        args: ["--count", "--exclude", "*/migrations/*,.git,*/site-packages/*", "." ]
   - repo: https://github.com/myint/autoflake
     rev: v2.0.2
     hooks:

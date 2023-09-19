@@ -43,6 +43,21 @@ def google_response():
 
 
 @pytest.fixture
+def google_response_update():
+    return {
+        "id": "12345",
+        "email": "foo@example.com",
+        "verified_email": True,
+        "name": "Clark Kent",
+        "given_name": "Clark",
+        "family_name": "Kent",
+        "picture": "https://lh3.googleusercontent.com/a-/12345",
+        "locale": "en-US",
+        "hd": "example.com",
+    }
+
+
+@pytest.fixture
 def callback_request(rf, query_string):
     request = rf.get(f"/google_sso/callback/?{query_string}")
     middleware = SessionMiddleware(get_response=lambda req: None)
@@ -77,12 +92,14 @@ def callback_request_with_state(callback_request):
 @pytest.fixture
 def client_with_session(client, settings, mocker, google_response):
     settings.GOOGLE_SSO_ALLOWABLE_DOMAINS = ["example.com"]
+    settings.GOOGLE_SSO_PRE_LOGIN_CALLBACK = "django_google_sso.hooks.pre_login_user"
     importlib.reload(conf)
     session = client.session
     session.update({"sso_state": "foo", "sso_next_url": SECRET_PATH})
     session.save()
     mocker.patch.object(GoogleAuth, "flow")
     mocker.patch.object(GoogleAuth, "get_user_info", return_value=google_response)
+    mocker.patch.object(GoogleAuth, "get_user_token", return_value="12345")
     yield client
 
 

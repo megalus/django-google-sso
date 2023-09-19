@@ -50,14 +50,14 @@ class GoogleSSOInlineAdmin(admin.StackedInline):
 @admin.register(GoogleSSOUser)
 class GoogleSSOAdmin(admin.ModelAdmin):
     list_display = ("user", "google_id")
-    readonly_fields = ("google_id",)
+    readonly_fields = ("google_id", "picture")
 
     def has_add_permission(self, request):
         return False
 
 
 @admin.register(CurrentUserModel)
-class GoogleSsoUserAdmin(LastUserAdmin):
+class GoogleSSOUserAdmin(LastUserAdmin):
     model = CurrentUserModel
     inlines = (
         tuple(set(list(last_admin.inlines) + [GoogleSSOInlineAdmin]))
