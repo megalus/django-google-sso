@@ -77,6 +77,7 @@ GOOGLE_SSO_SCOPES = [
 
 ```python
 # myapp/hooks.py
+import datetime
 import httpx
 from loguru import logger
 
@@ -99,10 +100,11 @@ def pre_login_user(user, request):
         response = httpx.get(url, headers=headers)
         people_data = response.json()
         logger.debug(f"Updating User Data with Google People Info: {people_data}")
+        birthdate = datetime.date(**people_data["birthdays"][0]['date'])
 
         user.first_name = user_data["given_name"]
         user.last_name = user_data["family_name"]
         user.email = user_data["email"]
-        user.birthdate = people_data["birthdate"]  # You need a Custom User model to store this field
+        user.birthdate = birthdate  # You need a Custom User model to store this field
         user.save()
 ```
