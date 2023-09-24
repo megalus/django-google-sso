@@ -12,7 +12,9 @@
 {% endblock %}
 
 {% block content %}
-    {{ block.super }}
+    {% if GOOGLE_SSO_SHOW_LOGIN_ON_ADMIN_PAGE %}
+        {{ block.super }}
+    {% endif %}
     {% define_sso_providers as sso_providers %}
     <style>
         .login-box {
