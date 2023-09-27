@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v3.3.0 (2023-09-27)
+
+### Feature
+
+* Add GOOGLE_SSO_SHOW_FORM_ON_ADMIN_PAGE option. ([`efc33cd`](https://github.com/megalus/django-google-sso/commit/efc33cd418e3a89044687c40788d195abc4a38a8))
+
+### Documentation
+
+* Update example in docs ([`0db95f8`](https://github.com/megalus/django-google-sso/commit/0db95f8388329fc7937b1e10299c74fb7ba2960a))
+* Better docs ([`2b3e3cb`](https://github.com/megalus/django-google-sso/commit/2b3e3cb3e72a9e6f4ec2b3a03660439b8a83139d))
+
 ## v3.2.0 (2023-09-19)
 
 ### Feature
