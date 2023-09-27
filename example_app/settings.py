@@ -186,7 +186,7 @@ GOOGLE_SSO_SCOPES = [
     "openid",
     "https://www.googleapis.com/auth/userinfo.email",
     "https://www.googleapis.com/auth/userinfo.profile",
-    "https://www.googleapis.com/auth/user.birthday.read",  # Custom data
+    # "https://www.googleapis.com/auth/user.birthday.read",  # additional scope
 ]
 
 # Optional: Add if you want to use custom authentication backend
@@ -206,3 +206,6 @@ GOOGLE_SSO_PRE_LOGIN_CALLBACK = "backend.pre_login_callback"
 
 # Uncomment to disable user auto-creation
 # GOOGLE_SSO_AUTO_CREATE_USERS = False  # default: True
+
+# Uncomment to hide login form on admin page
+# GOOGLE_SSO_SHOW_FORM_ON_ADMIN_PAGE = False  # default: True

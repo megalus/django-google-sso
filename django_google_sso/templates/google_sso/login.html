@@ -1,6 +1,7 @@
 {% extends "admin/login.html" %}
 {% load static %}
 {% load sso_tags %}
+{% load show_form %}
 {% load i18n %}
 
 {% block extrastyle %}
@@ -12,7 +13,8 @@
 {% endblock %}
 
 {% block content %}
-    {% if GOOGLE_SSO_SHOW_LOGIN_ON_ADMIN_PAGE %}
+    {% define_show_form as show_form %}
+    {% if show_form %}
         {{ block.super }}
     {% endif %}
     {% define_sso_providers as sso_providers %}

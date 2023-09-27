@@ -31,18 +31,20 @@ def pre_login_callback(user, request):
         url = "https://www.googleapis.com/oauth2/v3/userinfo"
 
         # Use response to update user info
-        # You can use custom scope to get more info - GOOGLE_SSO_SCOPES
+        # Please add the custom scope in settings.GOOGLE_SSO_SCOPES
+        # to access this info
         response = httpx.get(url, headers=headers)
-        user_data = response.json()
-        logger.debug(f"Updating User Data with Google Info: {user_data}")
+        if response.status_code == 200:
+            user_data = response.json()
+            logger.debug(f"Updating User Data with Google Info: {user_data}")
 
-        url = "https://people.googleapis.com/v1/people/me?personFields=birthdays"
-        response = httpx.get(url, headers=headers)
-        people_data = response.json()
-        logger.debug(f"Updating User Data with Google People Info: {people_data}")
+            url = "https://people.googleapis.com/v1/people/me?personFields=birthdays"
+            response = httpx.get(url, headers=headers)
+            people_data = response.json()
+            logger.debug(f"Updating User Data with Google People Info: {people_data}")
 
-        user.first_name = user_data["given_name"]
-        user.last_name = user_data["family_name"]
+            user.first_name = user_data["given_name"]
+            user.last_name = user_data["family_name"]
 
     user.save()
 
