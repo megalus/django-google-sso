@@ -18,18 +18,18 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.3.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.2">
     
     
       
-        <title>Customizing the Login button - Django Google SSO</title>
+        <title>Customizing the Login Page - Django Google SSO</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.30068a00.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.d451bc0e.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a5377069.min.css">
       
       
 
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#customizing-the-login-button" class="md-skip">
+        <a href="#customizing-the-login-page" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Customizing the Login button
+              Customizing the Login Page
             
           </span>
         </div>
@@ -417,7 +417,7 @@
           
   
   <span class="md-ellipsis">
-    Customizing the Login button
+    Customizing the Login Page
   </span>
   
 
@@ -428,7 +428,7 @@
         
   
   <span class="md-ellipsis">
-    Customizing the Login button
+    Customizing the Login Page
   </span>
   
 
@@ -450,20 +450,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#hiding-the-login-form" class="md-nav__link">
+    Hiding the Login Form
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-the-login-button" class="md-nav__link">
+    Customizing the Login button
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing the Login button">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#the-button-logo" class="md-nav__link">
     The button logo
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#the-button-text" class="md-nav__link">
     The button text
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#the-button-style" class="md-nav__link">
     The button style
   </a>
@@ -475,6 +490,11 @@
   <a href="#an-example" class="md-nav__link">
     An example
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -594,20 +614,35 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#hiding-the-login-form" class="md-nav__link">
+    Hiding the Login Form
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#customizing-the-login-button" class="md-nav__link">
+    Customizing the Login button
+  </a>
+  
+    <nav class="md-nav" aria-label="Customizing the Login button">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#the-button-logo" class="md-nav__link">
     The button logo
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#the-button-text" class="md-nav__link">
     The button text
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#the-button-style" class="md-nav__link">
     The button style
   </a>
@@ -619,6 +654,11 @@
   <a href="#an-example" class="md-nav__link">
     An example
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -645,41 +685,50 @@
   
 
 
-<h1 id="customizing-the-login-button">Customizing the Login button<a class="headerlink" href="#customizing-the-login-button" title="Permanent link">&para;</a></h1>
+<h1 id="customizing-the-login-page">Customizing the Login Page<a class="headerlink" href="#customizing-the-login-page" title="Permanent link">&para;</a></h1>
+<p>Below, you can find some tips on how to customize the login page.</p>
+<h2 id="hiding-the-login-form">Hiding the Login Form<a class="headerlink" href="#hiding-the-login-form" title="Permanent link">&para;</a></h2>
+<p>If you want to show only the Google Login button, you can hide the login form using
+the <code>GOOGLE_SSO_SHOW_FORM_ON_ADMIN_PAGE</code> setting.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># settings.py</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">GOOGLE_SSO_SHOW_FORM_ON_ADMIN_PAGE</span> <span class="o">=</span> <span class="kc">False</span>
+</span></code></pre></div>
+<h2 id="customizing-the-login-button">Customizing the Login button<a class="headerlink" href="#customizing-the-login-button" title="Permanent link">&para;</a></h2>
 <p>Customizing the Login button is very simple. For the logo and text change is straightforward, just inform the new
 values. For
 the style, you can override the css file.</p>
-<h2 id="the-button-logo">The button logo<a class="headerlink" href="#the-button-logo" title="Permanent link">&para;</a></h2>
+<h3 id="the-button-logo">The button logo<a class="headerlink" href="#the-button-logo" title="Permanent link">&para;</a></h3>
 <p>To change the logo, use the <code>GOOGLE_SSO_BUTTON_LOGO</code> setting.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># settings.py</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">GOOGLE_SSO_LOGO_URL</span> <span class="o">=</span> <span class="s2">&quot;https://example.com/logo.png&quot;</span>
-</span></code></pre></div>
-<h2 id="the-button-text">The button text<a class="headerlink" href="#the-button-text" title="Permanent link">&para;</a></h2>
-<p>To change the text, use the <code>GOOGLE_SSO_BUTTON_TEXT</code> setting.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># settings.py</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">GOOGLE_SSO_TEXT</span> <span class="o">=</span> <span class="s2">&quot;New login message&quot;</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">GOOGLE_SSO_LOGO_URL</span> <span class="o">=</span> <span class="s2">&quot;https://example.com/logo.png&quot;</span>
 </span></code></pre></div>
-<h2 id="the-button-style">The button style<a class="headerlink" href="#the-button-style" title="Permanent link">&para;</a></h2>
+<h3 id="the-button-text">The button text<a class="headerlink" href="#the-button-text" title="Permanent link">&para;</a></h3>
+<p>To change the text, use the <code>GOOGLE_SSO_BUTTON_TEXT</code> setting.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># settings.py</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">GOOGLE_SSO_TEXT</span> <span class="o">=</span> <span class="s2">&quot;New login message&quot;</span>
+</span></code></pre></div>
+<h3 id="the-button-style">The button style<a class="headerlink" href="#the-button-style" title="Permanent link">&para;</a></h3>
 <p>The login button css style is located at
 <code>static/django_google_sso/google_button.css</code>. You can override this file as per Django
 <a href="https://docs.djangoproject.com/en/4.2/howto/static-files/">static files documentation</a>.</p>
-<h3 id="an-example">An example<a class="headerlink" href="#an-example" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># settings.py</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">GOOGLE_SSO_TEXT</span> <span class="o">=</span> <span class="s2">&quot;Login using Google Account&quot;</span>
-</span></code></pre></div>
-<div class="language-css highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c">/* static/django_google_sso/google_button.css */</span>
+<h4 id="an-example">An example<a class="headerlink" href="#an-example" title="Permanent link">&para;</a></h4>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># settings.py</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c">/* other css... */</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">.</span><span class="nc">google-login-btn</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="kc">red</span><span class="p">;</span>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="p">;</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="p">;</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="p">}</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">GOOGLE_SSO_TEXT</span> <span class="o">=</span> <span class="s2">&quot;Login using Google Account&quot;</span>
+</span></code></pre></div>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c">/* static/django_google_sso/google_button.css */</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c">/* other css... */</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">.</span><span class="nc">google-login-btn</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="kc">red</span><span class="p">;</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="k">border-radius</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="p">;</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="p">;</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="kt">px</span><span class="p">;</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="k">width</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="kt">%</span><span class="p">;</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>The result:</p>
 <p><img alt="" src="../images/django_login_with_google_custom.png" /></p>
@@ -777,10 +826,10 @@ the style, you can override the css file.</p>
       </div>
       <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout(function(){document.querySelector("[data-md-component=consent]").hidden=!1},250);var action,form=document.forms.consent;for(action of["submit","reset"])form.addEventListener(action,function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map(function(e){return[e,!0]}))),location.hash="",location.reload()})</script>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      <script src="../assets/javascripts/bundle.726fbb30.min.js"></script>
       
     
   </body>
