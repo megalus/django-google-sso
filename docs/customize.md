@@ -4,12 +4,12 @@ Below, you can find some tips on how to customize the login page.
 ## Hiding the Login Form
 
 If you want to show only the Google Login button, you can hide the login form using
-the `GOOGLE_SSO_SHOW_FORM_ON_ADMIN_PAGE` setting.
+the `SSO_SHOW_FORM_ON_ADMIN_PAGE` setting.
 
 ```python
 # settings.py
 
-GOOGLE_SSO_SHOW_FORM_ON_ADMIN_PAGE = False
+SSO_SHOW_FORM_ON_ADMIN_PAGE = False
 ```
 
 ## Customizing the Login button

@@ -209,3 +209,6 @@ GOOGLE_SSO_PRE_LOGIN_CALLBACK = "backend.pre_login_callback"
 
 # Uncomment to hide login form on admin page
 # GOOGLE_SSO_SHOW_FORM_ON_ADMIN_PAGE = False  # default: True
+
+# Always update user data with Google Info
+GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA = True

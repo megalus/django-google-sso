@@ -15,7 +15,7 @@ jobs:
       - name: Setups Python
         uses: actions/setup-python@v3
         with:
-          python-version: "3.10"
+          python-version: "3.11"
       - name: Setup Poetry
         uses: abatilo/actions-poetry@v2
       - name: Run Pre-Commit
@@ -26,7 +26,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ["3.9", "3.10", "3.11"]
+        python-version: ["3.10", "3.11", "3.12"]
         django-version: ["4.0", "4.1", "4.2"]
     steps:
       - uses: actions/checkout@v3

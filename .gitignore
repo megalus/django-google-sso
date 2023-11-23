@@ -147,3 +147,5 @@ poetry.lock
 *.stela.back
 .env.local
 .env.*.local
+
+/.python-version

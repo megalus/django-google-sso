@@ -43,8 +43,8 @@ GOOGLE_SSO_PRE_LOGIN_CALLBACK = getattr(
 GOOGLE_SSO_LOGO_URL = getattr(
     settings,
     "GOOGLE_SSO_LOGO_URL",
-    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/"
-    "Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png",
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/"
+    "Google_%22G%22_logo.svg/1280px-Google_%22G%22_logo.svg.png",
 )
 
 GOOGLE_SSO_TEXT = getattr(settings, "GOOGLE_SSO_TEXT", "Sign in with Google")
@@ -52,6 +52,7 @@ GOOGLE_SSO_SAVE_ACCESS_TOKEN = getattr(settings, "GOOGLE_SSO_SAVE_ACCESS_TOKEN",
 GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA = getattr(
     settings, "GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA", False
 )
-GOOGLE_SSO_SHOW_LOGIN_ON_ADMIN_PAGE = getattr(
-    settings, "GOOGLE_SSO_SHOW_LOGIN_ON_ADMIN_PAGE", True
-)
+SSO_USE_ALTERNATE_W003 = getattr(settings, "SSO_USE_ALTERNATE_W003", False)
+
+if SSO_USE_ALTERNATE_W003:
+    from django_microsoft_sso.checks.warnings import register_sso_check  # noqa

@@ -38,7 +38,7 @@ urlpatterns = [
 ]
 ```
 
-or
+or you can use a complete custom class:
 
 ```python
 from django.contrib.auth.views import LoginView
