@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v4.0.0 (2023-11-23)
+
+### Feature
+
+* V4.0 ([`7212d2c`](https://github.com/megalus/django-google-sso/commit/7212d2c30a25710a507ed26e5640284bd8e87486))
+
+### Breaking
+
+* New changes: ([`7212d2c`](https://github.com/megalus/django-google-sso/commit/7212d2c30a25710a507ed26e5640284bd8e87486))
+
 ## v3.3.0 (2023-09-27)
 
 ### Feature
