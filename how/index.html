@@ -14,11 +14,11 @@
         <link rel="prev" href="../customize/">
       
       
-        <link rel="next" href="../settings/">
+        <link rel="next" href="../advanced/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.11">
     
     
       
@@ -26,10 +26,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.d451bc0e.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.fad675c6.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.a5377069.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
       
       
 
@@ -96,7 +96,7 @@
     <a href=".." title="Django Google SSO" class="md-header__button md-logo" aria-label="Django Google SSO" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 17v-3H3v-4h7V7l5 5-5 5m0-15h9a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-2h2v2h9V4h-9v2H8V4a2 2 0 0 1 2-2Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5m9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14Z"/></svg>
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -226,7 +226,7 @@
     <a href=".." title="Django Google SSO" class="md-nav__button md-logo" aria-label="Django Google SSO" data-md-component="logo">
       
   
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 17v-3H3v-4h7V7l5 5-5 5m0-15h9a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-2h2v2h9V4h-9v2H8V4a2 2 0 0 1 2-2Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M11 7 9.6 8.4l2.6 2.6H2v2h10.2l-2.6 2.6L11 17l5-5-5-5m9 12h-8v2h8c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-8v2h8v14Z"/></svg>
 
     </a>
     Django Google SSO
@@ -470,21 +470,9 @@
       
         <li class="md-nav__item">
   <a href="#current-flow" class="md-nav__link">
-    Current Flow
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-custom-authentication-backend" class="md-nav__link">
-    Using Custom Authentication Backend
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-google-as-single-source-of-truth" class="md-nav__link">
-    Using Google as Single Source of Truth
+    <span class="md-ellipsis">
+      Current Flow
+    </span>
   </a>
   
 </li>
@@ -493,6 +481,44 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advanced Use
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multiple/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Using Multiple Social Logins
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -582,21 +608,9 @@
       
         <li class="md-nav__item">
   <a href="#current-flow" class="md-nav__link">
-    Current Flow
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-custom-authentication-backend" class="md-nav__link">
-    Using Custom Authentication Backend
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#using-google-as-single-source-of-truth" class="md-nav__link">
-    Using Google as Single Source of Truth
+    <span class="md-ellipsis">
+      Current Flow
+    </span>
   </a>
   
 </li>
@@ -627,7 +641,7 @@
 "Login with Google" button will be added to a default form.</p>
 </li>
 <li>
-<p>On click, <strong>Django-Google-SSO</strong> will add, in a anonymous request session, the <code>next_path</code> and Google Flow <code>state</code>.
+<p>On click, <strong>Django-Google-SSO</strong> will add, in a anonymous request session, the <code>sso_next_url</code> and Google Flow <code>sso_state</code>.
 This data will expire in 10 minutes. Then user will be redirected to Google login page.</p>
 <div class="admonition info">
 <p class="admonition-title">Using Request Anonymous session</p>
@@ -663,68 +677,6 @@ which will use Django Messaging system to show the error message.</p>
 defined in <code>GOOGLE_SSO_NEXT_URL</code> (default: <code>admin:index</code>) as a fallback.</p>
 </li>
 </ol>
-<h2 id="using-custom-authentication-backend">Using Custom Authentication Backend<a class="headerlink" href="#using-custom-authentication-backend" title="Permanent link">&para;</a></h2>
-<p>If the users need to log in using a custom authentication backend, you can use the <code>GOOGLE_SSO_AUTHENTICATION_BACKEND</code>
-setting:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># settings.py</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">GOOGLE_SSO_AUTHENTICATION_BACKEND</span> <span class="o">=</span> <span class="s2">&quot;myapp.authentication.MyCustomAuthenticationBackend&quot;</span>
-</span></code></pre></div>
-<h2 id="using-google-as-single-source-of-truth">Using Google as Single Source of Truth<a class="headerlink" href="#using-google-as-single-source-of-truth" title="Permanent link">&para;</a></h2>
-<p>If you want to use Google as the single source of truth for your users, you can simply set the
-<code>GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA</code>. This will enforce the basic user data (first name, last name, email and picture) to be
-updated at every login.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># settings.py</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Always update user data on login</span>
-</span></code></pre></div>
-<p>If you need more advanced logic, you can use the <code>GOOGLE_SSO_PRE_LOGIN_CALLBACK</code> setting to import custom data from Google
-(considering you have configured the right scopes and possibly a Custom User model to store these fields).</p>
-<p>For example, you can use the following code to update the user's
-name, email and birthdate at every login:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># settings.py</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">GOOGLE_SSO_SAVE_ACCESS_TOKEN</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># You will need this token</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">GOOGLE_SSO_PRE_LOGIN_CALLBACK</span> <span class="o">=</span> <span class="s2">&quot;hooks.pre_login_user&quot;</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">GOOGLE_SSO_SCOPES</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="s2">&quot;openid&quot;</span><span class="p">,</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="s2">&quot;https://www.googleapis.com/auth/userinfo.email&quot;</span><span class="p">,</span>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>    <span class="s2">&quot;https://www.googleapis.com/auth/userinfo.profile&quot;</span><span class="p">,</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>    <span class="s2">&quot;https://www.googleapis.com/auth/user.birthday.read&quot;</span><span class="p">,</span>  <span class="c1"># &lt;- This is a custom scope</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">]</span>
-</span></code></pre></div>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># myapp/hooks.py</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">import</span> <span class="nn">datetime</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">import</span> <span class="nn">httpx</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">from</span> <span class="nn">loguru</span> <span class="kn">import</span> <span class="n">logger</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="k">def</span> <span class="nf">pre_login_user</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">token</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;google_sso_access_token&quot;</span><span class="p">)</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="k">if</span> <span class="n">token</span><span class="p">:</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>        <span class="n">headers</span> <span class="o">=</span> <span class="p">{</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>            <span class="s2">&quot;Authorization&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Bearer </span><span class="si">{</span><span class="n">token</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>        <span class="p">}</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>        <span class="c1"># Request Google User Info</span>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>        <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://www.googleapis.com/oauth2/v3/userinfo&quot;</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>        <span class="n">response</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>        <span class="n">user_data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Updating User Data with Google User Info: </span><span class="si">{</span><span class="n">user_data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a>
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>        <span class="c1"># Request Google People Info for the additional scopes</span>
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>        <span class="n">url</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;https://people.googleapis.com/v1/people/me?personFields=birthdays&quot;</span>
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>        <span class="n">response</span> <span class="o">=</span> <span class="n">httpx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="p">)</span>
-</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>        <span class="n">people_data</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
-</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Updating User Data with Google People Info: </span><span class="si">{</span><span class="n">people_data</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>        <span class="n">birthdate</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="p">(</span><span class="o">**</span><span class="n">people_data</span><span class="p">[</span><span class="s2">&quot;birthdays&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;date&#39;</span><span class="p">])</span>
-</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>
-</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>        <span class="n">user</span><span class="o">.</span><span class="n">first_name</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;given_name&quot;</span><span class="p">]</span>
-</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>        <span class="n">user</span><span class="o">.</span><span class="n">last_name</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;family_name&quot;</span><span class="p">]</span>
-</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a>        <span class="n">user</span><span class="o">.</span><span class="n">email</span> <span class="o">=</span> <span class="n">user_data</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span>
-</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a>        <span class="n">user</span><span class="o">.</span><span class="n">birthdate</span> <span class="o">=</span> <span class="n">birthdate</span>  <span class="c1"># You need a Custom User model to store this field</span>
-</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a>        <span class="n">user</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
-</span></code></pre></div>
 
 
 
@@ -761,6 +713,7 @@ name, email and birthdate at every login:</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
+    
     
       <div class="md-consent" data-md-component="consent" id="__consent" hidden>
         <div class="md-consent__overlay"></div>
@@ -819,10 +772,10 @@ name, email and birthdate at every login:</p>
       </div>
       <script>var consent=__md_get("__consent");if(consent)for(var input of document.forms.consent.elements)input.name&&(input.checked=consent[input.name]||!1);else"file:"!==location.protocol&&setTimeout(function(){document.querySelector("[data-md-component=consent]").hidden=!1},250);var action,form=document.forms.consent;for(action of["submit","reset"])form.addEventListener(action,function(e){if(e.preventDefault(),"reset"===e.type)for(var n of document.forms.consent.elements)n.name&&(n.checked=!1);__md_set("__consent",Object.fromEntries(Array.from(new FormData(form).keys()).map(function(e){return[e,!0]}))),location.hash="",location.reload()})</script>
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.a264c092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.726fbb30.min.js"></script>
+      <script src="../assets/javascripts/bundle.6c14ae12.min.js"></script>
       
     
   </body>
