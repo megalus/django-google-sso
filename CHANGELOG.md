@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v5.0.0 (2023-12-20)
+
+### Feature
+
+* New version ([`dc3560c`](https://github.com/megalus/django-google-sso/commit/dc3560c12398037f289dc1e8b08d4c8d40b7577a))
+
+### Breaking
+
+* * Remove Django 4.1 support * Add Django 5.0 support * Fix `SSO_USE_ALTERNATE_W003` bug * Fix several CSS issues with custom logo images * Update docs ([`dc3560c`](https://github.com/megalus/django-google-sso/commit/dc3560c12398037f289dc1e8b08d4c8d40b7577a))
+
 ## v4.0.0 (2023-11-23)
 
 ### Feature
