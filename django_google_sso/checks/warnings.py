@@ -1,24 +1,8 @@
-import glob
-import os
-
 from django.core.checks import Tags, register
 from django.core.checks.messages import Warning
 from django.core.checks.templates import check_for_template_tags_with_the_same_name
 
-
-def get_template_tag_names():
-    dir_path = os.path.dirname(__file__)
-    template_path = os.path.join(os.path.dirname(dir_path), "templatetags")
-    python_files = glob.glob(os.path.join(template_path, "*.py"))
-    names = [
-        os.path.basename(file).replace(".py", "")
-        for file in python_files
-        if not file.endswith("__init__.py")
-    ]
-    return names
-
-
-TEMPLATE_TAG_NAMES = get_template_tag_names()
+TEMPLATE_TAG_NAMES = ["show_form", "sso_tags"]
 
 
 @register(Tags.templates)

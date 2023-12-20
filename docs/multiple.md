@@ -5,12 +5,13 @@ package which you need to install and configure:
 
 * [Django Google SSO](https://github.com/megalus/django-google-sso)
 * [Django Microsoft SSO](https://github.com/megalus/django-microsoft-sso)
+* [Django GitHub SSO](https://github.com/megalus/django-github-sso)
 
 ## Install the Packages
 Install the packages you need:
 
 ```bash
-pip install django-google-sso django-microsoft-sso
+pip install django-google-sso django-microsoft-sso django-github-sso
 
 # Optionally install Stela to handle .env files
 pip install stela
@@ -25,8 +26,9 @@ To add this package in your Django Project, please modify the `INSTALLED_APPS` i
 INSTALLED_APPS = [
     # other django apps
     "django.contrib.messages",  # Need for Auth messages
-    "django_microsoft_sso",  # First button in login page
-    "django_google_sso",  # Second button in login page
+    "django_github_sso",  # Will show as first button in login page
+    "django_google_sso",
+    "django_microsoft_sso",
 ]
 ```
 
@@ -43,6 +45,9 @@ GOOGLE_SSO_PROJECT_ID=999999999999
 
 MICROSOFT_SSO_APPLICATION_ID=FOO
 MICROSOFT_SSO_CLIENT_SECRET=BAZ
+
+GITHUB_SSO_CLIENT_ID=BAR
+GITHUB_SSO_CLIENT_SECRET=FOOBAR
 ```
 
 ### Setup Django URLs
@@ -54,12 +59,16 @@ from django.urls import include, path
 
 urlpatterns += [
     path(
-        "microsoft_sso/",
-        include("django_google_sso.urls", namespace="django_microsoft_sso"),
+        "github_sso/",
+        include("django_google_sso.urls", namespace="django_github_sso"),
     ),
     path(
+        "google_sso/",
+        include("django_github_sso.urls", namespace="django_google_sso"),
+    ),
+        path(
         "microsoft_sso/",
-        include("django_microsoft_sso.urls", namespace="django_microsoft_sso"),
+        include("django_github_sso.urls", namespace="django_microsoft_sso"),
     ),
 ]
 ```
@@ -83,11 +92,26 @@ GOOGLE_SSO_CLIENT_ID = env.GOOGLE_SSO_CLIENT_ID
 GOOGLE_SSO_PROJECT_ID = env.GOOGLE_SSO_PROJECT_ID
 GOOGLE_SSO_CLIENT_SECRET = env.GOOGLE_SSO_CLIENT_SECRET
 GOOGLE_SSO_ALLOWABLE_DOMAINS = ["contoso.net"]
+
+# Django GitHub SSO
+GITHUB_SSO_ENABLED = True
+GITHUB_SSO_CLIENT_ID = env.GITHUB_SSO_CLIENT_ID
+GITHUB_SSO_CLIENT_SECRET = env.GITHUB_SSO_CLIENT_SECRET
+GITHUB_SSO_ALLOWABLE_ORGANIZATIONS = ["contoso"]
 ```
 
 The login page will look like this:
 
-![Django Login Page with Google and Microsoft SSO](../images/django_multiple_sso.png)
+![Django Login Page with Google and Microsoft SSO](images/django_multiple_sso.png)
+
+!!! tip "You can hide the login form"
+    If you want to show only the SSO buttons, you can hide the login form using the `SSO_SHOW_FORM_ON_ADMIN_PAGE` setting.
+
+    ```python
+    # settings.py
+
+    SSO_SHOW_FORM_ON_ADMIN_PAGE = False
+    ```
 
 ### The Django E003/W003 Warning
 If you are using both **Django Google SSO** and **Django Microsoft SSO**, you will get the following warning:
@@ -111,6 +135,6 @@ run the original check, but will not raise the warning for the Django SSO packag
 ```python
 # settings.py
 
-SILENCED_SYSTEM_CHECKS = ["templates.E003"]  # Will silence original check
+SILENCED_SYSTEM_CHECKS = ["templates.E003"]  # Will silence the original check
 SSO_USE_ALTERNATE_W003 = True  # Will run alternate check
 ```

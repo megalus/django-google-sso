@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('django_google_sso', '0001_initial'),
+        ("django_google_sso", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='googlessouser',
-            name='picture_url',
+            model_name="googlessouser",
+            name="picture_url",
             field=models.URLField(max_length=2000),
         ),
     ]

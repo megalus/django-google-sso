@@ -1,6 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Run Example App" type="Python.DjangoServer" factoryName="Django server">
     <module name="django-google-sso" />
+    <option name="ENV_FILES" value="" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
@@ -8,7 +9,7 @@
       <env name="DJANGO_SETTINGS_MODULE" value="settings" />
     </envs>
     <option name="SDK_HOME" value="" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/example_app" />
+    <option name="WORKING_DIRECTORY" value="\\wsl.localhost\Ubuntu\home\chris\Projects\megalus\django-google-sso\example_google_app" />
     <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />

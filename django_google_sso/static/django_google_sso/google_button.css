@@ -1,9 +1,9 @@
 /*
   login-btn
   ---------------------------------
-  | --------------                 |
-  | | btn-logo   |    btn-label    |
-  | --------------                 |
+  | --------------                         |
+  | | btn-logo   |    btn-label         |
+  | --------------                          |
   ----------------------------------
 */
 
@@ -14,6 +14,8 @@
     padding: 2px;
     margin-bottom: 10px;
     width: 100%;
+    height: 28px;
+    display: flex;
 }
 
 /* Google Login Button Hover */
@@ -24,6 +26,7 @@
 /* Google Login Button Remove Decoration */
 .google-login-btn a {
     text-decoration: none;
+    width: 100%;
 }
 
 /* Google Login Button Logo Area */
@@ -31,8 +34,14 @@
     display: flex;
     justify-content: center;
     align-content: center;
-    padding: 4px;
     background-color: white;
+    height: 28px;
+    width: 28px;
+}
+
+.google-btn-logo img {
+    height: 28px;
+    width: 28px;
 }
 
 /* Google Login Button Label Area */
@@ -41,5 +50,4 @@
     margin-top: -1px;
     width: 100%;
     text-align: center;
-    padding: 0 10px;
 }

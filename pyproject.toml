@@ -50,9 +50,9 @@ keywords = ["google", "django", "sso"]
 license = "MIT"
 classifiers = [
     "Framework :: Django",
-    "Framework :: Django :: 4.0",
     "Framework :: Django :: 4.1",
     "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
     "Intended Audience :: Developers",
     "Development Status :: 4 - Beta",
     "Environment :: Plugins"
@@ -60,7 +60,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.10, <4.0"
-django = ">=4.0"
+django = ">=4.1"
 loguru = "*"
 google-auth = "*"
 google-auth-httplib2 = "*"
@@ -93,7 +93,7 @@ evaluate_data = true
 show_logs = false
 dotenv_overwrites_memory = true
 env_file = ".env"
-config_file_path = "./example_app"
+config_file_path = "./example_google_app"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

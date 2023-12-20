@@ -6,6 +6,7 @@ from django.conf import settings
 from django.templatetags.static import static
 from django.urls import reverse
 from django.utils.translation import gettext
+from loguru import logger
 
 register = template.Library()
 
@@ -39,6 +40,6 @@ def define_sso_providers():
                         ),
                     }
                 )
-        except ModuleNotFoundError:
-            pass
+        except Exception as e:
+            logger.error(f"Error importing {package_name}: {e}")
     return sso_providers

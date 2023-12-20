@@ -20,12 +20,12 @@
     If you log out from Google, the Django user will not be logged out automatically - his user session is valid up to
     1 hour, or the time defined, in seconds, in `GOOGLE_SSO_SESSION_COOKIE_AGE`. You can use the `GOOGLE_SSO_SAVE_ACCESS_TOKEN`
     to save the access token generated during user login, and use it to check if the user status in Google (inside a
-    Middleware, for example). Please check the [Example App](https://github.com/megalus/django-google-sso/tree/main/example_app)
+    Middleware, for example). Please check the [Example App](https://github.com/megalus/django-google-sso/tree/main/example_google_app)
     for more details.
 
 ### Example App
 
-To test this library please check the `Example App` provided [here](https://github.com/megalus/django-google-sso/tree/main/example_app).
+To test this library please check the `Example App` provided [here](https://github.com/megalus/django-google-sso/tree/main/example_google_app).
 
 ### Not working?
 
