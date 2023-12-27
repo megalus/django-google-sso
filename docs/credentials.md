@@ -34,6 +34,7 @@ After that, add them in your `settings.py` file:
 
 ```python
 # settings.py
+GOOGLE_SSO_ALLOWABLE_DOMAINS = ["your domain here"]
 GOOGLE_SSO_CLIENT_ID = "your client id here"
 GOOGLE_SSO_CLIENT_SECRET = "your client secret here"
 GOOGLE_SSO_PROJECT_ID = "your project id here"
@@ -50,6 +51,7 @@ variables from a `.env.local` file, like this:
 
 ```ini
 # .env.local
+GOOGLE_SSO_ALLOWABLE_DOMAINS=["your domain here"]
 GOOGLE_SSO_CLIENT_ID="your client id here"
 GOOGLE_SSO_CLIENT_SECRET="your client secret here"
 GOOGLE_SSO_PROJECT_ID="your project id here"
@@ -59,6 +61,7 @@ GOOGLE_SSO_PROJECT_ID="your project id here"
 # Django settings.py
 from stela import env
 
+GOOGLE_SSO_ALLOWABLE_DOMAINS = env.GOOGLE_SSO_ALLOWABLE_DOMAINS
 GOOGLE_SSO_CLIENT_ID = env.GOOGLE_SSO_CLIENT_ID
 GOOGLE_SSO_CLIENT_SECRET = env.GOOGLE_SSO_CLIENT_SECRET
 GOOGLE_SSO_PROJECT_ID = env.GOOGLE_SSO_PROJECT_ID

@@ -59,7 +59,8 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "example_google_app.backend.GoogleSLOMiddlewareExample",  # Must be after Authentication
+    # Must be after Authentication
+    "example_google_app.backend.GoogleSLOMiddlewareExample",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -171,16 +172,13 @@ GOOGLE_SSO_CLIENT_ID = env.GOOGLE_SSO_CLIENT_ID
 GOOGLE_SSO_PROJECT_ID = env.GOOGLE_SSO_PROJECT_ID
 GOOGLE_SSO_CLIENT_SECRET = env.GOOGLE_SSO_CLIENT_SECRET
 
-GOOGLE_SSO_ALLOWABLE_DOMAINS = env.get_or_default(
-    "GOOGLE_SSO_ALLOWABLE_DOMAINS", ""
-).split(",")
+GOOGLE_SSO_ALLOWABLE_DOMAINS = env.get_or_default("GOOGLE_SSO_ALLOWABLE_DOMAINS", [])
 GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = (
     False  # Mark as True, to create superuser on first eligible user login
 )
-GOOGLE_SSO_STAFF_LIST = env.get_or_default("GOOGLE_SSO_STAFF_LIST", "").split(",")
-GOOGLE_SSO_SUPERUSER_LIST = env.get_or_default("GOOGLE_SSO_SUPERUSER_LIST", "").split(
-    ","
-)
+GOOGLE_SSO_STAFF_LIST = env.get_or_default("GOOGLE_SSO_STAFF_LIST", [])
+GOOGLE_SSO_SUPERUSER_LIST = env.get_or_default("GOOGLE_SSO_SUPERUSER_LIST", [])
+
 GOOGLE_SSO_TIMEOUT = 10  # default value
 GOOGLE_SSO_SCOPES = [
     "openid",
