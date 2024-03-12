@@ -1,30 +1,39 @@
 /*
+
+  Please rename this file to google_button.css to override works.
+  This CSS is compatible with Django Unfold CSS
+
   login-btn
   ---------------------------------
-  | --------------                         |
-  | | btn-logo   |    btn-label         |
-  | --------------                          |
+  | --------------                 |
+  | | btn-logo   |    btn-label    |
+  | --------------                 |
   ----------------------------------
 */
 
 /* Login Button Area */
 .login-btn-area {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 295px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 382px;
 }
 
 /* Goggle Login Button */
 .google-login-btn {
-    background-color: #3f86ed;
-    border-radius: 1px;
-    padding: 2px;
-    margin-bottom: 10px;
-    width: 100%;
-    height: 28px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #9233e7;
+    border-radius: 6px;
+    padding: 2px;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 38px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 /* Google Login Button Hover */
@@ -35,7 +44,6 @@
 /* Google Login Button Remove Decoration */
 .google-login-btn a {
     text-decoration: none;
-    width: 100%;
 }
 
 /* Google Login Button Logo Area */
@@ -43,15 +51,9 @@
     display: flex;
     justify-content: center;
     align-content: center;
-    background-color: white;
-    height: 28px;
-    width: 28px;
+    padding: 4px;
 }
 
-.google-btn-logo img {
-    height: 28px;
-    width: 28px;
-}
 
 /* Google Login Button Label Area */
 .google-btn-label {
@@ -59,4 +61,5 @@
     margin-top: -1px;
     width: 100%;
     text-align: center;
+    padding: 0 10px;
 }

@@ -88,7 +88,7 @@ And, that's it: **Django Google SSO** is ready for use. When you open the admin 
     [Grappelli](https://github.com/sehmaschine/django-grappelli), [Django Jazzmin](https://github.com/farridav/django-jazzmin),
     [Django Admin Interface](https://github.com/fabiocaccamo/django-admin-interface) and [Django Jet Reboot](https://github.com/assem-ch/django-jet-reboot).
 
-    If the skin uses his own login template, the "Login with Google" button will not be displayed.
+    If the skin uses his own login template, you will need create your own `admin/login.html` template to add both HTML from custom login.html from the custom package and from this library.
 
 ---
 
