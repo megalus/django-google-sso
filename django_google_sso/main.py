@@ -82,6 +82,7 @@ class GoogleAuth:
 class UserHelper:
     user_info: dict[Any, Any]
     request: Any
+    user_changed: bool = False
 
     @property
     def user_email(self):
@@ -103,16 +104,9 @@ class UserHelper:
         user, created = user_model.objects.get_or_create(
             email=self.user_email, defaults={"username": self.user_email}
         )
-        updated = self.check_first_super_user(user, user_model)
-
-        if created or conf.GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA:
-            self.check_for_permissions(user)
-            user.first_name = self.user_info["given_name"]
-            user.last_name = self.user_info["family_name"]
-            user.set_unusable_password()
-            updated = True
-
-        if updated:
+        self.check_first_super_user(user, user_model)
+        self.check_for_update(created, user)
+        if self.user_changed:
             user.save()
 
         GoogleSSOUser.objects.update_or_create(
@@ -123,28 +117,32 @@ class UserHelper:
                 "locale": self.user_info["locale"],
             },
         )
-
         return user
 
+    def check_for_update(self, created, user):
+        if created or conf.GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA:
+            self.check_for_permissions(user)
+            user.first_name = self.user_info["given_name"]
+            user.last_name = self.user_info["family_name"]
+            user.username = self.user_email
+            user.set_unusable_password()
+            self.user_changed = True
+
     def check_first_super_user(self, user, user_model):
-        if not conf.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER:
-            return False
-
-        superuser_exists = user_model.objects.filter(
-            is_superuser=True, email__contains=f"@{self.user_email.split('@')[-1]}"
-        ).exists()
-        if superuser_exists:
-            return False
-
-        message_text = _(
-            f"GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER is True. "
-            f"Adding SuperUser status to email: {self.user_email}"
-        )
-        messages.add_message(self.request, messages.INFO, message_text)
-        logger.warning(message_text)
-        user.is_superuser = True
-        user.is_staff = True
-        return True
+        if conf.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER:
+            superuser_exists = user_model.objects.filter(
+                is_superuser=True, email__contains=f"@{self.user_email.split('@')[-1]}"
+            ).exists()
+            if not superuser_exists:
+                message_text = _(
+                    f"GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER is True. "
+                    f"Adding SuperUser status to email: {self.user_email}"
+                )
+                messages.add_message(self.request, messages.INFO, message_text)
+                logger.warning(message_text)
+                user.is_superuser = True
+                user.is_staff = True
+                self.user_changed = True
 
     def check_for_permissions(self, user):
         if user.email in conf.GOOGLE_SSO_STAFF_LIST:
