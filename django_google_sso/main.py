@@ -82,6 +82,7 @@ class GoogleAuth:
 class UserHelper:
     user_info: dict[Any, Any]
     request: Any
+    user_changed: bool = False
 
     @property
     def user_email(self):
@@ -100,23 +101,32 @@ class UserHelper:
 
     def get_or_create_user(self):
         user_model = get_user_model()
-        user, created = user_model.objects.get_or_create(email=self.user_email)
+        user, created = user_model.objects.get_or_create(
+            email=self.user_email, defaults={"username": self.user_email}
+        )
         self.check_first_super_user(user, user_model)
+        self.check_for_update(created, user)
+        if self.user_changed:
+            user.save()
+
+        GoogleSSOUser.objects.update_or_create(
+            user=user,
+            defaults={
+                "google_id": self.user_info["id"],
+                "picture_url": self.user_info["picture"],
+                "locale": self.user_info["locale"],
+            },
+        )
+        return user
+
+    def check_for_update(self, created, user):
         if created or conf.GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA:
             self.check_for_permissions(user)
             user.first_name = self.user_info["given_name"]
             user.last_name = self.user_info["family_name"]
             user.username = self.user_email
             user.set_unusable_password()
-        user.save()
-
-        google_user, created = GoogleSSOUser.objects.get_or_create(user=user)
-        google_user.google_id = self.user_info["id"]
-        google_user.picture_url = self.user_info["picture"]
-        google_user.locale = self.user_info["locale"]
-        google_user.save()
-
-        return user
+            self.user_changed = True
 
     def check_first_super_user(self, user, user_model):
         if conf.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER:
@@ -132,6 +142,7 @@ class UserHelper:
                 logger.warning(message_text)
                 user.is_superuser = True
                 user.is_staff = True
+                self.user_changed = True
 
     def check_for_permissions(self, user):
         if user.email in conf.GOOGLE_SSO_STAFF_LIST:
