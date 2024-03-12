@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.0.1 (2024-03-12)
+
+### Fix
+
+* Bump version ([`59907fd`](https://github.com/megalus/django-google-sso/commit/59907fdb0234e73ffb498b7af5ebce3e36055c94))
+
 ## v6.0.0 (2024-03-12)
 
 ### Feature
