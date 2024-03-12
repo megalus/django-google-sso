@@ -2,6 +2,20 @@
 
 <!--next-version-placeholder-->
 
+## v6.0.0 (2024-03-12)
+
+### Feature
+
+* Add basic support to custom login templates. ([`75d979f`](https://github.com/megalus/django-google-sso/commit/75d979f2999dc77665aeb6cec64bd2c9c8a7c16d))
+
+### Breaking
+
+* Add basic support to custom login templates. ([`75d979f`](https://github.com/megalus/django-google-sso/commit/75d979f2999dc77665aeb6cec64bd2c9c8a7c16d))
+
+### Documentation
+
+* Better Stela use. ([`f34152f`](https://github.com/megalus/django-google-sso/commit/f34152ffde5a9eb1eb31a3983e1eba6e840838a0))
+
 ## v5.0.0 (2023-12-20)
 
 ### Feature
