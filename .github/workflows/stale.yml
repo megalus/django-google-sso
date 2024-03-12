@@ -1,0 +1,30 @@
+name: 'Close stale issues and PRs'
+
+on:
+  schedule:
+    - cron: '30 1 * * *' # Runs once a day at 01:30
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v4
+        with:
+          days-before-stale: 60 # Mark as stale after 60 days
+          days-before-close: 7 # Close 7 days after being marked as stale
+          stale-issue-message: 'This issue has been marked as stale due to lack of activity. It will be closed in 7 days if no further activity occurs.'
+          stale-pr-message: 'This pull request has been marked as stale due to lack of activity. It will be closed in 7 days if no further activity occurs.'
+          close-issue-message: "This issue has been closed due to lack of activity. Feel free to reopen it if you believe it's still relevant."
+          close-pr-message: "This pull request has been closed due to lack of activity. Feel free to reopen it if you believe it's still relevant."
+          exempt-issue-labels: 'never-stale' # Issues with this label will not be marked as stale
+          exempt-pr-labels: 'never-stale' # PRs with this label will not be marked as stale
+          only-labels: '' # Process only issues/PRs with these labels
+          operations-per-run: 30 # Number of operations per run
+          remove-stale-when-updated: true # Remove stale label when issue/PR is updated
+          delete-branch: false # Delete the branch of closed PRs
+          stale-issue-label: 'stale' # Label to mark stale issues
+          stale-pr-label: 'stale' # Label to mark stale PRs
