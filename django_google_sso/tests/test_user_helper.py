@@ -1,4 +1,5 @@
 import importlib
+from copy import deepcopy
 
 import pytest
 
@@ -117,3 +118,25 @@ def test_create_super_user_from_list(google_response, callback_request, settings
     assert user.is_active is True
     assert user.is_staff is True
     assert user.is_superuser is True
+
+
+def test_different_null_values(google_response, callback_request, monkeypatch):
+    # Arrange
+    monkeypatch.setattr(conf, "GOOGLE_SSO_DEFAULT_LOCALE", "pt_BR")
+    google_response_no_key = deepcopy(google_response)
+    del google_response_no_key["locale"]
+    google_response_key_none = deepcopy(google_response)
+    google_response_key_none["locale"] = None
+
+    # Act
+    no_key_helper = UserHelper(google_response_no_key, callback_request)
+    no_key_helper.get_or_create_user()
+    user_one = no_key_helper.find_user()
+
+    none_key_helper = UserHelper(google_response_key_none, callback_request)
+    none_key_helper.get_or_create_user()
+    user_two = none_key_helper.find_user()
+
+    # Assert
+    assert user_one.googlessouser.locale == "pt_BR"
+    assert user_two.googlessouser.locale == "pt_BR"
