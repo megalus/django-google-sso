@@ -113,8 +113,9 @@ class UserHelper:
             user=user,
             defaults={
                 "google_id": self.user_info["id"],
-                "picture_url": self.user_info["picture"],
-                "locale": self.user_info["locale"],
+                "picture_url": self.user_info.get("picture"),
+                "locale": self.user_info.get("locale")
+                or conf.GOOGLE_SSO_DEFAULT_LOCALE,
             },
         )
         return user
@@ -122,8 +123,8 @@ class UserHelper:
     def check_for_update(self, created, user):
         if created or conf.GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA:
             self.check_for_permissions(user)
-            user.first_name = self.user_info["given_name"]
-            user.last_name = self.user_info["family_name"]
+            user.first_name = self.user_info.get("given_name")
+            user.last_name = self.user_info.get("family_name")
             user.username = self.user_email
             user.set_unusable_password()
             self.user_changed = True
