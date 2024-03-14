@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.0.2 (2024-03-14)
+
+### Fix
+
+* Error when field `locale` was not available on Google API response. ([`646d986`](https://github.com/megalus/django-google-sso/commit/646d986d609aba7acc4f0df0ea0f6136a4fe7747))
+
 ## v6.0.1 (2024-03-12)
 
 ### Fix
