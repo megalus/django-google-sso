@@ -94,6 +94,11 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
         )
         return HttpResponseRedirect(login_failed_url)
 
+    # Save Token in Session
+    if conf.GOOGLE_SSO_SAVE_ACCESS_TOKEN:
+        access_token = google.get_user_token()
+        request.session["google_sso_access_token"] = access_token
+
     # Run Pre-Create Callback
     module_path = ".".join(conf.GOOGLE_SSO_PRE_CREATE_CALLBACK.split(".")[:-1])
     pre_login_fn = conf.GOOGLE_SSO_PRE_CREATE_CALLBACK.split(".")[-1]
@@ -109,11 +114,7 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     if not user or not user.is_active:
         return HttpResponseRedirect(login_failed_url)
 
-    # Save Token in Session
-    if conf.GOOGLE_SSO_SAVE_ACCESS_TOKEN:
-        access_token = google.get_user_token()
-        request.session["google_sso_access_token"] = access_token
-        request.session.save()
+    request.session.save()
 
     # Run Pre-Login Callback
     module_path = ".".join(conf.GOOGLE_SSO_PRE_LOGIN_CALLBACK.split(".")[:-1])
