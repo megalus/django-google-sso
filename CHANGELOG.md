@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.1.0 (2024-04-09)
+
+### Feature
+
+* Add support to custom attributes in User model before creation. ([`cc9ad6a`](https://github.com/megalus/django-google-sso/commit/cc9ad6a6dc5263f6c9efd139102bd9070962d97a))
+
 ## v6.0.2 (2024-03-14)
 
 ### Fix
