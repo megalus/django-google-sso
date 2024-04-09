@@ -1,3 +1,4 @@
+import arrow
 import httpx
 from django.contrib import messages
 from django.contrib.auth import logout
@@ -13,7 +14,7 @@ class MyBackend(ModelBackend):
 
 
 def pre_login_callback(user, request):
-    """Callback function called after user is logged in."""
+    """Callback function called before user is logged in."""
     messages.info(request, f"Running Pre-Login callback for user: {user}.")
 
     # Example 1: Add SuperUser status to user
@@ -73,3 +74,19 @@ class GoogleSLOMiddlewareExample:
 
         response = self.get_response(request)
         return response
+
+
+def pre_create_callback(google_info, request) -> dict:
+    """Callback function called before user is created.
+
+    return: dict content to be passed to User.objects.create() as `defaults` argument.
+            If not informed, field `username` is always passed with user email as value.
+    """
+
+    user_key = google_info.get("email").split("@")[0]
+    user_id = google_info.get("id")
+
+    return {
+        "username": f"{user_key}_{user_id}",
+        "date_joined": arrow.utcnow().shift(days=-1).datetime,
+    }

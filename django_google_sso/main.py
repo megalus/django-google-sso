@@ -99,10 +99,13 @@ class UserHelper:
             logger.debug(f"Email {self.user_email} is not verified.")
         return email_verified if email_verified is not None else False
 
-    def get_or_create_user(self):
+    def get_or_create_user(self, extra_users_args: dict | None = None):
         user_model = get_user_model()
+        user_defaults = extra_users_args or {}
+        if "username" not in user_defaults:
+            user_defaults["username"] = self.user_email
         user, created = user_model.objects.get_or_create(
-            email=self.user_email, defaults={"username": self.user_email}
+            email=self.user_email, defaults=user_defaults
         )
         self.check_first_super_user(user, user_model)
         self.check_for_update(created, user)
@@ -125,7 +128,8 @@ class UserHelper:
             self.check_for_permissions(user)
             user.first_name = self.user_info.get("given_name")
             user.last_name = self.user_info.get("family_name")
-            user.username = self.user_email
+            if not user.username:
+                user.username = self.user_email
             user.set_unusable_password()
             self.user_changed = True
 

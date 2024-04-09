@@ -1,7 +1,7 @@
 # Using Multiple Social Logins
 
-A special advanced case is when you need to login from multiple social providers. In this case, each provider will have its own
-package which you need to install and configure:
+A special advanced case is when you need to log in from multiple social providers. In this case, each provider will have its own
+package which you need to install and configure. Currently, we support:
 
 * [Django Google SSO](https://github.com/megalus/django-google-sso)
 * [Django Microsoft SSO](https://github.com/megalus/django-microsoft-sso)
@@ -113,8 +113,16 @@ The login page will look like this:
     SSO_SHOW_FORM_ON_ADMIN_PAGE = False
     ```
 
-### The Django E003/W003 Warning
-If you are using both **Django Google SSO** and **Django Microsoft SSO**, you will get the following warning:
+## Avoiding duplicated Users
+Both **Django GitHub SSO** and **Django Microsoft SSO** can create users without an email address, comparing the User `username`
+field against the _Azure User Principal Name_ or _Github User Name_. This can cause duplicated users if you are using either package.
+
+To avoid this, you can set the `MICROSOFT_SSO_UNIQUE_EMAIL` and `GITHUB_SSO_UNIQUE_EMAIL` settings to `True`,
+making these packages compare User `email` against _Azure Mail_ field or _Github Primary Email_. Make sure your Azure Tenant
+and GitHub Organization users have registered emails.
+
+## The Django E003/W003 Warning
+If you are using multiple **Django SSO** projects, you will get a warning like this:
 
 ```
 WARNINGS:

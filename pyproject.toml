@@ -68,6 +68,7 @@ google-auth-oauthlib = "*"
 
 [tool.poetry.dev-dependencies]
 auto-changelog = "*"
+arrow = "*"
 black = {version = "*", allow-prereleases = true}
 pre-commit = "*"
 pytest-coverage = "*"
