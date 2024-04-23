@@ -23,6 +23,13 @@
     Middleware, for example). Please check the [Example App](https://github.com/megalus/django-google-sso/tree/main/example_google_app)
     for more details.
 
+??? question "My callback URL is http://example.com/google_sso/callback/ but my project is running at http://localhost:8000"
+    This error occurs because your Project is using the Django Sites Framework and the current site is not configured correctly.
+    Please make sure that the current site is configured for your needs or, alternatively, use the `GOOGLE_SSO_CALLBACK_DOMAIN` setting.
+
+??? question "There's too much information on logs and messages from this app."
+    You can disable the logs using the `GOOGLE_SSO_ENABLE_LOGS` setting and the messages using the `GOOGLE_SSO_ENABLE_MESSAGES` setting.
+
 ### Example App
 
 To test this library please check the `Example App` provided [here](https://github.com/megalus/django-google-sso/tree/main/example_google_app).

@@ -1,4 +1,5 @@
 from django.conf import settings
+from loguru import logger
 
 GOOGLE_SSO_CLIENT_ID = getattr(settings, "GOOGLE_SSO_CLIENT_ID", None)
 
@@ -60,4 +61,12 @@ GOOGLE_SSO_DEFAULT_LOCALE = getattr(settings, "GOOGLE_SSO_DEFAULT_LOCALE", "en")
 SSO_USE_ALTERNATE_W003 = getattr(settings, "SSO_USE_ALTERNATE_W003", False)
 
 if SSO_USE_ALTERNATE_W003:
-    from django_microsoft_sso.checks.warnings import register_sso_check  # noqa
+    from django_google_sso.checks.warnings import register_sso_check  # noqa
+
+GOOGLE_SSO_ENABLE_LOGS = getattr(settings, "GOOGLE_SSO_ENABLE_LOGS", True)
+GOOGLE_SSO_ENABLE_MESSAGES = getattr(settings, "GOOGLE_SSO_ENABLE_MESSAGES", True)
+
+if GOOGLE_SSO_ENABLE_LOGS:
+    logger.enable("django_google_sso")
+else:
+    logger.disable("django_google_sso")

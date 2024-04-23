@@ -218,3 +218,9 @@ GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA = True
 
 # Uncomment to hide the login form on admin page
 SSO_SHOW_FORM_ON_ADMIN_PAGE = False  # default: True
+
+# Optional: Disable Logs
+# GOOGLE_SSO_ENABLE_LOGS = False
+
+# Optional: Disable Django Messages
+# GOOGLE_SSO_ENABLE_MESSAGES = False

@@ -1,15 +1,16 @@
 import importlib
 from urllib.parse import urlparse
 
-from django.contrib import messages
 from django.contrib.auth import login
 from django.http import HttpRequest, HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
+from loguru import logger
 
 from django_google_sso import conf
 from django_google_sso.main import GoogleAuth, UserHelper
+from django_google_sso.utils import send_message, show_credential
 
 
 @require_http_methods(["GET"])
@@ -51,14 +52,12 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
 
     # Check if Google SSO is enabled
     if not conf.GOOGLE_SSO_ENABLED:
-        messages.add_message(request, messages.ERROR, _("Google SSO not enabled."))
+        send_message(request, _("Google SSO not enabled."))
         return HttpResponseRedirect(login_failed_url)
 
     # First, check for authorization code
     if not code:
-        messages.add_message(
-            request, messages.ERROR, _("Authorization Code not received from SSO.")
-        )
+        send_message(request, _("Authorization Code not received from SSO."))
         return HttpResponseRedirect(login_failed_url)
 
     # Then, check state.
@@ -66,16 +65,24 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     next_url = request.session.get("sso_next_url")
 
     if not request_state or state != request_state:
-        messages.add_message(
-            request, messages.ERROR, _("State Mismatch. Time expired?")
-        )
+        send_message(request, _("State Mismatch. Time expired?"))
         return HttpResponseRedirect(login_failed_url)
 
     # Get Access Token from Google
     try:
         google.flow.fetch_token(code=code)
     except Exception as error:
-        messages.add_message(request, messages.ERROR, str(error))
+        send_message(request, _(f"Error while fetching token from SSO: {error}."))
+        logger.debug(
+            f"GOOGLE_SSO_CLIENT_ID: {show_credential(conf.GOOGLE_SSO_CLIENT_ID)}"
+        )
+        logger.debug(
+            f"GOOGLE_SSO_PROJECT_ID: {show_credential(conf.GOOGLE_SSO_PROJECT_ID)}"
+        )
+        logger.debug(
+            f"GOOGLE_SSO_CLIENT_SECRET: "
+            f"{show_credential(conf.GOOGLE_SSO_CLIENT_SECRET)}"
+        )
         return HttpResponseRedirect(login_failed_url)
 
     # Get User Info from Google
@@ -84,9 +91,8 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
 
     # Check if User Info is valid to login
     if not user_helper.email_is_valid:
-        messages.add_message(
+        send_message(
             request,
-            messages.ERROR,
             _(
                 f"Email address not allowed: {user_helper.user_email}. "
                 f"Please contact your administrator."
