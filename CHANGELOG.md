@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.2.0 (2024-04-23)
+
+### Feature
+
+* Add more control on messaging ([`c718030`](https://github.com/megalus/django-google-sso/commit/c7180305e05b6d146e6369e4635cebee9de17a57))
+
 ## v6.1.1 (2024-04-09)
 
 ### Fix
