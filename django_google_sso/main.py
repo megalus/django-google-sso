@@ -3,7 +3,9 @@ from typing import Any, Optional
 
 from django.contrib import messages
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
 from django.contrib.sites.shortcuts import get_current_site
+from django.db.models import Field, Model
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from google.oauth2.credentials import Credentials
@@ -89,6 +91,14 @@ class UserHelper:
         return self.user_info["email"]
 
     @property
+    def user_model(self) -> AbstractUser | Model:
+        return get_user_model()
+
+    @property
+    def username_field(self) -> Field:
+        return self.user_model._meta.get_field(self.user_model.USERNAME_FIELD)
+
+    @property
     def email_is_valid(self) -> bool:
         user_email_domain = self.user_email.split("@")[-1]
         for email_domain in conf.GOOGLE_SSO_ALLOWABLE_DOMAINS:
@@ -100,17 +110,13 @@ class UserHelper:
         return email_verified if email_verified is not None else False
 
     def get_or_create_user(self, extra_users_args: dict | None = None):
-        user_model = get_user_model()g
         user_defaults = extra_users_args or {}
-        try:
-            if "username" not in user_defaults and user_model._meta.get_field("username"):
-                user_defaults["username"] = self.user_email
-        except FieldDoesNotExist:
-            pass
-        user, created = user_model.objects.get_or_create(
+        if self.username_field.name not in user_defaults:
+            user_defaults[self.username_field.name] = self.user_email
+        user, created = self.user_model.objects.get_or_create(
             email=self.user_email, defaults=user_defaults
         )
-        self.check_first_super_user(user, user_model)
+        self.check_first_super_user(user)
         self.check_for_update(created, user)
         if self.user_changed:
             user.save()
@@ -131,14 +137,14 @@ class UserHelper:
             self.check_for_permissions(user)
             user.first_name = self.user_info.get("given_name")
             user.last_name = self.user_info.get("family_name")
-            if not user.username:
-                user.username = self.user_email
+            if not getattr(user, self.username_field.name):
+                setattr(user, self.username_field.name, self.user_email)
             user.set_unusable_password()
             self.user_changed = True
 
-    def check_first_super_user(self, user, user_model):
+    def check_first_super_user(self, user):
         if conf.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER:
-            superuser_exists = user_model.objects.filter(
+            superuser_exists = self.user_model.objects.filter(
                 is_superuser=True, email__contains=f"@{self.user_email.split('@')[-1]}"
             ).exists()
             if not superuser_exists:
@@ -172,7 +178,6 @@ class UserHelper:
             user.is_staff = True
 
     def find_user(self):
-        user_model = get_user_model()
-        query = user_model.objects.filter(email=self.user_email)
+        query = self.user_model.objects.filter(email=self.user_email)
         if query.exists():
             return query.get()

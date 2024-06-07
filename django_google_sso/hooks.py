@@ -17,7 +17,9 @@ def pre_create_user(google_user_info: dict, request: HttpRequest) -> dict | None
         google_user_info: dict containing user info received from Google.
         request: HttpRequest object.
 
-    return: dict content to be passed to User.objects.create() as `defaults` argument.
-            If not informed, field `username` is always the user email.
+    return: dict content to be passed to User.objects.create()
+            as `defaults` argument.
+            If not informed, username field (default: `username`)
+            is always the user email.
     """
     return {}
