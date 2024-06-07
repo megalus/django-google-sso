@@ -100,10 +100,13 @@ class UserHelper:
         return email_verified if email_verified is not None else False
 
     def get_or_create_user(self, extra_users_args: dict | None = None):
-        user_model = get_user_model()
+        user_model = get_user_model()g
         user_defaults = extra_users_args or {}
-        if "username" not in user_defaults:
-            user_defaults["username"] = self.user_email
+        try:
+            if "username" not in user_defaults and user_model._meta.get_field("username"):
+                user_defaults["username"] = self.user_email
+        except FieldDoesNotExist:
+            pass
         user, created = user_model.objects.get_or_create(
             email=self.user_email, defaults=user_defaults
         )
