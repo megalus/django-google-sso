@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.2.1 (2024-06-07)
+
+### Fix
+
+* Add support to Django USERNAME_FIELD ([`b62f560`](https://github.com/megalus/django-google-sso/commit/b62f560255b4662c2816b9d8b5a3b6b12eb73762))
+
 ## v6.2.0 (2024-04-23)
 
 ### Feature
