@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v6.3.0 (2024-07-31)
+
+### Feature
+
+* Add option to add all created users as staff ([`1a7b3ab`](https://github.com/megalus/django-google-sso/commit/1a7b3abc787126679db2bcc005ed45aac16381a9))
+
 ## v6.2.1 (2024-06-07)
 
 ### Fix
