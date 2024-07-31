@@ -88,7 +88,7 @@ class UserHelper:
 
     @property
     def user_email(self):
-        return self.user_info["email"]
+        return self.user_info["email"].lower()
 
     @property
     def user_model(self) -> AbstractUser | Model:
@@ -113,8 +113,10 @@ class UserHelper:
         user_defaults = extra_users_args or {}
         if self.username_field.name not in user_defaults:
             user_defaults[self.username_field.name] = self.user_email
+        if "email" not in user_defaults:
+            user_defaults["email"] = self.user_email
         user, created = self.user_model.objects.get_or_create(
-            email=self.user_email, defaults=user_defaults
+            email__iexact=self.user_email, defaults=user_defaults
         )
         self.check_first_super_user(user)
         self.check_for_update(created, user)
@@ -145,7 +147,7 @@ class UserHelper:
     def check_first_super_user(self, user):
         if conf.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER:
             superuser_exists = self.user_model.objects.filter(
-                is_superuser=True, email__contains=f"@{self.user_email.split('@')[-1]}"
+                is_superuser=True, email__icontains=f"@{self.user_email.split('@')[-1]}"
             ).exists()
             if not superuser_exists:
                 message_text = _(
@@ -159,7 +161,10 @@ class UserHelper:
                 self.user_changed = True
 
     def check_for_permissions(self, user):
-        if user.email in conf.GOOGLE_SSO_STAFF_LIST:
+        if (
+            user.email in conf.GOOGLE_SSO_STAFF_LIST
+            or "*" in conf.GOOGLE_SSO_STAFF_LIST
+        ):
             message_text = _(
                 f"User email: {self.user_email} in GOOGLE_SSO_STAFF_LIST. "
                 f"Added Staff Permission."
@@ -178,6 +183,6 @@ class UserHelper:
             user.is_staff = True
 
     def find_user(self):
-        query = self.user_model.objects.filter(email=self.user_email)
+        query = self.user_model.objects.filter(email__iexact=self.user_email)
         if query.exists():
             return query.get()

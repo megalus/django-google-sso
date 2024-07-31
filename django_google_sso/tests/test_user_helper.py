@@ -2,6 +2,7 @@ import importlib
 from copy import deepcopy
 
 import pytest
+from django.contrib.auth.models import User
 
 from django_google_sso import conf
 from django_google_sso.main import UserHelper
@@ -88,6 +89,32 @@ def test_update_existing_user_record(
     assert user.email == google_response_update["email"]
 
 
+def test_add_all_users_to_staff_list(
+    faker, google_response, callback_request, settings
+):
+    # Arrange
+    settings.GOOGLE_SSO_STAFF_LIST = ["*"]
+    settings.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = False
+    importlib.reload(conf)
+
+    emails = [
+        faker.email(),
+        faker.email(),
+        faker.email(),
+    ]
+
+    # Act
+    for email in emails:
+        response = deepcopy(google_response)
+        response["email"] = email
+        helper = UserHelper(response, callback_request)
+        helper.get_or_create_user()
+        helper.find_user()
+
+    # Assert
+    assert User.objects.filter(is_staff=True).count() == 3
+
+
 def test_create_staff_from_list(google_response, callback_request, settings):
     # Arrange
     settings.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = False
@@ -140,3 +167,32 @@ def test_different_null_values(google_response, callback_request, monkeypatch):
     # Assert
     assert user_one.googlessouser.locale == "pt_BR"
     assert user_two.googlessouser.locale == "pt_BR"
+
+
+def test_duplicated_emails(google_response, callback_request):
+    # Arrange
+    User.objects.create(
+        email=google_response["email"].upper(),
+        username=google_response["email"].upper(),
+        first_name=google_response["given_name"],
+        last_name=google_response["family_name"],
+    )
+
+    lowercase_email_response = deepcopy(google_response)
+    lowercase_email_response["email"] = lowercase_email_response["email"].lower()
+    uppercase_email_response = deepcopy(google_response)
+    uppercase_email_response["email"] = uppercase_email_response["email"].upper()
+
+    # Act
+    user_one_helper = UserHelper(uppercase_email_response, callback_request)
+    user_one_helper.get_or_create_user()
+    user_one = user_one_helper.find_user()
+
+    user_two_helper = UserHelper(lowercase_email_response, callback_request)
+    user_two_helper.get_or_create_user()
+    user_two = user_two_helper.find_user()
+
+    # Assert
+    assert user_one.id == user_two.id
+    assert user_one.email == user_two.email
+    assert User.objects.count() == 1
