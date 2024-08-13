@@ -2,6 +2,17 @@
 
 <!--next-version-placeholder-->
 
+## v6.4.0 (2024-08-13)
+
+### Feature
+
+* Add new option GOOGLE_SSO_SAVE_BASIC_GOOGLE_INFO. ([`6a5a4d4`](https://github.com/megalus/django-google-sso/commit/6a5a4d4d90ab953c25b52058a4466702e59e65a6))
+
+### Documentation
+
+* Update Django version numbers to match implementation ([`a732f9d`](https://github.com/megalus/django-google-sso/commit/a732f9dc97794699249d3ab944d6e36b8a633f75))
+* Update settings.md with current logo path ([`fa85eb8`](https://github.com/megalus/django-google-sso/commit/fa85eb8edd2f58959d291a06acf40326aa80a5e1))
+
 ## v6.3.0 (2024-07-31)
 
 ### Feature
