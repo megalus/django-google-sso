@@ -776,6 +776,11 @@ relation attribute:</p>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">google_info</span> <span class="o">=</span> <span class="n">GoogleSSOUser</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">)</span>
 </span></code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">You can disable this model</p>
+<p>If you don't want to save this basic data in the database, you can disable the <code>GoogleSSOUser</code> model by setting the
+<code>GOOGLE_SSO_SAVE_BASIC_GOOGLE_INFO</code> configuration to <code>False</code> in your <code>settings.py</code> file.</p>
+</div>
 <h2 id="about-google-scopes">About Google Scopes<a class="headerlink" href="#about-google-scopes" title="Permanent link">&para;</a></h2>
 <p>To retrieve this data <strong>Django Google SSO</strong> uses the following scopes for <a href="https://developers.google.com/identity/protocols/oauth2">Google OAuth 2.0</a>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">GOOGLE_SSO_SCOPES</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># Google default scope</span>
