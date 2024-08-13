@@ -123,15 +123,16 @@ class UserHelper:
         if self.user_changed:
             user.save()
 
-        GoogleSSOUser.objects.update_or_create(
-            user=user,
-            defaults={
-                "google_id": self.user_info["id"],
-                "picture_url": self.user_info.get("picture"),
-                "locale": self.user_info.get("locale")
-                or conf.GOOGLE_SSO_DEFAULT_LOCALE,
-            },
-        )
+        if conf.GOOGLE_SSO_SAVE_BASIC_GOOGLE_INFO:
+            GoogleSSOUser.objects.update_or_create(
+                user=user,
+                defaults={
+                    "google_id": self.user_info["id"],
+                    "picture_url": self.user_info.get("picture"),
+                    "locale": self.user_info.get("locale")
+                    or conf.GOOGLE_SSO_DEFAULT_LOCALE,
+                },
+            )
         return user
 
     def check_for_update(self, created, user):

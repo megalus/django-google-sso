@@ -9,7 +9,7 @@
       <env name="DJANGO_SETTINGS_MODULE" value="settings" />
     </envs>
     <option name="SDK_HOME" value="" />
-    <option name="WORKING_DIRECTORY" value="\\wsl.localhost\Ubuntu\home\chris\Projects\megalus\django-google-sso\example_google_app" />
+    <option name="WORKING_DIRECTORY" value="\\wsl.localhost\Ubuntu\home\chrismaille\projects\django-google-sso" />
     <option name="IS_MODULE_SDK" value="true" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />

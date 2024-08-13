@@ -64,6 +64,10 @@ from django_google_sso.models import GoogleSSOUser
 google_info = GoogleSSOUser.objects.get(user=user)
 ```
 
+!!! tip "You can disable this model"
+    If you don't want to save this basic data in the database, you can disable the `GoogleSSOUser` model by setting the
+    `GOOGLE_SSO_SAVE_BASIC_GOOGLE_INFO` configuration to `False` in your `settings.py` file.
+
 ## About Google Scopes
 
 To retrieve this data **Django Google SSO** uses the following scopes for [Google OAuth 2.0](https://developers.google.com/identity/protocols/oauth2):

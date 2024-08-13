@@ -9,7 +9,7 @@
     </envs>
     <option name="SDK_HOME" value="" />
     <option name="SDK_NAME" value="Python 3.11.9 WSL (Ubuntu): (/home/chrismaille/.cache/pypoetry/virtualenvs/django-google-sso-Y1eudxms-py3.11/bin/python)" />
-    <option name="WORKING_DIRECTORY" value="$ProjectFileDir$" />
+    <option name="WORKING_DIRECTORY" value="\\wsl.localhost\Ubuntu\home\chrismaille\projects\django-google-sso" />
     <option name="IS_MODULE_SDK" value="false" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />

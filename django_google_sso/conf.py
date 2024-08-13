@@ -65,6 +65,9 @@ if SSO_USE_ALTERNATE_W003:
 
 GOOGLE_SSO_ENABLE_LOGS = getattr(settings, "GOOGLE_SSO_ENABLE_LOGS", True)
 GOOGLE_SSO_ENABLE_MESSAGES = getattr(settings, "GOOGLE_SSO_ENABLE_MESSAGES", True)
+GOOGLE_SSO_SAVE_BASIC_GOOGLE_INFO = getattr(
+    settings, "GOOGLE_SSO_SAVE_BASIC_GOOGLE_INFO", True
+)
 
 if GOOGLE_SSO_ENABLE_LOGS:
     logger.enable("django_google_sso")
