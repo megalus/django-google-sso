@@ -2,6 +2,20 @@
 
 <!--next-version-placeholder-->
 
+## v7.0.0 (2024-08-29)
+
+### Feature
+
+* Remove support for Django 4.1 and add support to 5.1 ([`6e7573a`](https://github.com/megalus/django-google-sso/commit/6e7573a0acee58e9bdcd13ac60c389435dc314ba))
+
+### Breaking
+
+* Remove support for Django 4.1 and add support to 5.1 ([`6e7573a`](https://github.com/megalus/django-google-sso/commit/6e7573a0acee58e9bdcd13ac60c389435dc314ba))
+
+### Documentation
+
+* Small fixes ([`5219a90`](https://github.com/megalus/django-google-sso/commit/5219a90717f3700c93b116b4285260d9a8a0e5d4))
+
 ## v6.5.0 (2024-08-29)
 
 ### Feature
