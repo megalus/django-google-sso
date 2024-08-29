@@ -23,3 +23,16 @@ def pre_create_user(google_user_info: dict, request: HttpRequest) -> dict | None
             is always the user email.
     """
     return {}
+
+
+def pre_validate_user(google_user_info: dict, request: HttpRequest) -> bool:
+    """
+    Callback function called before user is validated.
+
+    Must return a boolean to indicate if user is valid to login.
+
+    params:
+        google_user_info: dict containing user info received from Google.
+        request: HttpRequest object.
+    """
+    return True

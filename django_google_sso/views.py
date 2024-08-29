@@ -89,8 +89,14 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     google_user_data = google.get_user_info()
     user_helper = UserHelper(google_user_data, request)
 
+    # Run Pre-Validate Callback
+    module_path = ".".join(conf.GOOGLE_SSO_PRE_VALIDATE_CALLBACK.split(".")[:-1])
+    pre_validate_fn = conf.GOOGLE_SSO_PRE_VALIDATE_CALLBACK.split(".")[-1]
+    module = importlib.import_module(module_path)
+    user_is_valid = getattr(module, pre_validate_fn)(google_user_data, request)
+
     # Check if User Info is valid to login
-    if not user_helper.email_is_valid:
+    if not user_helper.email_is_valid or not user_is_valid:
         send_message(
             request,
             _(

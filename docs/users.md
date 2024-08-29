@@ -47,6 +47,21 @@ For staff user creation _only_, you can add all users using "*" as the value:
 GOOGLE_SSO_STAFF_LIST = ["*"]
 ```
 
+## Fine-tuning validation before user creation
+
+If you need to do some custom validation _before_ user is created, you can set the
+`GOOGLE_SSO_PRE_VALIDATE_CALLBACK` setting to import a custom function that will be called before the user is created.
+This function will receive two arguments: the `google_user_info` dict from Google User API and `request` objects.
+
+```python
+# myapp/hooks.py
+def pre_validate_user(google_info, request):
+    # Check some info from google_info and/or request
+    return True  # The user can be created
+```
+
+Please note, even if this function returns `True`, the user can be denied if their email is not valid.
+
 ## Fine-tuning users before creation
 
 If you need to do some processing _before_ user is created, you can set the
@@ -105,6 +120,11 @@ GOOGLE_SSO_PRE_LOGIN_CALLBACK = "myapp.hooks.pre_login_user"
 
 Please remember this function will be invoked only if user exists, and if it is active.
 In other words, if the user is eligible for login.
+
+!!! tip "You can add your hooks to customize all steps:"
+    * `GOOGLE_SSO_PRE_VALIDATE_CALLBACK`: Run before the user is validated.
+    * `GOOGLE_SSO_PRE_CREATE_CALLBACK`: Run before the user is created.
+    * `GOOGLE_SSO_PRE_LOGIN_CALLBACK`: Run before the user is logged in.
 
 
 !!! warning "Be careful with these options"

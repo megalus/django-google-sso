@@ -198,6 +198,9 @@ GOOGLE_SSO_SAVE_ACCESS_TOKEN = True
 # Optional: Change default login text
 # GOOGLE_SSO_TEXT = "Login using Google Account"
 
+# Optional: Add pre-validate logic
+GOOGLE_SSO_PRE_VALIDATE_CALLBACK = "backend.pre_validate_callback"
+
 # Optional: Add pre-create logic
 GOOGLE_SSO_PRE_CREATE_CALLBACK = "backend.pre_create_callback"
 

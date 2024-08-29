@@ -90,3 +90,18 @@ def pre_create_callback(google_info, request) -> dict:
         "username": f"{user_key}_{user_id}",
         "date_joined": arrow.utcnow().shift(days=-1).datetime,
     }
+
+
+def pre_validate_callback(google_info, request) -> bool:
+    """Callback function called before user is validated.
+
+    Must return a boolean to indicate if user is valid to login.
+
+    params:
+        google_info: dict containing user info received from Google.
+        request: HttpRequest object.
+    """
+    messages.info(
+        request, f"Running Pre-Validate callback for email: {google_info.get('email')}."
+    )
+    return True
