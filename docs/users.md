@@ -47,9 +47,9 @@ For staff user creation _only_, you can add all users using "*" as the value:
 GOOGLE_SSO_STAFF_LIST = ["*"]
 ```
 
-## Fine-tuning validation before user creation
+## Fine-tuning validation before user validation
 
-If you need to do some custom validation _before_ user is created, you can set the
+If you need to do some custom validation _before_ user email is validated, you can set the
 `GOOGLE_SSO_PRE_VALIDATE_CALLBACK` setting to import a custom function that will be called before the user is created.
 This function will receive two arguments: the `google_user_info` dict from Google User API and `request` objects.
 
@@ -62,7 +62,7 @@ def pre_validate_user(google_info, request):
 
 Please note, even if this function returns `True`, the user can be denied if their email is not valid.
 
-## Fine-tuning users before creation
+## Fine-tuning user info before user creation
 
 If you need to do some processing _before_ user is created, you can set the
 `GOOGLE_SSO_PRE_CREATE_CALLBACK` setting to import a custom function that will be called before the user is created.
