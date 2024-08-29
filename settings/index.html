@@ -690,6 +690,10 @@
 <td>Callable for processing pre-login logic. Default: <code>django_google_sso.hooks.pre_login_user</code></td>
 </tr>
 <tr>
+<td><code>GOOGLE_SSO_PRE_VALIDATE_CALLBACK</code></td>
+<td>Callable for processing pre-validate logic. Default: <code>django_google_sso.hooks.pre_validate_user</code></td>
+</tr>
+<tr>
 <td><code>GOOGLE_SSO_PROJECT_ID</code></td>
 <td>The Google OAuth 2.0 Project ID. Default: <code>None</code></td>
 </tr>
@@ -731,7 +735,7 @@
 </tr>
 <tr>
 <td><code>SSO_USE_ALTERNATE_W003</code></td>
-<td>Use alternate W003 warning. You need to silence original templates.E003 warning. Default: <code>False</code></td>
+<td>Use alternate W003 warning. You need to silence original templates.W003 warning. Default: <code>False</code></td>
 </tr>
 </tbody>
 </table>
