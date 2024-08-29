@@ -134,7 +134,7 @@ This is because both packages use the same template tags. To silence this warnin
 
 ```python
 # settings.py
-SILENCED_SYSTEM_CHECKS = ["templates.E003"]
+SILENCED_SYSTEM_CHECKS = ["templates.W003"] # Or "templates.E003" for Django <=5.0
 ```
 
 But if you need to check the templates, you can use the `SSO_USE_ALTERNATE_W003` setting to use an alternate template tag. This alternate check will
@@ -143,6 +143,6 @@ run the original check, but will not raise the warning for the Django SSO packag
 ```python
 # settings.py
 
-SILENCED_SYSTEM_CHECKS = ["templates.E003"]  # Will silence the original check
+SILENCED_SYSTEM_CHECKS = ["templates.W003"]  # Will silence the original check
 SSO_USE_ALTERNATE_W003 = True  # Will run alternate check
 ```
