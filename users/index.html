@@ -397,18 +397,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fine-tuning-validation-before-user-creation" class="md-nav__link">
+  <a href="#fine-tuning-validation-before-user-validation" class="md-nav__link">
     <span class="md-ellipsis">
-      Fine-tuning validation before user creation
+      Fine-tuning validation before user validation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#fine-tuning-users-before-creation" class="md-nav__link">
+  <a href="#fine-tuning-user-info-before-user-creation" class="md-nav__link">
     <span class="md-ellipsis">
-      Fine-tuning users before creation
+      Fine-tuning user info before user creation
     </span>
   </a>
   
@@ -696,18 +696,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#fine-tuning-validation-before-user-creation" class="md-nav__link">
+  <a href="#fine-tuning-validation-before-user-validation" class="md-nav__link">
     <span class="md-ellipsis">
-      Fine-tuning validation before user creation
+      Fine-tuning validation before user validation
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#fine-tuning-users-before-creation" class="md-nav__link">
+  <a href="#fine-tuning-user-info-before-user-creation" class="md-nav__link">
     <span class="md-ellipsis">
-      Fine-tuning users before creation
+      Fine-tuning user info before user creation
     </span>
   </a>
   
@@ -771,8 +771,8 @@ this you can set the following options in your <code>settings.py</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Use &quot;*&quot; to add all users as staff</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">GOOGLE_SSO_STAFF_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;*&quot;</span><span class="p">]</span>
 </span></code></pre></div>
-<h2 id="fine-tuning-validation-before-user-creation">Fine-tuning validation before user creation<a class="headerlink" href="#fine-tuning-validation-before-user-creation" title="Permanent link">&para;</a></h2>
-<p>If you need to do some custom validation <em>before</em> user is created, you can set the
+<h2 id="fine-tuning-validation-before-user-validation">Fine-tuning validation before user validation<a class="headerlink" href="#fine-tuning-validation-before-user-validation" title="Permanent link">&para;</a></h2>
+<p>If you need to do some custom validation <em>before</em> user email is validated, you can set the
 <code>GOOGLE_SSO_PRE_VALIDATE_CALLBACK</code> setting to import a custom function that will be called before the user is created.
 This function will receive two arguments: the <code>google_user_info</code> dict from Google User API and <code>request</code> objects.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># myapp/hooks.py</span>
@@ -781,7 +781,7 @@ This function will receive two arguments: the <code>google_user_info</code> dict
 </span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="k">return</span> <span class="kc">True</span>  <span class="c1"># The user can be created</span>
 </span></code></pre></div>
 <p>Please note, even if this function returns <code>True</code>, the user can be denied if their email is not valid.</p>
-<h2 id="fine-tuning-users-before-creation">Fine-tuning users before creation<a class="headerlink" href="#fine-tuning-users-before-creation" title="Permanent link">&para;</a></h2>
+<h2 id="fine-tuning-user-info-before-user-creation">Fine-tuning user info before user creation<a class="headerlink" href="#fine-tuning-user-info-before-user-creation" title="Permanent link">&para;</a></h2>
 <p>If you need to do some processing <em>before</em> user is created, you can set the
 <code>GOOGLE_SSO_PRE_CREATE_CALLBACK</code> setting to import a custom function that will be called before the user is created.
 This function will receive two arguments: the <code>google_user_info</code> dict from Google User API and <code>request</code> objects.</p>
