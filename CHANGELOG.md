@@ -2,6 +2,16 @@
 
 <!--next-version-placeholder-->
 
+## v6.5.0 (2024-08-29)
+
+### Feature
+
+* Add `GOOGLE_SSO_PRE_VALIDATE_CALLBACK` option. ([`8163b93`](https://github.com/megalus/django-google-sso/commit/8163b93cf8950a255daaea764c87d1c98237eab4))
+
+### Documentation
+
+* Update settings.md ([`d0f3073`](https://github.com/megalus/django-google-sso/commit/d0f3073dae2117ccd935f4083a3decf039a85db1))
+
 ## v6.4.0 (2024-08-13)
 
 ### Feature
