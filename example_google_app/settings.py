@@ -227,3 +227,10 @@ SSO_SHOW_FORM_ON_ADMIN_PAGE = False  # default: True
 
 # Optional: Disable Django Messages
 # GOOGLE_SSO_ENABLE_MESSAGES = False
+
+# Optional: Start or Stop User auto-creation
+# GOOGLE_SSO_AUTO_CREATE_USERS = True
+
+# Optional: Show failed login attempt message on browser.
+# This message can be used in exploit attempts.
+# GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE = True

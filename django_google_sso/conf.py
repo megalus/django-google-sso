@@ -73,6 +73,9 @@ GOOGLE_SSO_ENABLE_MESSAGES = getattr(settings, "GOOGLE_SSO_ENABLE_MESSAGES", Tru
 GOOGLE_SSO_SAVE_BASIC_GOOGLE_INFO = getattr(
     settings, "GOOGLE_SSO_SAVE_BASIC_GOOGLE_INFO", True
 )
+GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE = getattr(
+    settings, "GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE", False
+)
 
 if GOOGLE_SSO_ENABLE_LOGS:
     logger.enable("django_google_sso")

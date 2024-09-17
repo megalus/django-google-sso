@@ -30,6 +30,11 @@
 ??? question "There's too much information on logs and messages from this app."
     You can disable the logs using the `GOOGLE_SSO_ENABLE_LOGS` setting and the messages using the `GOOGLE_SSO_ENABLE_MESSAGES` setting.
 
+??? question "System goes looping to admin after login."
+    This is because the user data was received from Microsoft, but the user was not created in the database or is not active.
+    To see these errors please check the logs or enable the option `GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE` to see failed
+    login messages on browser. Please, make note these messages can be used on exploit attacks.
+
 ### Example App
 
 To test this library please check the `Example App` provided [here](https://github.com/megalus/django-google-sso/tree/main/example_google_app).

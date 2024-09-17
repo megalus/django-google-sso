@@ -124,6 +124,18 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
         user = user_helper.find_user()
 
     if not user or not user.is_active:
+        failed_login_message = f"User not found - Email: '{google_user_data['email']}'"
+        if not user and not conf.GOOGLE_SSO_AUTO_CREATE_USERS:
+            failed_login_message += ". Auto-Create is disabled."
+
+        if user and not user.is_active:
+            failed_login_message = f"User is not active: '{google_user_data['email']}'"
+
+        if conf.GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE:
+            send_message(request, _(failed_login_message), level="warning")
+        else:
+            logger.warning(failed_login_message)
+
         return HttpResponseRedirect(login_failed_url)
 
     request.session.save()
