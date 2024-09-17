@@ -2,6 +2,12 @@
 
 <!--next-version-placeholder-->
 
+## v7.1.0 (2024-09-17)
+
+### Feature
+
+* Add new option GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE ([`e53accb`](https://github.com/megalus/django-google-sso/commit/e53accba4b3bb9046bbeb68aa26f23d345091c38))
+
 ## v7.0.0 (2024-08-29)
 
 ### Feature
