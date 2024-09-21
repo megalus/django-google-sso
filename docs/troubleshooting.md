@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-### Common errors:
+### Common questions:
 
 ??? question "Admin Message: _**State Mismatched. Time expired?**_"
     This error occurs when the user is redirected to the Google login page and then returns to the Django login page but
@@ -34,6 +34,30 @@
     This is because the user data was received from Google, but the user was not created in the database or is not active.
     To see these errors please check the logs or enable the option `GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE` to see failed
     login messages on browser. Please, make note these messages can be used on exploit attacks.
+
+??? question "Got a "KeyError: 'NAME'" error after set SSO_USE_ALTERNATE_W003"
+    If you get a `KeyError: 'NAME'` error, please set a `NAME` in `TEMPLATES` at `settings.py`:
+
+    ```python
+    # settings.py
+
+    TEMPLATES = [
+        {
+            "BACKEND": "django.template.backends.django.DjangoTemplates",
+            "NAME" : "default",  # <-- Add name here
+            "DIRS": [BASE_DIR / "templates"],
+            "APP_DIRS": True,
+            "OPTIONS": {
+                "context_processors": [
+                    "django.template.context_processors.debug",
+                    "django.template.context_processors.request",
+                    "django.contrib.auth.context_processors.auth",
+                    "django.contrib.messages.context_processors.messages",
+                ],
+            },
+        },
+    ]
+    ```
 
 ### Example App
 
