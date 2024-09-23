@@ -769,6 +769,14 @@ login messages on browser. Please, make note these messages can be used on explo
 </span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="p">]</span>
 </span></code></pre></div>
 </details>
+<details class="question">
+<summary>Got this error when migrating: 'The model User is already registered with 'core.GoogleSSOUserAdmin'</summary>
+<p>This is because you're already define a custom User model and admin in your project. You need to <a href="https://docs.djangoproject.com/en/5.1/topics/auth/customizing/#extending-the-existing-user-model">extended the
+existing user model</a>
+unregistering your current User Admin class and add manually the GoogleSSOInlineAdmin in your custom class.
+You can use the <code>get_current_user_and_admin</code> helper as explained <a href="../admin/">here</a> (the recommended action), or
+alternately, you can add the <code>django-google-sso</code> at the end of your <code>INSTALLED_APPS</code> list.</p>
+</details>
 <h3 id="example-app">Example App<a class="headerlink" href="#example-app" title="Permanent link">&para;</a></h3>
 <p>To test this library please check the <code>Example App</code> provided <a href="https://github.com/megalus/django-google-sso/tree/main/example_google_app">here</a>.</p>
 <h3 id="not-working">Not working?<a class="headerlink" href="#not-working" title="Permanent link">&para;</a></h3>
