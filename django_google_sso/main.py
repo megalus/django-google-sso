@@ -101,9 +101,11 @@ class UserHelper:
     @property
     def email_is_valid(self) -> bool:
         user_email_domain = self.user_email.split("@")[-1]
-        for email_domain in conf.GOOGLE_SSO_ALLOWABLE_DOMAINS:
-            if user_email_domain in email_domain:
-                return True
+        if (
+            "*" in conf.GOOGLE_SSO_ALLOWABLE_DOMAINS
+            or user_email_domain in conf.GOOGLE_SSO_ALLOWABLE_DOMAINS
+        ):
+            return True
         email_verified = self.user_info.get("email_verified", None)
         if email_verified is not None and not email_verified:
             logger.debug(f"Email {self.user_email} is not verified.")

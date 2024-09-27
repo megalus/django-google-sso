@@ -9,6 +9,13 @@ For example, if any user with a gmail account can sign in, you can set:
 GOOGLE_SSO_ALLOWABLE_DOMAINS = ["gmail.com"]
 ```
 
+To allow everyone to register, you can use "*" as the value (but beware the security implications):
+
+```python
+# Use "*" to add all users
+GOOGLE_SSO_ALLOWABLE_DOMAINS = ["*"]
+```
+
 ## Disabling the auto-create users
 
 You can disable the auto-create users feature by setting the `GOOGLE_SSO_AUTO_CREATE_USERS` setting to `False`:
