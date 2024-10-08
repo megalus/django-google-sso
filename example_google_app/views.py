@@ -18,7 +18,9 @@ def single_logout_view(request):
 
     # You can revoke the Access Token here
     if token:
-        httpx.post("https://oauth2.googleapis.com/revoke", params={"token": token})
+        httpx.post(
+            "https://oauth2.googleapis.com/revoke", params={"token": token}, timeout=10
+        )
 
     # And redirect user to Google logout page if you want
     redirect_url = reverse("admin:index")  # Or 'https://accounts.google.com/logout'

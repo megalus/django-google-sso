@@ -1,5 +1,5 @@
 [tool.black]
-target-version = ['py39']
+target-version = ['py312']
 include = '\.pyi?$'
 exclude = '''
 (
@@ -59,7 +59,7 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.10, <4.0"
+python = ">=3.11, <4.0"
 django = ">=4.2"
 loguru = "*"
 google-auth = "*"
