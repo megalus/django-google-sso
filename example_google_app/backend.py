@@ -67,7 +67,7 @@ class GoogleSLOMiddlewareExample:
         self.get_response = get_response
 
     def __call__(self, request):
-        token = request.session.get("google_sso_access_token", timeout=10)
+        token = request.session.get("google_sso_access_token")
 
         if token and not is_user_valid(token):
             logout(request)
