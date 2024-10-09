@@ -5,25 +5,59 @@ on:
     branches: [ main ]
 permissions:
   contents: write
+  id-token: write
 jobs:
-  publish:
+  release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Setup | Checkout Project
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Set up Python
-        uses: actions/setup-python@v4
+          ref: ${{ github.sha }}
+
+      - name: Setup | Force Branch
+        run: |
+          git checkout -B ${{ github.ref_name }} ${{ github.sha }}
+
+      - name: Setup | Install Python 3.12
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-      - name: Setup Poetry
-        uses: abatilo/actions-poetry@v2
-      - name: Python Semantic Release
-        uses: python-semantic-release/python-semantic-release@v7.34.6
+          python-version: "3.12"
+
+      - name: Release | Python Semantic Release
+        id: release
+        uses: python-semantic-release/python-semantic-release@v9.10.0
+        with:
+          build: true
+          commit: true
+          push: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish | Build and Publish to PyPI using Poetry
+        if: steps.release.outputs.released == 'true'
+        uses: JRubics/poetry-publish@v2.0
+        with:
+          pypi_token: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+
+      - name: Release | Upload to GitHub Release Assets
+        uses: python-semantic-release/publish-action@v9.10.0
+        if: steps.release.outputs.released == 'true'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          repository_username: __token__
-          repository_password: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
-      - run: pip install mkdocs-material
-      - run: mkdocs gh-deploy --force
+          tag: ${{ steps.release.outputs.tag }}
+
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup | Checkout Project
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Docs | Install MKDocs
+        run: pip install mkdocs-material
+
+      - name: Docs | Publish Docs
+        run: mkdocs gh-deploy --force

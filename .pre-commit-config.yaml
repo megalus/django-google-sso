@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
@@ -12,18 +12,18 @@ repos:
       - id: python-bandit-vulnerability-check
         args: [ "-s", "B101,B105", "-r", "--exclude", "*/.venv/*", "." ]
   - repo: https://github.com/pycqa/isort
-    rev: 5.12.0
+    rev: 5.13.2
     hooks:
       - id: isort
         name: isort (python)
         args: [ "--profile", "black", "--filter-files" ]
   - repo: https://github.com/psf/black
-    rev: 23.11.0
+    rev: 24.10.0
     hooks:
       - id: black
         exclude: ^.*\b(migrations)\b.*$
   - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.3.2
+    rev: v1.3.3
     hooks:
       - id: python-safety-dependencies-check
         # Ignoring vulnerabilities for local dev packages: localstack
@@ -33,12 +33,12 @@ repos:
     hooks:
       - id: yesqa
   - repo: https://github.com/PyCQA/flake8
-    rev: 6.1.0
+    rev: 7.1.1
     hooks:
       - id: flake8
         args: ["--count", "--exclude", "*/migrations/*,.git,*/site-packages/*", "." ]
   - repo: https://github.com/myint/autoflake
-    rev: v2.2.1
+    rev: v2.3.1
     hooks:
       - id: autoflake
         args: [ "--in-place", "--remove-all-unused-imports", "--remove-duplicate-keys" ]

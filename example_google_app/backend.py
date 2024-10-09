@@ -34,13 +34,13 @@ def pre_login_callback(user, request):
         # Use response to update user info
         # Please add the custom scope in settings.GOOGLE_SSO_SCOPES
         # to access this info
-        response = httpx.get(url, headers=headers)
+        response = httpx.get(url, headers=headers, timeout=10)
         if response.status_code == 200:
             user_data = response.json()
             logger.debug(f"Updating User Data with Google Info: {user_data}")
 
             url = "https://people.googleapis.com/v1/people/me?personFields=birthdays"
-            response = httpx.get(url, headers=headers)
+            response = httpx.get(url, headers=headers, timeout=10)
             people_data = response.json()
             logger.debug(f"Updating User Data with Google People Info: {people_data}")
 
@@ -55,7 +55,7 @@ def is_user_valid(token):
         "Authorization": f"Bearer {token}",
     }
     url = "https://www.googleapis.com/oauth2/v3/userinfo"
-    response = httpx.get(url, headers=headers)
+    response = httpx.get(url, headers=headers, timeout=10)
 
     # Add any check here
 
