@@ -17,65 +17,67 @@
 <a href="https://www.djangoproject.com/" target="_blank">
 <img alt="PyPI - Django Version" src="https://img.shields.io/pypi/djversions/django-google-sso"/>
 </a>
+<a href="https://github.com/megalus/django-google-sso/blob/main/LICENSE" target="_blank">
+<img alt="License" src="https://img.shields.io/github/license/megalus/django-google-sso"/>
+</a>
 </p>
 
 ## Welcome to Django Google SSO
 
-This library aims to simplify the process of authenticating users with Google in Django Admin pages,
-inspired by libraries like [django_microsoft_auth](https://github.com/AngellusMortis/django_microsoft_auth)
-and [django-admin-sso](https://github.com/matthiask/django-admin-sso/)
+This library simplifies the process of authenticating users with Google in Django projects. It adds a customizable "Login with Google" button to your Django Admin login page with minimal configuration.
+
+### Why use Django Google SSO?
+
+- **Simplicity**: Adds Google authentication with minimal setup and no template modifications
+- **Admin Integration**: Seamlessly integrates with the Django Admin interface
+- **Customizable**: Works with popular Django Admin skins like Grappelli, Jazzmin, and more
+- **Modern**: Uses the latest Google authentication libraries
+- **Secure**: Follows OAuth 2.0 best practices for authentication
 
 ---
 
-### Documentation
+## Quick Start
 
-* Docs: https://megalus.github.io/django-google-sso/
-
----
-
-### Install
+### Installation
 
 ```shell
 $ pip install django-google-sso
 ```
 
-### Configure
+> **Compatibility**
+> - Python 3.11, 3.12, 3.13
+> - Django 4.2, 5.0, 5.1
+> - For Python 3.10, use version 4.x
+> - For Python 3.9, use version 3.x
+> - For Python 3.8, use version 2.x
 
-1. Add the following to your `settings.py` `INSTALLED_APPS`:
+### Configuration
+
+1. Add to your `settings.py`:
 
 ```python
 # settings.py
 
 INSTALLED_APPS = [
     # other django apps
-    "django.contrib.messages",  # Need for Auth messages
+    "django.contrib.messages",  # Required for auth messages
     "django_google_sso",  # Add django_google_sso
 ]
-```
 
-2. In [Google Console](https://console.cloud.google.com/apis/credentials) at _Api -> Credentials_, retrieve your
-   Project Credentials and add them in your `settings.py`:
-
-```python
-# settings.py
-
+# Google OAuth2 credentials
 GOOGLE_SSO_CLIENT_ID = "your client id here"
 GOOGLE_SSO_PROJECT_ID = "your project id here"
 GOOGLE_SSO_CLIENT_SECRET = "your client secret here"
-```
 
-3. Add the callback uri `http://localhost:8000/google_sso/callback/` in your Google Console, on the "Authorized Redirect
-   URL".
-
-4. Let Django Google SSO auto create users for allowable domains:
-
-```python
-# settings.py
-
+# Auto-create users from these domains
 GOOGLE_SSO_ALLOWABLE_DOMAINS = ["example.com"]
 ```
 
-5. In `urls.py` please add the **Django-Google-SSO** views:
+2. Add the callback URL in [Google Console](https://console.cloud.google.com/apis/credentials) under "Authorized Redirect URIs":
+   - For local development: `http://localhost:8000/google_sso/callback/`
+   - For production: `https://your-domain.com/google_sso/callback/`
+
+3. Add to your `urls.py`:
 
 ```python
 # urls.py
@@ -90,20 +92,37 @@ urlpatterns = [
 ]
 ```
 
-6. And run migrations:
+4. Run migrations:
 
 ```shell
 $ python manage.py migrate
 ```
 
-That's it. Start django on port 8000 and open your browser in `http://localhost:8000/admin/login` and you should see the
-Google SSO button.
+That's it! Start Django and visit `http://localhost:8000/admin/login` to see the Google SSO button:
 
 <p align="center">
    <img src="docs/images/django_login_with_google_light.png"/>
 </p>
 
----
+## Admin Skin Compatibility
+
+Django Google SSO works with popular Django Admin skins including:
+- Django Admin (default)
+- [Grappelli](https://github.com/sehmaschine/django-grappelli)
+- [Django Jazzmin](https://github.com/farridav/django-jazzmin)
+- [Django Admin Interface](https://github.com/fabiocaccamo/django-admin-interface)
+- [Django Jet Reboot](https://github.com/assem-ch/django-jet-reboot)
+- [Django Unfold](https://github.com/unfoldadmin/django-unfold)
+
+## Documentation
+
+For detailed documentation, visit:
+- [Full Documentation](https://megalus.github.io/django-google-sso/)
+- [Quick Setup](https://megalus.github.io/django-google-sso/quick_setup/)
+- [Google Credentials Setup](https://megalus.github.io/django-google-sso/credentials/)
+- [User Management](https://megalus.github.io/django-google-sso/users/)
+- [Customization](https://megalus.github.io/django-google-sso/customize/)
+- [Troubleshooting](https://megalus.github.io/django-google-sso/troubleshooting/)
 
 ## License
 This project is licensed under the terms of the MIT license.
