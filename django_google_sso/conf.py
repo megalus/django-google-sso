@@ -77,6 +77,10 @@ GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE = getattr(
     settings, "GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE", False
 )
 
+GOOGLE_SSO_AUTHORIZATION_PROMPT = getattr(
+    settings, "GOOGLE_SSO_AUTHORIZATION_PROMPT", "consent"
+)
+
 if GOOGLE_SSO_ENABLE_LOGS:
     logger.enable("django_google_sso")
 else:
