@@ -31,8 +31,10 @@ def start_login(request: HttpRequest) -> HttpResponseRedirect:
         clean_param = reverse(next_url)
     next_path = urlparse(clean_param).path
 
-    # Get the Google Auth Flow Data
-    auth_url, state = google.flow.authorization_url(prompt="consent")
+    # Get Google Auth URL
+    google = GoogleAuth(request)
+    prompt = google.get_sso_value("authorization_prompt")
+    auth_url, state = google.flow.authorization_url(prompt=prompt)
 
     # Save data on Session
     timeout = google.get_sso_value("timeout")

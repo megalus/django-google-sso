@@ -32,3 +32,25 @@ which will use Django Messaging system to show the error message.
 
 8. If login succeeds, the user will be redirected to the `next_path` saved in the anonymous session, or to the route
 defined in `GOOGLE_SSO_NEXT_URL` (default: `admin:index`) as a fallback.
+
+## About the Google consent screen and the authorization prompt
+
+The setting `GOOGLE_SSO_AUTHORIZATION_PROMPT` controls the `prompt` parameter sent to Google's OpenID Connect authorization URL. It changes what Google shows to the user during authentication/consent:
+
+- `consent` (default): Always shows the consent screen, even if the user previously granted access to the requested scopes.
+- `select_account`: Always shows the account chooser so the user can switch Google accounts before continuing.
+- `none`: Never shows any UI. If the user is not already signed in to Google or has not granted consent yet, Google will return an error instead of showing screens.
+
+Notes when testing locally:
+- If you have already granted consent to the default scopes (`openid`, `userinfo.email`, `userinfo.profile`) for your app, Google may only show the account selection step. This can make it seem like the experience is always the same.
+- To see the full consent screen again with `consent`, you can revoke the app permissions from your Google Account (Google Account -> Security -> Third-party access), or change the Scopes to include a new permission.
+- Using `select_account` typically results in the “Choose an account” screen, which matches what you are observing locally.
+
+Example configuration in your Django settings:
+
+```python
+# Valid values: "none", "consent", "select_account"
+GOOGLE_SSO_AUTHORIZATION_PROMPT = "consent"  # default is "consent"
+```
+
+For more details about `prompt`, see Google's documentation: https://developers.google.com/identity/openid-connect/openid-connect#prompt

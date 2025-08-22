@@ -255,3 +255,8 @@ SSO_SHOW_FORM_ON_ADMIN_PAGE = False  # default: True
 # Optional: Show failed login attempt message on browser.
 # This message can be used in exploit attempts.
 # GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE = True
+
+# Optional: Change the "prompt" value to pass to the Google authorization URL
+# Valid options are: "none", "consent", "select_account"
+# https://developers.google.com/identity/protocols/oauth2/openid-connect#prompt
+# GOOGLE_SSO_AUTHORIZATION_PROMPT = "consent"  # default: consent

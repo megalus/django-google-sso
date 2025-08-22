@@ -182,6 +182,12 @@ class GoogleSSOSettings:
     ) -> bool | Callable[[HttpRequest], bool]:
         return self._get_setting("GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE", False)
 
+    @property
+    def GOOGLE_SSO_AUTHORIZATION_PROMPT(
+        self,
+    ) -> str | Callable[[HttpRequest], str]:
+        return self._get_setting("GOOGLE_SSO_AUTHORIZATION_PROMPT", "consent")
+
 
 # Create a single instance of the settings class
 _google_sso_settings = GoogleSSOSettings()

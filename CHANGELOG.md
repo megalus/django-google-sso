@@ -1,6 +1,29 @@
 # CHANGELOG
 
 
+## v8.0.1 (2025-08-22)
+
+### Documentation
+
+* docs: add coding guidelines and update README for clarity ([`831a10c`](https://github.com/megalus/django-google-sso/commit/831a10c4361a9fa438355d54f1fbc7f417e48b54))
+
+### Fixes
+
+* fix: add GOOGLE_SSO_AUTHORIZATION_PROMPT setting and update documentation ([`7a91eb8`](https://github.com/megalus/django-google-sso/commit/7a91eb8afe66159858e6956e8f854b209ca8a825))
+
+### Unknown
+
+* Merge pull request #50 from megalus/develop
+
+Add GOOGLE_SSO_AUTHORIZATION_PROMPT option ([`92008aa`](https://github.com/megalus/django-google-sso/commit/92008aa9c359461a992dc0ff9fea2f8e1d42ecb6))
+
+* Merge pull request #49 from rkday-pro/add-auth-prompt-config
+
+Add GOOGLE_SSO_AUTHORIZATION_PROMPT setting ([`4647b47`](https://github.com/megalus/django-google-sso/commit/4647b47765c492c923d8517a0faed9e7a14c731d))
+
+* Add GOOGLE_SSO_AUTHORIZATION_PROMPT setting ([`0d33a0a`](https://github.com/megalus/django-google-sso/commit/0d33a0a84c0ab3ec5874a89ec2ab9fd69ced473f))
+
+
 ## v8.0.0 (2024-10-09)
 
 ### Breaking
