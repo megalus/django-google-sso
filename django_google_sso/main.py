@@ -23,14 +23,50 @@ class GoogleAuth:
 
     @property
     def scopes(self) -> list[str]:
-        return conf.GOOGLE_SSO_SCOPES
+        return self.get_sso_value("scopes")
+
+    def get_sso_value(self, key: str) -> Any:
+        """Get SSO value from request or settings.
+
+        Both configurations are valid:
+        GOOGLE_SSO_CLIENT_ID = "your-client-id" # string value
+        GOOGLE_SSO_CLIENT_ID = get_client_id # callable function
+
+        When the value is a callable,
+        it will be called with the request as an argument:
+
+        def get_client_id(request):
+            client_ids = {
+                "example.com": "your-client-id",
+                "other.com": "your-other-client-id",
+            }
+            return client_ids.get(request.site.domain, None)
+
+        GOOGLE_SSO_CLIENT_ID = get_client_id
+
+        :param key: The key to retrieve from the settings.
+        :return: The value associated with the key.
+        :raises ValueError: If the key is not found in the settings.
+        """
+        google_sso_conf = f"GOOGLE_SSO_{key.upper()}"
+        if hasattr(conf, google_sso_conf):
+            value = getattr(conf, google_sso_conf)
+            if callable(value):
+                logger.debug(
+                    f"Value from conf {google_sso_conf} is a callable. Calling it."
+                )
+                return value(self.request)
+            return value
+        raise ValueError(
+            f"SSO Configuration '{google_sso_conf}' not found in settings."
+        )
 
     def get_client_config(self) -> Credentials:
         client_config = {
             "web": {
-                "client_id": conf.GOOGLE_SSO_CLIENT_ID,
-                "project_id": conf.GOOGLE_SSO_PROJECT_ID,
-                "client_secret": conf.GOOGLE_SSO_CLIENT_SECRET,
+                "client_id": self.get_sso_value("client_id"),
+                "project_id": self.get_sso_value("project_id"),
+                "client_secret": self.get_sso_value("client_secret"),
                 "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                 "auth_provider_x509_cert_url": (
                     "https://www.googleapis.com/oauth2/v1/certs"
@@ -42,9 +78,10 @@ class GoogleAuth:
         return client_config
 
     def get_netloc(self):
-        if conf.GOOGLE_SSO_CALLBACK_DOMAIN:
+        callback_domain = self.get_sso_value("callback_domain")
+        if callback_domain:
             logger.debug("Find Netloc using GOOGLE_SSO_CALLBACK_DOMAIN")
-            return conf.GOOGLE_SSO_CALLBACK_DOMAIN
+            return callback_domain
 
         site = get_current_site(self.request)
         logger.debug("Find Netloc using Site domain")
@@ -100,11 +137,10 @@ class UserHelper:
 
     @property
     def email_is_valid(self) -> bool:
+        google = GoogleAuth(self.request)
         user_email_domain = self.user_email.split("@")[-1]
-        if (
-            "*" in conf.GOOGLE_SSO_ALLOWABLE_DOMAINS
-            or user_email_domain in conf.GOOGLE_SSO_ALLOWABLE_DOMAINS
-        ):
+        allowable_domains = google.get_sso_value("allowable_domains")
+        if "*" in allowable_domains or user_email_domain in allowable_domains:
             return True
         email_verified = self.user_info.get("email_verified", None)
         if email_verified is not None and not email_verified:
@@ -125,20 +161,24 @@ class UserHelper:
         if self.user_changed:
             user.save()
 
-        if conf.GOOGLE_SSO_SAVE_BASIC_GOOGLE_INFO:
+        google = GoogleAuth(self.request)
+        save_basic_info = google.get_sso_value("save_basic_google_info")
+        if save_basic_info:
+            default_locale = google.get_sso_value("default_locale")
             GoogleSSOUser.objects.update_or_create(
                 user=user,
                 defaults={
                     "google_id": self.user_info["id"],
                     "picture_url": self.user_info.get("picture"),
-                    "locale": self.user_info.get("locale")
-                    or conf.GOOGLE_SSO_DEFAULT_LOCALE,
+                    "locale": self.user_info.get("locale") or default_locale,
                 },
             )
         return user
 
     def check_for_update(self, created, user):
-        if created or conf.GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA:
+        google = GoogleAuth(self.request)
+        always_update = google.get_sso_value("always_update_user_data")
+        if created or always_update:
             self.check_for_permissions(user)
             user.first_name = self.user_info.get("given_name")
             user.last_name = self.user_info.get("family_name")
@@ -148,7 +188,9 @@ class UserHelper:
             self.user_changed = True
 
     def check_first_super_user(self, user):
-        if conf.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER:
+        google = GoogleAuth(self.request)
+        auto_create = google.get_sso_value("auto_create_first_superuser")
+        if auto_create:
             superuser_exists = self.user_model.objects.filter(
                 is_superuser=True, email__icontains=f"@{self.user_email.split('@')[-1]}"
             ).exists()
@@ -164,10 +206,9 @@ class UserHelper:
                 self.user_changed = True
 
     def check_for_permissions(self, user):
-        if (
-            user.email in conf.GOOGLE_SSO_STAFF_LIST
-            or "*" in conf.GOOGLE_SSO_STAFF_LIST
-        ):
+        google = GoogleAuth(self.request)
+        staff_list = google.get_sso_value("staff_list")
+        if user.email in staff_list or "*" in staff_list:
             message_text = _(
                 f"User email: {self.user_email} in GOOGLE_SSO_STAFF_LIST. "
                 f"Added Staff Permission."
@@ -175,7 +216,8 @@ class UserHelper:
             messages.add_message(self.request, messages.INFO, message_text)
             logger.debug(message_text)
             user.is_staff = True
-        if user.email in conf.GOOGLE_SSO_SUPERUSER_LIST:
+        superuser_list = google.get_sso_value("superuser_list")
+        if user.email in superuser_list:
             message_text = _(
                 f"User email: {self.user_email} in GOOGLE_SSO_SUPERUSER_LIST. "
                 f"Added SuperUser Permission."

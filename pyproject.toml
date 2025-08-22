@@ -53,6 +53,7 @@ classifiers = [
     "Framework :: Django :: 4.2",
     "Framework :: Django :: 5.0",
     "Framework :: Django :: 5.1",
+    "Framework :: Django :: 5.2",
     "Intended Audience :: Developers",
     "Development Status :: 5 - Production/Stable",
     "Environment :: Plugins"
@@ -66,7 +67,7 @@ google-auth = "*"
 google-auth-httplib2 = "*"
 google-auth-oauthlib = "*"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 auto-changelog = "*"
 arrow = "*"
 black = {version = "*", allow-prereleases = true}

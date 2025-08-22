@@ -35,6 +35,11 @@
     To see these errors please check the logs or enable the option `GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE` to see failed
     login messages on browser. Please, make note these messages can be used on exploit attacks.
 
+??? question "When I config a custom Authentication Backend using GOOGLE_SSO_AUTHENTICATION_BACKEND, the lib stops to login, without errors or logs.
+    This is because the value of `GOOGLE_SSO_AUTHENTICATION_BACKEND` is not a valid authentication backend import path.
+    Please check the value of this setting and make sure it is a valid import path to a Django authentication backend.
+
+
 ??? question "Got a "KeyError: 'NAME'" error after set SSO_USE_ALTERNATE_W003"
     If you get a `KeyError: 'NAME'` error, please set a `NAME` in `TEMPLATES` at `settings.py`:
 

@@ -1,9 +1,6 @@
 {% load sso_tags %}
 {% load show_form %}
 
-
-{% define_sso_providers as sso_providers %}
-
 <style>
     .login-box {
         display: flex;
@@ -21,22 +18,33 @@
     }
 </style>
 
-<div class="login-box">
-    <div class="login-btn-area">
-        {% for provider in sso_providers %}
-            <div class="{{ provider.name }}-login-btn">
-                <a class="btn-content" href="{{ provider.login_url }}" role="button">
-                    <div class="{{ provider.name }}-btn-logo">
-                        <img width="20px" alt="{{ provider.name }} sign-in"
-                             src="{{ provider.logo_url }}"/>
-                    </div>
-                    <div class="{{ provider.name }}-btn-label">{{ provider.text }}</div>
-                </a>
-            </div>
-        {% endfor %}
+<!--
+    You can pass a custom list of SSO providers to this
+    template using the `sso_providers` context variable.
+    If not provided, the template will use the default
+    SSO providers defined in the sso tags.
+-->
+{% with sso_providers|default:None as sso_providers %}
+    {% if sso_providers is None %}
+        {% define_sso_providers as sso_providers %}
+    {% endif %}
+    <div class="login-box">
+        <div class="login-btn-area">
+            {% for provider in sso_providers %}
+                <div class="{{ provider.name }}-login-btn">
+                    <a class="btn-content" href="{{ provider.login_url }}" role="button">
+                        <div class="{{ provider.name }}-btn-logo">
+                            <img width="20px" alt="{{ provider.name }} sign-in"
+                                 src="{{ provider.logo_url }}"/>
+                        </div>
+                        <div class="{{ provider.name }}-btn-label">{{ provider.text }}</div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
     </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endwith %}
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     $(".btn-content").click(function (event) {
         const queryString = window.location.search;

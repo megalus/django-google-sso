@@ -73,7 +73,9 @@ ROOT_URLCONF = "example_google_app.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "example_google_app" / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -171,9 +173,27 @@ SITE_ID = 1
 GOOGLE_SSO_CALLBACK_DOMAIN = env.GOOGLE_SSO_CALLBACK_DOMAIN
 
 GOOGLE_SSO_SESSION_COOKIE_AGE = 3600  # default value
-GOOGLE_SSO_CLIENT_ID = env.GOOGLE_SSO_CLIENT_ID
-GOOGLE_SSO_PROJECT_ID = env.GOOGLE_SSO_PROJECT_ID
-GOOGLE_SSO_CLIENT_SECRET = env.GOOGLE_SSO_CLIENT_SECRET
+
+
+def get_client_id(request):
+    """
+    Example of callable to return client ID based on request.
+    This can be used to dynamically set the client ID based on the request.
+    """
+    return env.GOOGLE_SSO_CLIENT_ID
+
+
+def get_project_id(request):
+    return env.GOOGLE_SSO_PROJECT_ID
+
+
+def get_project_secret(request):
+    return env.GOOGLE_SSO_CLIENT_SECRET
+
+
+GOOGLE_SSO_CLIENT_ID = get_client_id
+GOOGLE_SSO_PROJECT_ID = get_project_id
+GOOGLE_SSO_CLIENT_SECRET = get_project_secret
 
 GOOGLE_SSO_ALLOWABLE_DOMAINS = env.get_or_default("GOOGLE_SSO_ALLOWABLE_DOMAINS", [])
 GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = (

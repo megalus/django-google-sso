@@ -15,6 +15,9 @@ from django_google_sso.utils import send_message, show_credential
 
 @require_http_methods(["GET"])
 def start_login(request: HttpRequest) -> HttpResponseRedirect:
+    # Get Google Auth URL
+    google = GoogleAuth(request)
+
     # Get the next url
     next_param = request.GET.get(key="next")
     if next_param:
@@ -24,17 +27,18 @@ def start_login(request: HttpRequest) -> HttpResponseRedirect:
             else f"//{next_param}"
         )
     else:
-        clean_param = reverse(conf.GOOGLE_SSO_NEXT_URL)
+        next_url = google.get_sso_value("next_url")
+        clean_param = reverse(next_url)
     next_path = urlparse(clean_param).path
 
-    # Get Google Auth URL
-    google = GoogleAuth(request)
+    # Get the Google Auth Flow Data
     auth_url, state = google.flow.authorization_url(prompt="consent")
 
     # Save data on Session
+    timeout = google.get_sso_value("timeout")
     if not request.session.session_key:
         request.session.create()
-    request.session.set_expiry(conf.GOOGLE_SSO_TIMEOUT * 60)
+    request.session.set_expiry(timeout * 60)
     request.session["sso_state"] = state
     request.session["sso_next_url"] = next_path
     request.session.save()
@@ -45,8 +49,8 @@ def start_login(request: HttpRequest) -> HttpResponseRedirect:
 
 @require_http_methods(["GET"])
 def callback(request: HttpRequest) -> HttpResponseRedirect:
-    login_failed_url = reverse(conf.GOOGLE_SSO_LOGIN_FAILED_URL)
     google = GoogleAuth(request)
+    login_failed_url = reverse(google.get_sso_value("login_failed_url"))
     code = request.GET.get("code")
     state = request.GET.get("state")
 
@@ -74,14 +78,16 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     except Exception as error:
         send_message(request, _(f"Error while fetching token from SSO: {error}."))
         logger.debug(
-            f"GOOGLE_SSO_CLIENT_ID: {show_credential(conf.GOOGLE_SSO_CLIENT_ID)}"
+            f"GOOGLE_SSO_CLIENT_ID: "
+            f"{show_credential(google.get_sso_value('client_id'))}"
         )
         logger.debug(
-            f"GOOGLE_SSO_PROJECT_ID: {show_credential(conf.GOOGLE_SSO_PROJECT_ID)}"
+            f"GOOGLE_SSO_PROJECT_ID: "
+            f"{show_credential(google.get_sso_value('project_id'))}"
         )
         logger.debug(
             f"GOOGLE_SSO_CLIENT_SECRET: "
-            f"{show_credential(conf.GOOGLE_SSO_CLIENT_SECRET)}"
+            f"{show_credential(google.get_sso_value('client_secret'))}"
         )
         return HttpResponseRedirect(login_failed_url)
 
@@ -90,8 +96,9 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     user_helper = UserHelper(google_user_data, request)
 
     # Run Pre-Validate Callback
-    module_path = ".".join(conf.GOOGLE_SSO_PRE_VALIDATE_CALLBACK.split(".")[:-1])
-    pre_validate_fn = conf.GOOGLE_SSO_PRE_VALIDATE_CALLBACK.split(".")[-1]
+    pre_validate_callback = google.get_sso_value("pre_validate_callback")
+    module_path = ".".join(pre_validate_callback.split(".")[:-1])
+    pre_validate_fn = pre_validate_callback.split(".")[-1]
     module = importlib.import_module(module_path)
     user_is_valid = getattr(module, pre_validate_fn)(google_user_data, request)
 
@@ -107,31 +114,35 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
         return HttpResponseRedirect(login_failed_url)
 
     # Save Token in Session
-    if conf.GOOGLE_SSO_SAVE_ACCESS_TOKEN:
+    save_access_token = google.get_sso_value("save_access_token")
+    if save_access_token:
         access_token = google.get_user_token()
         request.session["google_sso_access_token"] = access_token
 
     # Run Pre-Create Callback
-    module_path = ".".join(conf.GOOGLE_SSO_PRE_CREATE_CALLBACK.split(".")[:-1])
-    pre_login_fn = conf.GOOGLE_SSO_PRE_CREATE_CALLBACK.split(".")[-1]
+    pre_create_callback = google.get_sso_value("pre_create_callback")
+    module_path = ".".join(pre_create_callback.split(".")[:-1])
+    pre_login_fn = pre_create_callback.split(".")[-1]
     module = importlib.import_module(module_path)
     extra_users_args = getattr(module, pre_login_fn)(google_user_data, request)
 
     # Get or Create User
-    if conf.GOOGLE_SSO_AUTO_CREATE_USERS:
+    auto_create_users = google.get_sso_value("auto_create_users")
+    if auto_create_users:
         user = user_helper.get_or_create_user(extra_users_args)
     else:
         user = user_helper.find_user()
 
     if not user or not user.is_active:
         failed_login_message = f"User not found - Email: '{google_user_data['email']}'"
-        if not user and not conf.GOOGLE_SSO_AUTO_CREATE_USERS:
+        if not user and not auto_create_users:
             failed_login_message += ". Auto-Create is disabled."
 
         if user and not user.is_active:
             failed_login_message = f"User is not active: '{google_user_data['email']}'"
 
-        if conf.GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE:
+        show_failed_login_message = google.get_sso_value("show_failed_login_message")
+        if show_failed_login_message:
             send_message(request, _(failed_login_message), level="warning")
         else:
             logger.warning(failed_login_message)
@@ -141,13 +152,17 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     request.session.save()
 
     # Run Pre-Login Callback
-    module_path = ".".join(conf.GOOGLE_SSO_PRE_LOGIN_CALLBACK.split(".")[:-1])
-    pre_login_fn = conf.GOOGLE_SSO_PRE_LOGIN_CALLBACK.split(".")[-1]
+    pre_login_callback = google.get_sso_value("pre_login_callback")
+    module_path = ".".join(pre_login_callback.split(".")[:-1])
+    pre_login_fn = pre_login_callback.split(".")[-1]
     module = importlib.import_module(module_path)
     getattr(module, pre_login_fn)(user, request)
 
     # Login User
-    login(request, user, conf.GOOGLE_SSO_AUTHENTICATION_BACKEND)
-    request.session.set_expiry(conf.GOOGLE_SSO_SESSION_COOKIE_AGE)
+    authentication_backend = google.get_sso_value("authentication_backend")
+    cookie_age = google.get_sso_value("session_cookie_age")
+    login(request, user, authentication_backend)
+    request.session.set_expiry(cookie_age)
 
-    return HttpResponseRedirect(next_url or reverse(conf.GOOGLE_SSO_NEXT_URL))
+    next_url_conf = google.get_sso_value("next_url")
+    return HttpResponseRedirect(next_url or reverse(next_url_conf))
