@@ -29,7 +29,7 @@ def start_login(request: HttpRequest) -> HttpResponseRedirect:
 
     # Get Google Auth URL
     google = GoogleAuth(request)
-    auth_url, state = google.flow.authorization_url(prompt="consent")
+    auth_url, state = google.flow.authorization_url(prompt=conf.GOOGLE_SSO_AUTHORIZATION_PROMPT)
 
     # Save data on Session
     if not request.session.session_key:
