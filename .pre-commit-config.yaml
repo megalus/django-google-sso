@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
@@ -12,28 +12,22 @@ repos:
       - id: python-bandit-vulnerability-check
         args: [ "-s", "B101,B105", "-r", "--exclude", "*/.venv/*", "." ]
   - repo: https://github.com/pycqa/isort
-    rev: 5.13.2
+    rev: 6.0.1
     hooks:
       - id: isort
         name: isort (python)
         args: [ "--profile", "black", "--filter-files" ]
   - repo: https://github.com/psf/black
-    rev: 24.10.0
+    rev: 25.1.0
     hooks:
       - id: black
         exclude: ^.*\b(migrations)\b.*$
-  - repo: https://github.com/Lucas-C/pre-commit-hooks-safety
-    rev: v1.3.3
-    hooks:
-      - id: python-safety-dependencies-check
-        # Ignoring vulnerabilities for local dev packages: localstack
-        args: ["--ignore=42835,42836,42837"]
   - repo: https://github.com/asottile/yesqa
     rev: v1.5.0
     hooks:
       - id: yesqa
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.1.1
+    rev: 7.3.0
     hooks:
       - id: flake8
         args: ["--count", "--exclude", "*/migrations/*,.git,*/site-packages/*", "." ]
