@@ -37,9 +37,10 @@ defined in `GOOGLE_SSO_NEXT_URL` (default: `admin:index`) as a fallback.
 
 The setting `GOOGLE_SSO_AUTHORIZATION_PROMPT` controls the `prompt` parameter sent to Google's OpenID Connect authorization URL. It changes what Google shows to the user during authentication/consent:
 
-- `consent` (default): Always shows the consent screen, even if the user previously granted access to the requested scopes.
-- `select_account`: Always shows the account chooser so the user can switch Google accounts before continuing.
-- `none`: Never shows any UI. If the user is not already signed in to Google or has not granted consent yet, Google will return an error instead of showing screens.
+- `"consent"` (default): Always shows the consent screen, even if the user previously granted access to the requested scopes.
+- `"select_account"`: Always shows the account chooser so the user can switch Google accounts before continuing.
+- `"none"`: Never shows any screen. If the user is not already signed in to Google or has not granted consent yet, Google will return an error instead of showing screens.
+- `None` (or `""`): Only show the relevant screens when they are needed. If the user is only logged in to one google account and that account has already consented, both the account and consent screens are bypassed. If consent hasn't been given, or the user is signed in to multiple google accounts, the relevant screens are shown. This is the default google prompt behavior.
 
 Notes when testing locally:
 - If you have already granted consent to the default scopes (`openid`, `userinfo.email`, `userinfo.profile`) for your app, Google may only show the account selection step. This can make it seem like the experience is always the same.
