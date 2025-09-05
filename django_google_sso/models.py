@@ -23,7 +23,8 @@ class GoogleSSOUser(models.Model):
         return None
 
     def __str__(self):
-        return f"{self.user.email} ({self.google_id})"
+        user_email = getattr(self.user, self.user.EMAIL_FIELD)
+        return f"{user_email} ({self.google_id})"
 
     class Meta:
         db_table = "google_sso_user"
