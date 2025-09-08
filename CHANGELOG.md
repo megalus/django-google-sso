@@ -1,6 +1,46 @@
 # CHANGELOG
 
 
+## v8.0.2 (2025-09-08)
+
+### Fixes
+
+* fix: use EMAIL_FIELD when evaluating custom User models with custom email field ([`28d38b5`](https://github.com/megalus/django-google-sso/commit/28d38b5729266ed8ce4e1e79ef3ecd225d41a218))
+
+### Unknown
+
+* Merge pull request #53 from megalus/develop
+
+Use EMAIL_FIELD when evaluating custom email field ([`407452c`](https://github.com/megalus/django-google-sso/commit/407452ca050b2b142bf844a1708b7ae5447e304e))
+
+* Merge pull request #52 from c-w/email-field
+
+Respect CustomUser.EMAIL_FIELD ([`0f8eccb`](https://github.com/megalus/django-google-sso/commit/0f8eccbc4111b5dba283ee5e429d37063308f465))
+
+* Respect EMAIL_FIELD ([`a93398e`](https://github.com/megalus/django-google-sso/commit/a93398e736a0ed5a5cc0127318893ec243e85e58))
+
+* Merge pull request #51 from johnnyplaydrums/update-doc-for-prompt-config
+
+Update prompt docs to describe 4th option (no value) ([`cdd09ce`](https://github.com/megalus/django-google-sso/commit/cdd09cef8e30e9a5e4ddf1561d142acb165d723a))
+
+* Update prompt docs to describe 4th option (no value)
+
+Supplying no value for the `prompt` arugment allows for the default
+google prompt behavior. (Per the docs)[https://developers.google.com/identity/openid-connect/openid-connect#prompt])
+"If no value is specified and the user has not previously authorized access, then the user is shown a consent screen.".
+But if the user is only logged in to one google account and has already
+consented, neither screen is shown the user is authenticated directly.
+I've tested the behavior and it works as described.
+
+I wasn't sure how best to phrase this new option in the doc. Since
+`none` is a valid option, I thought it'd be a little unclear to
+put both `none` and `None` in the docs, with the latter being the
+python None type (no quotes). I make it clear, I added quotes to
+the existing options and no quotes for python `None` type. You can
+also achieve this new option with empty quotes `""`, so that could
+be another option if the current update to the docs is not clear. ([`ce821b6`](https://github.com/megalus/django-google-sso/commit/ce821b65ecb2cbdda64b4beda312979ea84efabb))
+
+
 ## v8.0.1 (2025-08-22)
 
 ### Documentation
