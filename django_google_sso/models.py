@@ -23,7 +23,7 @@ class GoogleSSOUser(models.Model):
         return None
 
     def __str__(self):
-        user_email = getattr(self.user, self.user.EMAIL_FIELD)
+        user_email = getattr(self.user, User.get_email_field_name())
         return f"{user_email} ({self.google_id})"
 
     class Meta:

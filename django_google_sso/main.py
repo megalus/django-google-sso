@@ -87,7 +87,7 @@ class UserHelper:
     user_changed: bool = False
 
     @property
-    def user_email(self):
+    def user_info_email(self):
         return self.user_info["email"].lower()
 
     @property
@@ -99,12 +99,12 @@ class UserHelper:
         return self.user_model._meta.get_field(self.user_model.USERNAME_FIELD)
 
     @property
-    def email_field(self) -> Field:
-        return self.user_model._meta.get_field(self.user_model.EMAIL_FIELD)
+    def email_field_name(self) -> str:
+        return self.user_model.get_email_field_name()
 
     @property
     def email_is_valid(self) -> bool:
-        user_email_domain = self.user_email.split("@")[-1]
+        user_email_domain = self.user_info_email.split("@")[-1]
         if (
             "*" in conf.GOOGLE_SSO_ALLOWABLE_DOMAINS
             or user_email_domain in conf.GOOGLE_SSO_ALLOWABLE_DOMAINS
@@ -112,17 +112,17 @@ class UserHelper:
             return True
         email_verified = self.user_info.get("email_verified", None)
         if email_verified is not None and not email_verified:
-            logger.debug(f"Email {self.user_email} is not verified.")
+            logger.debug(f"Email {self.user_info_email} is not verified.")
         return email_verified if email_verified is not None else False
 
     def get_or_create_user(self, extra_users_args: dict | None = None):
         user_defaults = extra_users_args or {}
         if self.username_field.name not in user_defaults:
-            user_defaults[self.username_field.name] = self.user_email
-        if self.email_field.name not in user_defaults:
-            user_defaults[self.email_field.name] = self.user_email
+            user_defaults[self.username_field.name] = self.user_info_email
+        if self.email_field_name not in user_defaults:
+            user_defaults[self.email_field_name] = self.user_info_email
         user, created = self.user_model.objects.get_or_create(
-            **{f"{self.email_field.name}__iexact": self.user_email},
+            **{f"{self.email_field_name}__iexact": self.user_info_email},
             defaults=user_defaults,
         )
         self.check_first_super_user(user)
@@ -148,7 +148,7 @@ class UserHelper:
             user.first_name = self.user_info.get("given_name")
             user.last_name = self.user_info.get("family_name")
             if not getattr(user, self.username_field.name):
-                setattr(user, self.username_field.name, self.user_email)
+                setattr(user, self.username_field.name, self.user_info_email)
             user.set_unusable_password()
             self.user_changed = True
 
@@ -157,13 +157,15 @@ class UserHelper:
             superuser_exists = self.user_model.objects.filter(
                 is_superuser=True,
                 **{
-                    f"{self.email_field.name}__icontains": f"@{self.user_email.split('@')[-1]}"
+                    f"{self.email_field_name}__icontains": (
+                        f"@{self.user_info_email.split('@')[-1]}"
+                    )
                 },
             ).exists()
             if not superuser_exists:
                 message_text = _(
                     f"GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER is True. "
-                    f"Adding SuperUser status to email: {self.user_email}"
+                    f"Adding SuperUser status to email: {self.user_info_email}"
                 )
                 messages.add_message(self.request, messages.INFO, message_text)
                 logger.warning(message_text)
@@ -172,13 +174,13 @@ class UserHelper:
                 self.user_changed = True
 
     def check_for_permissions(self, user):
-        user_email = getattr(user, self.user_model.EMAIL_FIELD)
+        user_email = getattr(user, self.email_field_name)
         if (
             user_email in conf.GOOGLE_SSO_STAFF_LIST
             or "*" in conf.GOOGLE_SSO_STAFF_LIST
         ):
             message_text = _(
-                f"User email: {self.user_email} in GOOGLE_SSO_STAFF_LIST. "
+                f"User email: {user_email} in GOOGLE_SSO_STAFF_LIST. "
                 f"Added Staff Permission."
             )
             messages.add_message(self.request, messages.INFO, message_text)
@@ -186,7 +188,7 @@ class UserHelper:
             user.is_staff = True
         if user_email in conf.GOOGLE_SSO_SUPERUSER_LIST:
             message_text = _(
-                f"User email: {self.user_email} in GOOGLE_SSO_SUPERUSER_LIST. "
+                f"User email: {user_email} in GOOGLE_SSO_SUPERUSER_LIST. "
                 f"Added SuperUser Permission."
             )
             messages.add_message(self.request, messages.INFO, message_text)
@@ -196,7 +198,7 @@ class UserHelper:
 
     def find_user(self):
         query = self.user_model.objects.filter(
-            **{f"{self.email_field.name}__iexact": self.user_email}
+            **{f"{self.email_field_name}__iexact": self.user_info_email}
         )
         if query.exists():
             return query.get()

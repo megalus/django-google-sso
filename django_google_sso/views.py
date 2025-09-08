@@ -102,7 +102,7 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
         send_message(
             request,
             _(
-                f"Email address not allowed: {user_helper.user_email}. "
+                f"Email address not allowed: {user_helper.user_info_email}. "
                 f"Please contact your administrator."
             ),
         )

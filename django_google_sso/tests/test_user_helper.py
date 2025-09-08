@@ -15,7 +15,7 @@ def test_user_email(google_response, callback_request):
     helper = UserHelper(google_response, callback_request)
 
     # Assert
-    assert helper.user_email == "foo@example.com"
+    assert helper.user_info_email == "foo@example.com"
 
 
 @pytest.mark.parametrize(
