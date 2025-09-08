@@ -8,7 +8,6 @@ from django.utils.translation import gettext_lazy as _
 from django.views.decorators.http import require_http_methods
 from loguru import logger
 
-from django_google_sso import conf
 from django_google_sso.main import GoogleAuth, UserHelper
 from django_google_sso.utils import send_message, show_credential
 
@@ -56,9 +55,14 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     code = request.GET.get("code")
     state = request.GET.get("state")
 
+    next_url_from_session = request.session.get("sso_next_url")
+    next_url_from_conf = reverse(google.get_sso_value("next_url"))
+    next_url = next_url_from_session if next_url_from_session else next_url_from_conf
+
     # Check if Google SSO is enabled
-    if not conf.GOOGLE_SSO_ENABLED:
-        send_message(request, _("Google SSO not enabled."))
+    enabled, message = google.check_enabled(next_url)
+    if not enabled:
+        send_message(request, _(message))
         return HttpResponseRedirect(login_failed_url)
 
     # First, check for authorization code
@@ -68,7 +72,6 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
 
     # Then, check state.
     request_state = request.session.get("sso_state")
-    next_url = request.session.get("sso_next_url")
 
     if not request_state or state != request_state:
         send_message(request, _("State Mismatch. Time expired?"))
@@ -166,5 +169,4 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     login(request, user, authentication_backend)
     request.session.set_expiry(cookie_age)
 
-    next_url_conf = google.get_sso_value("next_url")
-    return HttpResponseRedirect(next_url or reverse(next_url_conf))
+    return HttpResponseRedirect(next_url)

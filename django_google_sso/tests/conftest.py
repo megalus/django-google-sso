@@ -6,6 +6,7 @@ import pytest
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.contrib.sites.models import Site
+from django.test import AsyncClient
 from django.urls import reverse
 
 from django_google_sso import conf
@@ -106,6 +107,15 @@ def client_with_session(client, settings, mocker, google_response):
     mocker.patch.object(GoogleAuth, "get_user_info", return_value=google_response)
     mocker.patch.object(GoogleAuth, "get_user_token", return_value="12345")
     yield client
+
+
+@pytest.fixture
+def aclient_with_session(client_with_session, settings):
+    """An alias for client_with_session to indicate async client usage."""
+    settings.SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+    ac = AsyncClient()
+    ac.cookies.update(client_with_session.cookies)
+    return ac
 
 
 @pytest.fixture

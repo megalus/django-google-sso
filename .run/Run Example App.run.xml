@@ -22,7 +22,7 @@
     <option name="port" value="8001" />
     <option name="host" value="localhost" />
     <option name="additionalOptions" value="" />
-    <option name="browserUrl" value="http://127.0.0.1:8001/secret" />
+    <option name="browserUrl" value="http://127.0.0.1:8001" />
     <option name="runTestServer" value="false" />
     <option name="runNoReload" value="false" />
     <option name="useCustomRunCommand" value="false" />

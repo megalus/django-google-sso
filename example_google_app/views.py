@@ -26,6 +26,17 @@ def single_logout_view(request):
             "https://oauth2.googleapis.com/revoke", params={"token": token}, timeout=10
         )
 
-    # And redirect user to Google logout page if you want
-    redirect_url = reverse("admin:index")  # Or 'https://accounts.google.com/logout'
+    # And redirect the user to your login page or
+    # Google logout page if you want (like 'https://accounts.google.com/logout')
+    redirect_url = (
+        reverse("admin:index")
+        if request.path.startswith("admin:index")
+        else reverse("index")
+    )
     return HttpResponseRedirect(redirect_url)
+
+
+def index(request) -> HttpResponse:
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("secret"))
+    return render(request, "login.html", {})

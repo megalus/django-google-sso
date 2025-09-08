@@ -38,7 +38,7 @@ INSTALLED_APPS = [
 ## Add secrets to env file
 
 ```bash
-# .env
+# .env.local
 GOOGLE_SSO_CLIENT_ID=999999999999-xxxxxxxxx.apps.googleusercontent.com
 GOOGLE_SSO_CLIENT_SECRET=xxxxxx
 GOOGLE_SSO_PROJECT_ID=999999999999
@@ -146,3 +146,27 @@ run the original check, but will not raise the warning for the Django SSO packag
 SILENCED_SYSTEM_CHECKS = ["templates.W003"]  # Will silence the original check
 SSO_USE_ALTERNATE_W003 = True  # Will run alternate check
 ```
+
+## Split Providers between Admin and Page Logins
+
+If you want to use different providers for Admin and Page logins, you may need to enable/disable providers per request. For example, suppose if you want to use
+all Django SSOs for Page login but only **Django Google SSO** for the Admin, you can add the respective
+`*_SSO_PAGES_ENABLED` and `*_SSO_ADMIN_ENABLED`, like this:
+
+```python
+# settings.py
+
+# Enable or Disable globally (both Admin and Pages):
+GOOGLE_SSO_ENABLED = True
+MICROSOFT_SSO_ENABLED = True
+GITHUB_SSO_ENABLED = True
+
+# Enable or disable per request path:
+MICROSOFT_SSO_ADMIN_ENABLED = False
+MICROSOFT_SSO_PAGES_ENABLED = True
+GITHUB_SSO_ADMIN_ENABLED = False
+GITHUB_SSO_PAGES_ENABLED = True
+```
+!!! warning "You need to be explicit on these settings"
+    If you set `GOOGLE_SSO_ADMIN_ENABLED = False` and do not set `GOOGLE_SSO_PAGES_ENABLED`, the default value for `GOOGLE_SSO_PAGES_ENABLED` is also `False`.
+    This means Google SSO will be disabled for both Admin and Page logins. You need to be explicit on these settings.

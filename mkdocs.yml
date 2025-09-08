@@ -55,8 +55,6 @@ markdown_extensions:
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.keys
-  - pymdownx.snippets
-  - pymdownx.superfences
   - pymdownx.magiclink:
       repo_url_shorthand: true
       user: squidfunk
@@ -68,6 +66,16 @@ markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true
   - pymdownx.tilde
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      # make exceptions to highlighting of code:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid_custom
+  - pymdownx.snippets:
+      base_path: '.'
+      check_paths: true
 
 nav:
   - Intro: index.md
@@ -82,8 +90,13 @@ nav:
   - third_party_admins.md
   - how.md
   - advanced.md
-  - multiple.md
   - sites.md
+  - pages.md
+  - multiple.md
   - settings.md
   - troubleshooting.md
   - thanks.md
+
+plugins:
+  - search
+  - mermaid2

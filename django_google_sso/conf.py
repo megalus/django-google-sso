@@ -14,18 +14,23 @@ class GoogleSSOSettings:
     Django has fully initialized its settings.
     """
 
-    def _get_setting(self, name: str, default: Any = None) -> Any:
+    def _get_setting(
+        self, name: str, default: Any = None, accept_callable: bool = True
+    ) -> Any:
         """Get a setting from Django settings."""
-        return getattr(settings, name, default)
+        value = getattr(settings, name, default)
+        if not accept_callable and callable(value):
+            raise TypeError(f"The setting {name} cannot be a callable.")
+        return value
 
     # Configurations without callable
     @property
     def GOOGLE_SSO_ENABLED(self) -> bool:
-        return self._get_setting("GOOGLE_SSO_ENABLED", True)
+        return self._get_setting("GOOGLE_SSO_ENABLED", True, accept_callable=False)
 
     @property
     def GOOGLE_SSO_ENABLE_LOGS(self) -> bool:
-        value = self._get_setting("GOOGLE_SSO_ENABLE_LOGS", True)
+        value = self._get_setting("GOOGLE_SSO_ENABLE_LOGS", True, accept_callable=False)
         if value:
             logger.enable("django_google_sso")
         else:
@@ -34,10 +39,12 @@ class GoogleSSOSettings:
 
     @property
     def SSO_USE_ALTERNATE_W003(self) -> bool:
-        return self._get_setting("SSO_USE_ALTERNATE_W003", False)
+        return self._get_setting("SSO_USE_ALTERNATE_W003", False, accept_callable=False)
+
+    # Configurations with optional callable
 
     @property
-    def GOOGLE_SSO_LOGO_URL(self) -> str:
+    def GOOGLE_SSO_LOGO_URL(self) -> str | Callable[[HttpRequest], str]:
         return self._get_setting(
             "GOOGLE_SSO_LOGO_URL",
             "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/"
@@ -45,18 +52,16 @@ class GoogleSSOSettings:
         )
 
     @property
-    def GOOGLE_SSO_TEXT(self) -> str:
+    def GOOGLE_SSO_TEXT(self) -> bool | Callable[[HttpRequest], str] | None:
         return self._get_setting("GOOGLE_SSO_TEXT", "Sign in with Google")
-
-    # Configurations with optional callable
 
     @property
     def GOOGLE_SSO_ADMIN_ENABLED(self) -> bool | Callable[[HttpRequest], str] | None:
-        return self._get_setting("GOOGLE_SSO_ADMIN_ENABLED", True)
+        return self._get_setting("GOOGLE_SSO_ADMIN_ENABLED", None)
 
     @property
     def GOOGLE_SSO_PAGES_ENABLED(self) -> bool | Callable[[HttpRequest], str] | None:
-        return self._get_setting("GOOGLE_SSO_PAGES_ENABLED", True)
+        return self._get_setting("GOOGLE_SSO_PAGES_ENABLED", None)
 
     @property
     def GOOGLE_SSO_CLIENT_ID(self) -> str | Callable[[HttpRequest], str] | None:
@@ -185,8 +190,20 @@ class GoogleSSOSettings:
     @property
     def GOOGLE_SSO_AUTHORIZATION_PROMPT(
         self,
-    ) -> str | Callable[[HttpRequest], str]:
+    ) -> str | None | Callable[[HttpRequest], str]:
         return self._get_setting("GOOGLE_SSO_AUTHORIZATION_PROMPT", "consent")
+
+    @property
+    def SSO_ADMIN_ROUTE(
+        self,
+    ) -> str | Callable[[HttpRequest], str]:
+        return self._get_setting("SSO_ADMIN_ROUTE", "admin:index")
+
+    @property
+    def SSO_SHOW_FORM_ON_ADMIN_PAGE(
+        self,
+    ) -> bool | Callable[[HttpRequest], bool]:
+        return self._get_setting("SSO_SHOW_FORM_ON_ADMIN_PAGE", True)
 
 
 # Create a single instance of the settings class

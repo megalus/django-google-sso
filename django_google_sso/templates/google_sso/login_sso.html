@@ -22,7 +22,7 @@
     You can pass a custom list of SSO providers to this
     template using the `sso_providers` context variable.
     If not provided, the template will use the default
-    SSO providers defined in the sso tags.
+    `define_sso_providers` defined in the sso tags.
 -->
 {% with sso_providers|default:None as sso_providers %}
     {% if sso_providers is None %}

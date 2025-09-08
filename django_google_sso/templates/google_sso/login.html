@@ -14,17 +14,27 @@
 
 {# Default Django Admin Block #}
 {% block content %}
-    {% define_show_form as show_form %}
-    {% if show_form %}
-        {{ block.super }}
-    {% endif %}
-    {% include 'google_sso/login_sso.html' %}
+    <!--
+        You can pass a custom Show Form to this
+        template using the `show_admin_form` context variable.
+        If not provided, the template will use the default
+        `define_show_form` defined in the sso tags.
+    -->
+    {% with show_admin_form|default:None as show_form %}
+        {% if show_form is None %}
+            {% define_show_form as show_form %}
+        {% endif %}
+        {% if show_form %}
+            {{ block.super }}
+        {% endif %}
+        {% include 'google_sso/login_sso.html' %}
+    {% endwith %}
 {% endblock %}
 
 {# Django Unfold Admin Block #}
 {% block base %}
     {{ block.super }}  {# Process HTML login elements from Django Unfold #}
-	{% include 'google_sso/login_sso.html' %} {# Add Google SSO HTML elements #}
+    {% include 'google_sso/login_sso.html' %} {# Add Google SSO HTML elements #}
     <script>
         {% define_show_form as show_form %}
         {% if show_form %}

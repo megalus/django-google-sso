@@ -116,6 +116,28 @@ class GoogleAuth:
     def get_user_token(self):
         return self.flow.credentials.token
 
+    def check_enabled(self, next_url: str) -> tuple[bool, str]:
+        response = True, ""
+        if not conf.GOOGLE_SSO_ENABLED:
+            response = False, "Google SSO not enabled."
+        else:
+            admin_route = conf.SSO_ADMIN_ROUTE
+            if callable(admin_route):
+                admin_route = admin_route(self.request)
+
+            admin_enabled = self.get_sso_value("admin_enabled")
+            if admin_enabled is False and next_url.startswith(reverse(admin_route)):
+                response = False, "Google SSO not enabled for Admin."
+
+            pages_enabled = self.get_sso_value("pages_enabled")
+            if pages_enabled is False and not next_url.startswith(reverse(admin_route)):
+                response = False, "Google SSO not enabled for Pages."
+
+        if response[1]:
+            logger.debug(f"SSO Enable Check failed: {response[1]}")
+
+        return response
+
 
 @dataclass
 class UserHelper:
@@ -229,5 +251,4 @@ class UserHelper:
 
     def find_user(self):
         query = self.user_model.objects.filter(email__iexact=self.user_email)
-        if query.exists():
-            return query.get()
+        return query.get() if query.exists() else None
