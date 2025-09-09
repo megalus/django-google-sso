@@ -147,6 +147,29 @@ SILENCED_SYSTEM_CHECKS = ["templates.W003"]  # Will silence the original check
 SSO_USE_ALTERNATE_W003 = True  # Will run alternate check
 ```
 
+!!! warning "The tags will be executed only once, per request, for the **last** installed package"
+    To avoid multiple executions for the `define_sso_providers` and `define_show_form` tags, these code will be executed once and the result will be cached on the request object.
+    Due to django template loading mechanism, the tag's code from the **last** installed package will be the one executed. This means if you have
+    multiple packages installed, only the last one will be executed. To avoid this, you can use the `sso_providers` and `show_admin_form` context variables
+    to pass the values you want to show in the template.
+
+    ```python
+    # views.py
+    from django.shortcuts import render
+    from django_google_sso.template_tags import define_sso_providers, define_show_form
+
+    def my_login_view(request):
+        ...
+        sso_providers = define_sso_providers({"context": request})
+        show_admin_form = define_show_form({"context": request})
+
+        return render(
+            request,
+            "my_login_template.html",
+            {"sso_providers": sso_providers, "show_admin_form": show_admin_form},
+        )
+    ```
+
 ## Split Providers between Admin and Page Logins
 
 If you want to use different providers for Admin and Page logins, you may need to enable/disable providers per request. For example, suppose if you want to use

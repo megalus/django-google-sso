@@ -9,7 +9,7 @@ lint:
 	@poetry run pre-commit run --all
 
 tests:
-	@poetry run pytest -v -x -p no:warnings --cov-report term-missing --cov=.
+	@STELA_ENV=test poetry run pytest -v -x -p no:warnings --cov-report term-missing --cov=.
 
 test:
 	@if [ "$(filter-out $@,$(MAKECMDGOALS))" = "" ]; then \
@@ -17,7 +17,7 @@ test:
 		exit 1; \
 	fi
 	@echo "${BLUE}Running test: $(filter-out $@,$(MAKECMDGOALS))...${NC}"
-	@poetry run pytest -v -x -p no:warnings --cov-report term-missing --cov=. $(filter-out $@,$(MAKECMDGOALS))
+	@STELA_ENV=test poetry run pytest -v -x -p no:warnings --cov-report term-missing --cov=. $(filter-out $@,$(MAKECMDGOALS))
 	@echo "${GREEN}Test completed.${NC}"
 
 # Prevent make from treating the argument as a target

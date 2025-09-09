@@ -198,13 +198,9 @@ def get_project_id(request):
     return env.GOOGLE_SSO_PROJECT_ID
 
 
-def get_project_secret(request):
-    return env.GOOGLE_SSO_CLIENT_SECRET
-
-
-GOOGLE_SSO_CLIENT_ID = get_client_id
-GOOGLE_SSO_PROJECT_ID = get_project_id
-GOOGLE_SSO_CLIENT_SECRET = get_project_secret
+GOOGLE_SSO_CLIENT_ID = get_client_id  # dynamic
+GOOGLE_SSO_PROJECT_ID = get_project_id  # dynamic
+GOOGLE_SSO_CLIENT_SECRET = env.GOOGLE_SSO_CLIENT_SECRET  # static
 
 # ***********************************
 # *                                 *

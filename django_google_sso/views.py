@@ -112,7 +112,7 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
         send_message(
             request,
             _(
-                f"Email address not allowed: {user_helper.user_email}. "
+                f"Email address not allowed: {user_helper.user_info_email}. "
                 f"Please contact your administrator."
             ),
         )
@@ -163,8 +163,22 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     module = importlib.import_module(module_path)
     getattr(module, pre_login_fn)(user, request)
 
-    # Login User
+    # Get Authentication Backend
+    # If exists, let's make a sanity check on it
+    # Because Django does not raise errors if backend is wrong
     authentication_backend = google.get_sso_value("authentication_backend")
+    if authentication_backend:
+        module_path = ".".join(authentication_backend.split(".")[:-1])
+        backend_auth_class = authentication_backend.split(".")[-1]
+        try:
+            module = importlib.import_module(module_path)
+            getattr(module, backend_auth_class)
+        except (ImportError, AttributeError) as error:
+            raise ImportError(
+                f"Authentication Backend invalid: {authentication_backend}"
+            ) from error
+
+    # Login User
     cookie_age = google.get_sso_value("session_cookie_age")
     login(request, user, authentication_backend)
     request.session.set_expiry(cookie_age)

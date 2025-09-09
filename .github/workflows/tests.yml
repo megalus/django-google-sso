@@ -44,4 +44,4 @@ jobs:
           poetry add django==${{ matrix.django-version }}
       - name: Run CI Tests
         run: |
-          poetry run pytest
+          make tests

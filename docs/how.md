@@ -11,7 +11,8 @@ This data will expire in 10 minutes (defined in `GOOGLE_SSO_TIMEOUT`). Then user
     !!! info "Using Request Anonymous session"
         If you make any actions which change or destroy this session, like restart django, clear cookies or change
         browsers, ou move between `localhost` and `127.0.0.1`, the login will fail, and you can see the message
-        "State Mismatched. Time expired?" in the next time you log in again.
+        "State Mismatched. Time expired?" in the next time you log in again. Also remember the anonymous session
+        lasts for 10 minutes, defined in`GOOGLE_SSO_TIMEOUT`.
 
 3. On callback, **Django-Google-SSO** will check `code` and `state` received. If they are valid,
 Google's UserInfo will be retrieved. If the user is already registered in Django, the user
@@ -74,6 +75,10 @@ async def my_async_view(request):
     }
     return render(request, "my_login_template.html", context)
 ```
+
+!!! tip "The same is valid for define_show_form tag"
+    You can pass in the request context the `show_admin_form` variable with a boolean value to show or hide
+    the default login form.
 
 ## About the Google consent screen and the authorization prompt
 

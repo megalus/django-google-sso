@@ -6,10 +6,14 @@
 
 {% block extrastyle %}
     {{ block.super }}
-    {% define_sso_providers as sso_providers %}
-    {% for provider in sso_providers %}
-        <link rel="stylesheet" href="{{ provider.css_url }}">
-    {% endfor %}
+    {% with sso_providers|default:None as sso_providers %}
+        {% if sso_providers is None %}
+            {% define_sso_providers as sso_providers %}
+        {% endif %}
+        {% for provider in sso_providers %}
+            <link rel="stylesheet" href="{{ provider.css_url }}">
+        {% endfor %}
+    {% endwith %}
 {% endblock %}
 
 {# Default Django Admin Block #}
@@ -36,16 +40,20 @@
     {{ block.super }}  {# Process HTML login elements from Django Unfold #}
     {% include 'google_sso/login_sso.html' %} {# Add Google SSO HTML elements #}
     <script>
-        {% define_show_form as show_form %}
-        {% if show_form %}
-            $(document).ready(function() {
-                $(".login-box").insertAfter("#login-form");
-            });
-        {% else %}
-            $("#login-form").remove();
-            $(document).ready(function() {
-                $(".login-box").insertAfter(".font-semibold.mb-10");
-            });
-        {% endif %}
+        {% with show_admin_form|default:None as show_form %}
+            {% if show_form is None %}
+                {% define_show_form as show_form %}
+            {% endif %}
+            {% if show_form %}
+                $(document).ready(function() {
+                    $(".login-box").insertAfter("#login-form");
+                });
+            {% else %}
+                $("#login-form").remove();
+                $(document).ready(function() {
+                    $(".login-box").insertAfter(".font-semibold.mb-10");
+                });
+            {% endif %}
+        {% endwith %}
     </script>
 {% endblock %}

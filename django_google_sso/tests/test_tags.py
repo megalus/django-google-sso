@@ -26,9 +26,12 @@ def test_tags(client_with_session, settings, callback_request):
 
     # Act
     response = custom_view(callback_request)
+    response_text = (
+        response.text if hasattr(response, "text") else response.content.decode()
+    )
 
     # Assert
-    assert "SignWith2" in response.text
+    assert "SignWith2" in response_text
 
 
 async def test_async_view(aclient_with_session, callback_request):
@@ -46,6 +49,9 @@ async def test_async_view(aclient_with_session, callback_request):
 
     # Act
     response = await custom_view(callback_request)
+    response_text = (
+        response.text if hasattr(response, "text") else response.content.decode()
+    )
 
     # Assert
-    assert "SignWith2" in response.text
+    assert "SignWith2" in response_text

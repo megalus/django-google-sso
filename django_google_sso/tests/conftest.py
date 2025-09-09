@@ -1,15 +1,20 @@
 import importlib
 from copy import deepcopy
+from typing import Generator
 from urllib.parse import quote, urlencode
 
 import pytest
+from django.apps import apps
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.contrib.sessions.middleware import SessionMiddleware
 from django.contrib.sites.models import Site
+from django.db import connection, models
 from django.test import AsyncClient
 from django.urls import reverse
 
 from django_google_sso import conf
+from django_google_sso import conf as conf_module
 from django_google_sso.main import GoogleAuth
 
 SECRET_PATH = "/secret/"
@@ -228,3 +233,80 @@ def mock_get_sso_value(mocker, site_specific_settings):
     mocker.patch.object(GoogleAuth, "get_sso_value", mocked_get_sso_value)
 
     return mocked_get_sso_value
+
+
+@pytest.fixture
+def custom_user_model(settings) -> Generator[type, None, None]:
+    """
+    Create a temporary custom user model, point AUTH_USER_MODEL to it,
+    recreate GoogleSSOUser table to reference the new model, yield the
+    custom user class and then fully restore the previous state.
+    """
+    # Capture previous state
+    old_auth = settings.AUTH_USER_MODEL
+    import django_google_sso.models as gg_models
+
+    old_googlessouser = gg_models.GoogleSSOUser
+
+    class CustomNamesUser(AbstractBaseUser):
+        user_name = models.CharField(max_length=150, unique=True)
+        mail = models.EmailField(unique=True)
+        is_staff = models.BooleanField(default=False)
+        is_active = models.BooleanField(default=True)
+
+        USERNAME_FIELD = "user_name"
+        EMAIL_FIELD = "mail"
+        REQUIRED_FIELDS = ["mail"]
+
+        class Meta:
+            app_label = "django_google_sso"
+
+        def __str__(self) -> str:
+            return self.user_name
+
+    # Register dynamic model and create its table
+    apps.register_model("django_google_sso", CustomNamesUser)
+    with connection.schema_editor() as schema_editor:
+        schema_editor.create_model(CustomNamesUser)
+
+    # Point to the new user model and reload conf + models so relations are rebuilt
+    settings.AUTH_USER_MODEL = "django_google_sso.CustomNamesUser"
+    importlib.reload(conf_module)
+    gg_models = importlib.reload(gg_models)
+
+    # Replace GoogleSSOUser DB table so its FK points to the new user model
+    new_googlessouser = gg_models.GoogleSSOUser
+    with connection.schema_editor() as schema_editor:
+        schema_editor.delete_model(old_googlessouser)
+        schema_editor.create_model(new_googlessouser)
+
+    importlib.reload(importlib.import_module("django_google_sso.main"))
+
+    try:
+        yield CustomNamesUser
+    finally:
+        # Teardown: remove new tables and restore original model/table
+        gg_models = importlib.reload(gg_models)
+        new_googlessouser = gg_models.GoogleSSOUser
+
+        with connection.schema_editor() as schema_editor:
+            # delete the GoogleSSOUser table that references the dynamic user
+            schema_editor.delete_model(new_googlessouser)
+            # delete the dynamic user table
+            schema_editor.delete_model(CustomNamesUser)
+
+        # restore AUTH_USER_MODEL and reload modules
+        settings.AUTH_USER_MODEL = old_auth
+        importlib.reload(conf_module)
+        importlib.reload(gg_models)
+
+        # recreate the original GoogleSSOUser table created by migrations
+        with connection.schema_editor() as schema_editor:
+            schema_editor.create_model(old_googlessouser)
+
+        # unregister the dynamic model from the apps registry and clear caches
+        app_models = apps.all_models.get("django_google_sso", {})
+        app_models.pop("customnamesuser", None)
+        apps.clear_cache()
+
+        importlib.reload(importlib.import_module("django_google_sso.main"))

@@ -18,9 +18,12 @@ def test_value_from_conf(client_with_session, settings, value, expected):
 
     # Act
     response = client_with_session.get("/")
+    response_text = (
+        response.text if hasattr(response, "text") else response.content.decode()
+    )
 
     # Assert
-    assert expected in response.text
+    assert expected in response_text
 
 
 @pytest.mark.parametrize(
