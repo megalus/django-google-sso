@@ -14,7 +14,6 @@ from django_google_sso.utils import send_message, show_credential
 
 @require_http_methods(["GET"])
 def start_login(request: HttpRequest) -> HttpResponseRedirect:
-    # Get Google Auth URL
     google = GoogleAuth(request)
 
     # Get the next url
@@ -31,7 +30,6 @@ def start_login(request: HttpRequest) -> HttpResponseRedirect:
     next_path = urlparse(clean_param).path
 
     # Get Google Auth URL
-    google = GoogleAuth(request)
     prompt = google.get_sso_value("authorization_prompt")
     auth_url, state = google.flow.authorization_url(prompt=prompt)
 

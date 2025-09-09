@@ -30,7 +30,7 @@ def single_logout_view(request):
     # Google logout page if you want (like 'https://accounts.google.com/logout')
     redirect_url = (
         reverse("admin:index")
-        if request.path.startswith("admin:index")
+        if request.path.startswith(reverse("admin:index"))
         else reverse("index")
     )
     return HttpResponseRedirect(redirect_url)

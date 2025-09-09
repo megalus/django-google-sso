@@ -2,10 +2,15 @@ import arrow
 import httpx
 from asgiref.sync import iscoroutinefunction, sync_to_async
 from django.contrib import messages
-from django.contrib.auth import alogout, logout
+from django.contrib.auth import logout
 from django.contrib.auth.backends import ModelBackend
 from django.utils.decorators import sync_and_async_middleware
 from loguru import logger
+
+try:
+    from django.contrib.auth import alogout
+except ImportError:  # Django < 5.0
+    alogout = sync_to_async(logout)
 
 
 class MyBackend(ModelBackend):
