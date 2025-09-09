@@ -520,6 +520,50 @@
   
   
     <li class="md-nav__item">
+      <a href="../sites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Django Sites Framework
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Django Google SSO outside Django Admin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../multiple/" class="md-nav__link">
         
   
@@ -658,6 +702,10 @@
 </thead>
 <tbody>
 <tr>
+<td><code>GOOGLE_SSO_ADMIN_ENABLED</code></td>
+<td>Enable SSO only when allowed on Admin pages. Default: <code>None</code></td>
+</tr>
+<tr>
 <td><code>GOOGLE_SSO_ALLOWABLE_DOMAINS</code></td>
 <td>List of domains that will be allowed to create users. Default: <code>[]</code></td>
 </tr>
@@ -668,6 +716,10 @@
 <tr>
 <td><code>GOOGLE_SSO_AUTHENTICATION_BACKEND</code></td>
 <td>The authentication backend to use.  Default: <code>None</code></td>
+</tr>
+<tr>
+<td><code>GOOGLE_SSO_AUTHORIZATION_PROMPT</code></td>
+<td>The "prompt" value to pass to the Google authorization URL (see <a href="https://developers.google.com/identity/openid-connect/openid-connect#prompt">https://developers.google.com/identity/openid-connect/openid-connect#prompt</a>). Default: <code>consent</code></td>
 </tr>
 <tr>
 <td><code>GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER</code></td>
@@ -716,6 +768,10 @@
 <tr>
 <td><code>GOOGLE_SSO_NEXT_URL</code></td>
 <td>The named url path that the user will be redirected if there is no next url after successful authentication. Default: <code>admin:index</code></td>
+</tr>
+<tr>
+<td><code>GOOGLE_SSO_PAGES_ENABLED</code></td>
+<td>Enable SSO button injection on non-admin pages. Default: <code>None</code></td>
 </tr>
 <tr>
 <td><code>GOOGLE_SSO_PRE_CREATE_CALLBACK</code></td>
@@ -770,8 +826,8 @@
 <td>The timeout for the Google SSO authentication returns info, in minutes. Default: <code>10</code></td>
 </tr>
 <tr>
-<td><code>GOOGLE_SSO_AUTHORIZATION_PROMPT</code></td>
-<td>The "prompt" value to pass to the Google authorization URL (see <a href="https://developers.google.com/identity/openid-connect/openid-connect#prompt">https://developers.google.com/identity/openid-connect/openid-connect#prompt</a>). Default: <code>consent</code></td>
+<td><code>SSO_ADMIN_ROUTE</code></td>
+<td>The admin index page route. Default: <code>admin:index</code></td>
 </tr>
 <tr>
 <td><code>SSO_SHOW_FORM_ON_ADMIN_PAGE</code></td>

@@ -520,6 +520,50 @@
   
   
     <li class="md-nav__item">
+      <a href="../sites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Django Sites Framework
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Django Google SSO outside Django Admin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../multiple/" class="md-nav__link">
         
   
@@ -747,7 +791,7 @@
 <details class="question">
 <summary>Admin Message: <em><strong>State Mismatched. Time expired?</strong></em></summary>
 <p>This error occurs when the user is redirected to the Google login page and then returns to the Django login page but
-original state are not found. Please check if the browser has the anonymous session created by Django. This error
+original state are not found or session was expired. Please check if the browser has the anonymous session created by Django. This error
 can occur if you use <code>127.0.0.1</code> instead of <code>localhost</code> for your local tests.</p>
 </details>
 <details class="question">
@@ -783,6 +827,17 @@ Please make sure that the current site is configured for your needs or, alternat
 <p>This is because the user data was received from Google, but the user was not created in the database or is not active.
 To see these errors please check the logs or enable the option <code>GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE</code> to see failed
 login messages on browser. Please, make note these messages can be used on exploit attacks.</p>
+</details>
+<details class="question">
+<summary>When I config a custom Authentication Backend using GOOGLE_SSO_AUTHENTICATION_BACKEND, the lib stops to login, without errors or logs.</summary>
+<p>This is because the value of <code>GOOGLE_SSO_AUTHENTICATION_BACKEND</code> is not a valid authentication backend import path.
+Please check the value of this setting and make sure it is a valid import path to a Django authentication backend.</p>
+</details>
+<details class="question">
+<summary>When using one package for Admin and another for Pages, the user can enter in Admin, even if I configure the Pages SSO to not give any admin rights</summary>
+<p>Please check if the user is not already a staff or superuser in the database, especially if you're using the
+<code>MICROSOFT_SSO_UNIQUE_EMAIL</code> and <code>GITHUB_SSO_UNIQUE_EMAIL</code> options. If the user is already a staff or superuser,
+he will be able to enter in Admin, even if the SSO package for Pages does not give him any admin rights.</p>
 </details>
 <details class="question">
 <summary>Got a "KeyError: 'NAME'" error after set SSO_USE_ALTERNATE_W003</summary>

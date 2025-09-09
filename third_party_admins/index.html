@@ -604,6 +604,50 @@
   
   
     <li class="md-nav__item">
+      <a href="../sites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Django Sites Framework
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Django Google SSO outside Django Admin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../multiple/" class="md-nav__link">
         
   
@@ -841,39 +885,57 @@ and <a href="https://docs.djangoproject.com/en/5.0/howto/overriding-templates/">
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="cp">{%</span> <span class="k">block</span> <span class="nv">extrastyle</span> <span class="cp">%}</span>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="x">    </span><span class="cp">{{</span> <span class="nb">block</span><span class="nv">.super</span> <span class="cp">}}</span>
-</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">define_sso_providers</span> <span class="k">as</span> <span class="nv">sso_providers</span> <span class="cp">%}</span>
-</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">provider</span> <span class="k">in</span> <span class="nv">sso_providers</span> <span class="cp">%}</span>
-</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="x">        &lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">provider.css_url</span> <span class="cp">}}</span><span class="x">&quot;&gt;</span>
-</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
-</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
-</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
-</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="c">{# Default Django Admin Block #}</span>
-</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
-</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">define_show_form</span> <span class="k">as</span> <span class="nv">show_form</span> <span class="cp">%}</span>
-</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">show_form</span> <span class="cp">%}</span>
-</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="x">        </span><span class="cp">{{</span> <span class="nb">block</span><span class="nv">.super</span> <span class="cp">}}</span>
-</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
-</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">include</span> <span class="s1">&#39;google_sso/login_sso.html&#39;</span> <span class="cp">%}</span>
-</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
-</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>
-</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="c">{# Django Unfold Admin Block #}</span>
-</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="cp">{%</span> <span class="k">block</span> <span class="nv">base</span> <span class="cp">%}</span>
-</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="x">    </span><span class="cp">{{</span> <span class="nb">block</span><span class="nv">.super</span> <span class="cp">}}</span><span class="x">  </span><span class="c">{# Process HTML login elements from Django Unfold #}</span>
-</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">include</span> <span class="s1">&#39;google_sso/login_sso.html&#39;</span> <span class="cp">%}</span><span class="x"> </span><span class="c">{# Add Google SSO HTML elements #}</span>
-</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="x">    &lt;script&gt;</span>
-</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">define_show_form</span> <span class="k">as</span> <span class="nv">show_form</span> <span class="cp">%}</span>
-</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">show_form</span> <span class="cp">%}</span>
-</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="x">            $(document).ready(function() {</span>
-</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="x">                $(&quot;.login-box&quot;).insertAfter(&quot;#login-form&quot;);</span>
-</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="x">            });</span>
-</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
-</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="x">            $(&quot;#login-form&quot;).remove();</span>
-</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="x">            $(document).ready(function() {</span>
-</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a><span class="x">                $(&quot;.login-box&quot;).insertAfter(&quot;.font-semibold.mb-10&quot;);</span>
-</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="x">            });</span>
-</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
-</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="x">    &lt;/script&gt;</span>
-</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">with</span> <span class="nv">sso_providers</span><span class="o">|</span><span class="nf">default</span><span class="o">:</span><span class="kp">None</span> <span class="k">as</span> <span class="nv">sso_providers</span> <span class="cp">%}</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">sso_providers</span> <span class="k">is</span> <span class="nf">None</span> <span class="cp">%}</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="x">            </span><span class="cp">{%</span> <span class="k">define_sso_providers</span> <span class="k">as</span> <span class="nv">sso_providers</span> <span class="cp">%}</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">for</span> <span class="nv">provider</span> <span class="k">in</span> <span class="nv">sso_providers</span> <span class="cp">%}</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="x">            &lt;link rel=&quot;stylesheet&quot; href=&quot;</span><span class="cp">{{</span> <span class="nv">provider.css_url</span> <span class="cp">}}</span><span class="x">&quot;&gt;</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">endwith</span> <span class="cp">%}</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="c">{# Default Django Admin Block #}</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="cp">{%</span> <span class="k">block</span> <span class="nv">content</span> <span class="cp">%}</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="x">    &lt;!--</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="x">        You can pass a custom Show Form to this</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="x">        template using the `show_admin_form` context variable.</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="x">        If not provided, the template will use the default</span>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="x">        `define_show_form` defined in the sso tags.</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="x">    --&gt;</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">with</span> <span class="nv">show_admin_form</span><span class="o">|</span><span class="nf">default</span><span class="o">:</span><span class="kp">None</span> <span class="k">as</span> <span class="nv">show_form</span> <span class="cp">%}</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">show_form</span> <span class="k">is</span> <span class="nf">None</span> <span class="cp">%}</span>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="x">            </span><span class="cp">{%</span> <span class="k">define_show_form</span> <span class="k">as</span> <span class="nv">show_form</span> <span class="cp">%}</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">show_form</span> <span class="cp">%}</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="x">            </span><span class="cp">{{</span> <span class="nb">block</span><span class="nv">.super</span> <span class="cp">}}</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">include</span> <span class="s1">&#39;google_sso/login_sso.html&#39;</span> <span class="cp">%}</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">endwith</span> <span class="cp">%}</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a><span class="c">{# Django Unfold Admin Block #}</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a><span class="cp">{%</span> <span class="k">block</span> <span class="nv">base</span> <span class="cp">%}</span>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a><span class="x">    </span><span class="cp">{{</span> <span class="nb">block</span><span class="nv">.super</span> <span class="cp">}}</span><span class="x">  </span><span class="c">{# Process HTML login elements from Django Unfold #}</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a><span class="x">    </span><span class="cp">{%</span> <span class="k">include</span> <span class="s1">&#39;google_sso/login_sso.html&#39;</span> <span class="cp">%}</span><span class="x"> </span><span class="c">{# Add Google SSO HTML elements #}</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a><span class="x">    &lt;script&gt;</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">with</span> <span class="nv">show_admin_form</span><span class="o">|</span><span class="nf">default</span><span class="o">:</span><span class="kp">None</span> <span class="k">as</span> <span class="nv">show_form</span> <span class="cp">%}</span>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a><span class="x">            </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">show_form</span> <span class="k">is</span> <span class="nf">None</span> <span class="cp">%}</span>
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a><span class="x">                </span><span class="cp">{%</span> <span class="k">define_show_form</span> <span class="k">as</span> <span class="nv">show_form</span> <span class="cp">%}</span>
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a><span class="x">            </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a><span class="x">            </span><span class="cp">{%</span> <span class="k">if</span> <span class="nv">show_form</span> <span class="cp">%}</span>
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a><span class="x">                $(document).ready(function() {</span>
+</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a><span class="x">                    $(&quot;.login-box&quot;).insertAfter(&quot;#login-form&quot;);</span>
+</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a><span class="x">                });</span>
+</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="x">            </span><span class="cp">{%</span> <span class="k">else</span> <span class="cp">%}</span>
+</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a><span class="x">                $(&quot;#login-form&quot;).remove();</span>
+</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a><span class="x">                $(document).ready(function() {</span>
+</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="x">                    $(&quot;.login-box&quot;).insertAfter(&quot;.font-semibold.mb-10&quot;);</span>
+</span><span id="__span-3-55"><a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a><span class="x">                });</span>
+</span><span id="__span-3-56"><a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="x">            </span><span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+</span><span id="__span-3-57"><a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a><span class="x">        </span><span class="cp">{%</span> <span class="k">endwith</span> <span class="cp">%}</span>
+</span><span id="__span-3-58"><a id="__codelineno-3-58" name="__codelineno-3-58" href="#__codelineno-3-58"></a><span class="x">    &lt;/script&gt;</span>
+</span><span id="__span-3-59"><a id="__codelineno-3-59" name="__codelineno-3-59" href="#__codelineno-3-59"></a><span class="cp">{%</span> <span class="k">endblock</span> <span class="cp">%}</span>
 </span></code></pre></div>
 <p>And this is the CSS you can use to customize your login button (you will need to create your custom <code>static/django_google_sso/google_button.css/</code> to work):</p>
 <div class="language-css highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c">/*</span>

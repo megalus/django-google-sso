@@ -535,6 +535,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-define_sso_providers-template-tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      The define_sso_providers template tag
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#about-the-google-consent-screen-and-the-authorization-prompt" class="md-nav__link">
     <span class="md-ellipsis">
       About the Google consent screen and the authorization prompt
@@ -564,6 +573,50 @@
   
   <span class="md-ellipsis">
     Advanced Use
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Django Sites Framework
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Django Google SSO outside Django Admin
     
   </span>
   
@@ -697,6 +750,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#the-define_sso_providers-template-tag" class="md-nav__link">
+    <span class="md-ellipsis">
+      The define_sso_providers template tag
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#about-the-google-consent-screen-and-the-authorization-prompt" class="md-nav__link">
     <span class="md-ellipsis">
       About the Google consent screen and the authorization prompt
@@ -733,12 +795,13 @@
 </li>
 <li>
 <p>On click, <strong>Django-Google-SSO</strong> will add, in a anonymous request session, the <code>sso_next_url</code> and Google Flow <code>sso_state</code>.
-This data will expire in 10 minutes. Then user will be redirected to Google login page.</p>
+This data will expire in 10 minutes (defined in <code>GOOGLE_SSO_TIMEOUT</code>). Then user will be redirected to Google login page.</p>
 <div class="admonition info">
 <p class="admonition-title">Using Request Anonymous session</p>
 <p>If you make any actions which change or destroy this session, like restart django, clear cookies or change
-browsers, the login will fail, and you can see the message "State Mismatched. Time expired?" in the next time
-you log in again.</p>
+browsers, ou move between <code>localhost</code> and <code>127.0.0.1</code>, the login will fail, and you can see the message
+"State Mismatched. Time expired?" in the next time you log in again. Also remember the anonymous session
+lasts for 10 minutes, defined in<code>GOOGLE_SSO_TIMEOUT</code>.</p>
 </div>
 </li>
 <li>
@@ -768,6 +831,46 @@ which will use Django Messaging system to show the error message.</p>
 defined in <code>GOOGLE_SSO_NEXT_URL</code> (default: <code>admin:index</code>) as a fallback.</p>
 </li>
 </ol>
+<h2 id="the-define_sso_providers-template-tag">The <code>define_sso_providers</code> template tag<a class="headerlink" href="#the-define_sso_providers-template-tag" title="Permanent link">&para;</a></h2>
+<p><strong>Django-Google-SSO</strong> uses this tag to define which buttons to show on the login page. This is because the same tag is
+used in other libraries, like <a href="https://github.com/megalus/django-microsoft-sso">django-microsoft-sso</a> and
+<a href="https://github.com/megalus/django-github-sso">django-github-sso</a>. This tag checks the <code>*_SSO_ENABLED</code>, <code>*_SSO_ADMIN_ENABLED</code>
+and <code>*_SSO_PAGES_ENABLED</code> settings to return a list of enabled SSO providers for the current request.</p>
+<p>if you need to customize this, you can pass in the request context the <code>sso_providers</code> variable with a list of providers to show, like this:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># views.py</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">def</span> <span class="nf">my_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    <span class="o">...</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    <span class="n">sso_providers</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="p">{</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Google&quot;</span><span class="p">,</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>            <span class="s2">&quot;logo_url&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span> <span class="c1"># URL for the button logo</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>  <span class="c1"># Text for the button</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>            <span class="s2">&quot;login_url&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>  <span class="c1"># URL to redirect to start the login flow</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>            <span class="s2">&quot;css_url&quot;</span><span class="p">:</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>  <span class="c1"># URL for the button CSS</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>         <span class="p">}</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="p">]</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;my_login_template.html&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;sso_providers&quot;</span><span class="p">:</span> <span class="n">sso_providers</span><span class="p">})</span>
+</span></code></pre></div>
+<p>Also, if you're using async views, you can run the original template tags, like this:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># views.py</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">django_google_sso.utils</span> <span class="kn">import</span> <span class="n">adefine_sso_providers</span><span class="p">,</span> <span class="n">adefine_show_form</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">my_async_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>    <span class="o">...</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>    <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>        <span class="s2">&quot;show_admin_form&quot;</span><span class="p">:</span> <span class="k">await</span> <span class="n">adefine_show_form</span><span class="p">(</span><span class="n">request</span><span class="p">),</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>        <span class="s2">&quot;sso_providers&quot;</span><span class="p">:</span> <span class="k">await</span> <span class="n">adefine_sso_providers</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>    <span class="p">}</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>    <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;my_login_template.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">The same is valid for define_show_form tag</p>
+<p>You can pass in the request context the <code>show_admin_form</code> variable with a boolean value to show or hide
+the default login form.</p>
+</div>
 <h2 id="about-the-google-consent-screen-and-the-authorization-prompt">About the Google consent screen and the authorization prompt<a class="headerlink" href="#about-the-google-consent-screen-and-the-authorization-prompt" title="Permanent link">&para;</a></h2>
 <p>The setting <code>GOOGLE_SSO_AUTHORIZATION_PROMPT</code> controls the <code>prompt</code> parameter sent to Google's OpenID Connect authorization URL. It changes what Google shows to the user during authentication/consent:</p>
 <ul>
@@ -781,8 +884,8 @@ defined in <code>GOOGLE_SSO_NEXT_URL</code> (default: <code>admin:index</code>) 
 - To see the full consent screen again with <code>consent</code>, you can revoke the app permissions from your Google Account (Google Account -&gt; Security -&gt; Third-party access), or change the Scopes to include a new permission.
 - Using <code>select_account</code> typically results in the “Choose an account” screen, which matches what you are observing locally.</p>
 <p>Example configuration in your Django settings:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Valid values: &quot;none&quot;, &quot;consent&quot;, &quot;select_account&quot;</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">GOOGLE_SSO_AUTHORIZATION_PROMPT</span> <span class="o">=</span> <span class="s2">&quot;consent&quot;</span>  <span class="c1"># default is &quot;consent&quot;</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Valid values: &quot;none&quot;, &quot;consent&quot;, &quot;select_account&quot; and None</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">GOOGLE_SSO_AUTHORIZATION_PROMPT</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># default is &quot;consent&quot;</span>
 </span></code></pre></div>
 <p>For more details about <code>prompt</code>, see Google's documentation: <a href="https://developers.google.com/identity/openid-connect/openid-connect#prompt">https://developers.google.com/identity/openid-connect/openid-connect#prompt</a></p>
 

@@ -11,7 +11,7 @@
       
       
       
-        <link rel="prev" href="../advanced/">
+        <link rel="prev" href="../pages/">
       
       
         <link rel="next" href="../settings/">
@@ -517,6 +517,50 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../sites/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Django Sites Framework
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Django Google SSO outside Django Admin
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -633,6 +677,15 @@
   <a href="#the-django-e003w003-warning" class="md-nav__link">
     <span class="md-ellipsis">
       The Django E003/W003 Warning
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#split-providers-between-admin-and-page-logins" class="md-nav__link">
+    <span class="md-ellipsis">
+      Split Providers between Admin and Page Logins
     </span>
   </a>
   
@@ -807,6 +860,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#split-providers-between-admin-and-page-logins" class="md-nav__link">
+    <span class="md-ellipsis">
+      Split Providers between Admin and Page Logins
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -858,7 +920,7 @@ package which you need to install and configure. Currently, we support:</p>
 <p>The first package on list will be the first button in the login page.</p>
 </div>
 <h2 id="add-secrets-to-env-file">Add secrets to env file<a class="headerlink" href="#add-secrets-to-env-file" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># .env</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># .env.local</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nv">GOOGLE_SSO_CLIENT_ID</span><span class="o">=</span><span class="m">999999999999</span>-xxxxxxxxx.apps.googleusercontent.com
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="nv">GOOGLE_SSO_CLIENT_SECRET</span><span class="o">=</span>xxxxxx
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="nv">GOOGLE_SSO_PROJECT_ID</span><span class="o">=</span><span class="m">999999999999</span>
@@ -946,6 +1008,50 @@ run the original check, but will not raise the warning for the Django SSO packag
 </span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="n">SILENCED_SYSTEM_CHECKS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;templates.W003&quot;</span><span class="p">]</span>  <span class="c1"># Will silence the original check</span>
 </span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">SSO_USE_ALTERNATE_W003</span> <span class="o">=</span> <span class="kc">True</span>  <span class="c1"># Will run alternate check</span>
 </span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">The tags will be executed only once, per request, for the <strong>last</strong> installed package</p>
+<p>To avoid multiple executions for the <code>define_sso_providers</code> and <code>define_show_form</code> tags, these code will be executed once and the result will be cached on the request object.
+Due to django template loading mechanism, the tag's code from the <strong>last</strong> installed package will be the one executed. This means if you have
+multiple packages installed, only the last one will be executed. To avoid this, you can use the <code>sso_providers</code> and <code>show_admin_form</code> context variables
+to pass the values you want to show in the template.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># views.py</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">render</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kn">from</span> <span class="nn">django_google_sso.template_tags</span> <span class="kn">import</span> <span class="n">define_sso_providers</span><span class="p">,</span> <span class="n">define_show_form</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">def</span> <span class="nf">my_login_view</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>    <span class="o">...</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>    <span class="n">sso_providers</span> <span class="o">=</span> <span class="n">define_sso_providers</span><span class="p">({</span><span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">request</span><span class="p">})</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>    <span class="n">show_admin_form</span> <span class="o">=</span> <span class="n">define_show_form</span><span class="p">({</span><span class="s2">&quot;context&quot;</span><span class="p">:</span> <span class="n">request</span><span class="p">})</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>    <span class="k">return</span> <span class="n">render</span><span class="p">(</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>        <span class="n">request</span><span class="p">,</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>        <span class="s2">&quot;my_login_template.html&quot;</span><span class="p">,</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>        <span class="p">{</span><span class="s2">&quot;sso_providers&quot;</span><span class="p">:</span> <span class="n">sso_providers</span><span class="p">,</span> <span class="s2">&quot;show_admin_form&quot;</span><span class="p">:</span> <span class="n">show_admin_form</span><span class="p">},</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>    <span class="p">)</span>
+</span></code></pre></div>
+</div>
+<h2 id="split-providers-between-admin-and-page-logins">Split Providers between Admin and Page Logins<a class="headerlink" href="#split-providers-between-admin-and-page-logins" title="Permanent link">&para;</a></h2>
+<p>If you want to use different providers for Admin and Page logins, you may need to enable/disable providers per request. For example, suppose if you want to use
+all Django SSOs for Page login but only <strong>Django Google SSO</strong> for the Admin, you can add the respective
+<code>*_SSO_PAGES_ENABLED</code> and <code>*_SSO_ADMIN_ENABLED</code>, like this:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># settings.py</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="c1"># Enable or Disable globally (both Admin and Pages):</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">GOOGLE_SSO_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">MICROSOFT_SSO_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">GITHUB_SSO_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="c1"># Enable or disable per request path:</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="n">MICROSOFT_SSO_ADMIN_ENABLED</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="n">MICROSOFT_SSO_PAGES_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="n">GITHUB_SSO_ADMIN_ENABLED</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="n">GITHUB_SSO_PAGES_ENABLED</span> <span class="o">=</span> <span class="kc">True</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">You need to be explicit on these settings</p>
+<p>If you set <code>GOOGLE_SSO_ADMIN_ENABLED = False</code> and do not set <code>GOOGLE_SSO_PAGES_ENABLED</code>, the default value for <code>GOOGLE_SSO_PAGES_ENABLED</code> is also <code>False</code>.
+This means Google SSO will be disabled for both Admin and Page logins. You need to be explicit on these settings.</p>
+</div>
 
 
 
