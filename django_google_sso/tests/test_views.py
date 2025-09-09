@@ -1,11 +1,9 @@
-import importlib
-
 import pytest
 from django.contrib.auth.models import User
 from django.contrib.messages import get_messages
 from django.urls import reverse
 
-from django_google_sso import conf
+from django_google_sso import helpers
 from django_google_sso.main import GoogleAuth
 from django_google_sso.tests.conftest import SECRET_PATH
 
@@ -34,6 +32,8 @@ def test_start_login_none_next_param(client, mocker):
     # Arrange
     flow_mock = mocker.patch.object(GoogleAuth, "flow")
     flow_mock.authorization_url.return_value = ("https://foo/bar", "foo")
+    helper_mock = mocker.patch.object(helpers, "is_admin_path")
+    helper_mock.return_value = {"next_url": "secret"}
 
     # Act
     url = reverse("django_google_sso:oauth_start_login")
@@ -41,7 +41,7 @@ def test_start_login_none_next_param(client, mocker):
 
     # Assert
     assert response.status_code == 302
-    assert client.session["sso_next_url"] == reverse(conf.GOOGLE_SSO_NEXT_URL)
+    assert client.session["sso_next_url"] == reverse("secret")
     assert client.session["sso_state"] == "foo"
 
 
@@ -72,10 +72,7 @@ def test_exploit_redirect(client, mocker, test_parameter):
 
 def test_google_sso_disabled(settings, client):
     # Arrange
-    from django_google_sso import conf
-
     settings.GOOGLE_SSO_ENABLED = False
-    importlib.reload(conf)
 
     # Act
     response = client.get(reverse(ROUTE_NAME))
@@ -89,9 +86,6 @@ def test_google_sso_disabled(settings, client):
 
 
 def test_missing_code(client):
-    # Arrange
-    importlib.reload(conf)
-
     # Act
     response = client.get(reverse(ROUTE_NAME))
 
@@ -106,7 +100,6 @@ def test_missing_code(client):
 @pytest.mark.parametrize("querystring", ["?code=1234", "?code=1234&state=bad_dog"])
 def test_bad_state(client, querystring):
     # Arrange
-    importlib.reload(conf)
     session = client.session
     session.update({"sso_state": "good_dog"})
     session.save()
@@ -125,10 +118,7 @@ def test_bad_state(client, querystring):
 
 def test_invalid_email(client_with_session, settings, callback_url):
     # Arrange
-    from django_google_sso import conf
-
     settings.GOOGLE_SSO_ALLOWABLE_DOMAINS = ["foobar.com"]
-    importlib.reload(conf)
 
     # Act
     response = client_with_session.get(callback_url)
@@ -176,8 +166,6 @@ def test_existing_user_login(
     client_with_session, settings, google_response, callback_url
 ):
     # Arrange
-    from django_google_sso import conf
-
     existing_user = User.objects.create(
         username=google_response["email"],
         email=google_response["email"],
@@ -185,7 +173,6 @@ def test_existing_user_login(
     )
 
     settings.GOOGLE_SSO_AUTO_CREATE_USERS = False
-    importlib.reload(conf)
 
     # Act
     response = client_with_session.get(callback_url)
@@ -202,10 +189,7 @@ def test_missing_user_login(
     client_with_session, settings, google_response, callback_url
 ):
     # Arrange
-    from django_google_sso import conf
-
     settings.GOOGLE_SSO_AUTO_CREATE_USERS = False
-    importlib.reload(conf)
 
     # Act
     response = client_with_session.get(callback_url)
@@ -213,5 +197,5 @@ def test_missing_user_login(
     # Assert
     assert response.status_code == 302
     assert User.objects.count() == 0
-    assert response.url == "/admin/"
+    assert response.url == "/"
     assert response.wsgi_request.user.is_authenticated is False

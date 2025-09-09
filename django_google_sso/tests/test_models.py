@@ -1,5 +1,3 @@
-import importlib
-
 import pytest
 
 from django_google_sso.main import UserHelper
@@ -34,7 +32,6 @@ def test_user_with_custom_field_names(
     custom_user_model, google_response, callback_request
 ):
     # Arrange
-    importlib.reload(importlib.import_module("django_google_sso.main"))
     from django_google_sso.main import UserHelper
 
     # Act

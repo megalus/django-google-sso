@@ -1,16 +1,20 @@
 import arrow
 import httpx
+from asgiref.sync import iscoroutinefunction, sync_to_async
 from django.contrib import messages
 from django.contrib.auth import logout
 from django.contrib.auth.backends import ModelBackend
+from django.utils.decorators import sync_and_async_middleware
 from loguru import logger
+
+try:
+    from django.contrib.auth import alogout
+except ImportError:  # Django < 5.0
+    alogout = sync_to_async(logout)
 
 
 class MyBackend(ModelBackend):
     """Simple test for custom authentication backend"""
-
-    def authenticate(self, request, username=None, password=None, **kwargs):
-        return super().authenticate(request, username, password, **kwargs)
 
 
 def pre_login_callback(user, request):
@@ -62,18 +66,28 @@ def is_user_valid(token):
     return response.status_code == 200
 
 
-class GoogleSLOMiddlewareExample:
-    def __init__(self, get_response):
-        self.get_response = get_response
+@sync_and_async_middleware
+def google_slo_middleware_example(get_response):
 
-    def __call__(self, request):
-        token = request.session.get("google_sso_access_token")
+    if iscoroutinefunction(get_response):
 
-        if token and not is_user_valid(token):
-            logout(request)
+        async def middleware(request):
+            token = await sync_to_async(request.session.get)("google_sso_access_token")
+            if token and not await sync_to_async(is_user_valid)(token):
+                await alogout(request)
+            response = await get_response(request)
+            return response
 
-        response = self.get_response(request)
-        return response
+    else:
+
+        def middleware(request):
+            token = request.session.get("google_sso_access_token")
+            if token and not is_user_valid(token):
+                logout(request)
+            response = get_response(request)
+            return response
+
+    return middleware
 
 
 def pre_create_callback(google_info, request) -> dict:

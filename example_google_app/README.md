@@ -18,7 +18,7 @@ poetry run python manage.py migrate
 poetry run python manage.py runserver
 ```
 
-Open browser in `http://localhost:8000/secret`
+Open browser in `http://localhost:8000/admin`
 
 ## Django Admin skins
 

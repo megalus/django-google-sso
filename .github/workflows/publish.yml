@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout Project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
@@ -22,7 +22,7 @@ jobs:
           git checkout -B ${{ github.ref_name }} ${{ github.sha }}
 
       - name: Setup | Install Python 3.12
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -42,7 +42,7 @@ jobs:
           pypi_token: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
 
       - name: Release | Upload to GitHub Release Assets
-        uses: python-semantic-release/publish-action@v9.10.0
+        uses: python-semantic-release/publish-action@v10.3.1
         if: steps.release.outputs.released == 'true'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -52,12 +52,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout Project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Docs | Install MKDocs
-        run: pip install mkdocs-material
+        run: pip install mkdocs-material mkdocs-mermaid2-plugin
 
       - name: Docs | Publish Docs
         run: mkdocs gh-deploy --force

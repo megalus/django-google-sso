@@ -21,14 +21,14 @@ from django.contrib.auth.views import LoginView
 from django.urls import include, path
 
 from example_google_app.settings import INSTALLED_APPS
-from example_google_app.views import secret_page, single_logout_view
+from example_google_app.views import index, secret_page, single_logout_view
 
 urlpatterns = [
     path("admin/", admin.site.urls),
 ]
 
 urlpatterns += [
-    path("secret/", secret_page),
+    path("secret/", secret_page, name="secret"),
     path(
         "accounts/login/",
         LoginView.as_view(
@@ -36,6 +36,7 @@ urlpatterns += [
         ),  # The modified form with google button
     ),
     path("accounts/logout/", single_logout_view, name="logout"),
+    path("", index, name="index"),
 ]
 
 if "grappelli" in INSTALLED_APPS:

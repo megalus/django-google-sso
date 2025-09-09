@@ -2,14 +2,18 @@ import httpx
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
 
 
 @login_required
-def secret_page(request):
+def secret_page(request) -> HttpResponse:
     logout_url = reverse("logout")
-    body = f"<h2>You're looking at the secret page.</h2><a href={logout_url}>Logout</a>"
-    return HttpResponse(body)
+    return render(
+        request,
+        "secret_page.html",
+        {"logout_url": logout_url},
+    )
 
 
 def single_logout_view(request):
@@ -22,6 +26,17 @@ def single_logout_view(request):
             "https://oauth2.googleapis.com/revoke", params={"token": token}, timeout=10
         )
 
-    # And redirect user to Google logout page if you want
-    redirect_url = reverse("admin:index")  # Or 'https://accounts.google.com/logout'
+    # And redirect the user to your login page or
+    # Google logout page if you want (like 'https://accounts.google.com/logout')
+    redirect_url = (
+        reverse("admin:index")
+        if request.path.startswith(reverse("admin:index"))
+        else reverse("index")
+    )
     return HttpResponseRedirect(redirect_url)
+
+
+def index(request) -> HttpResponse:
+    if request.user.is_authenticated:
+        return HttpResponseRedirect(reverse("secret"))
+    return render(request, "login.html", {})

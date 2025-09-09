@@ -10,8 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
+# flake8: noqa: E731
+
 from pathlib import Path
 
+from loguru import logger
 from stela import env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -63,7 +66,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     # Must be after Authentication
-    "example_google_app.backend.GoogleSLOMiddlewareExample",
+    "example_google_app.backend.google_slo_middleware_example",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -73,7 +76,9 @@ ROOT_URLCONF = "example_google_app.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [
+            BASE_DIR / "example_google_app" / "templates",
+        ],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -163,24 +168,104 @@ STATICFILES_DIRS = [BASE_DIR / "example_google_app" / "static"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTHENTICATION_BACKENDS = ["backend.MyBackend"]
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "example_google_app.backend.MyBackend",
+]
+
+SITE_ID = 1
 
 # Uncomment GOOGLE_SSO_CALLBACK_DOMAIN to use Sites Framework site domain
 # Or comment both and use domain retrieved from accounts/login/ request
-SITE_ID = 1
 GOOGLE_SSO_CALLBACK_DOMAIN = env.GOOGLE_SSO_CALLBACK_DOMAIN
 
-GOOGLE_SSO_SESSION_COOKIE_AGE = 3600  # default value
-GOOGLE_SSO_CLIENT_ID = env.GOOGLE_SSO_CLIENT_ID
-GOOGLE_SSO_PROJECT_ID = env.GOOGLE_SSO_PROJECT_ID
-GOOGLE_SSO_CLIENT_SECRET = env.GOOGLE_SSO_CLIENT_SECRET
+# ****************************
+# *                          *
+# *  Callable Examples       *
+# *                          *
+# ****************************
 
-GOOGLE_SSO_ALLOWABLE_DOMAINS = env.get_or_default("GOOGLE_SSO_ALLOWABLE_DOMAINS", [])
-GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = (
-    False  # Mark as True, to create superuser on first eligible user login
-)
-GOOGLE_SSO_STAFF_LIST = env.get_or_default("GOOGLE_SSO_STAFF_LIST", [])
-GOOGLE_SSO_SUPERUSER_LIST = env.get_or_default("GOOGLE_SSO_SUPERUSER_LIST", [])
+
+def get_client_id(request):
+    """
+    Example of callable to return client ID based on request.
+    This can be used to dynamically set the client ID based on the request.
+    """
+    return env.GOOGLE_SSO_CLIENT_ID
+
+
+def get_project_id(request):
+    return env.GOOGLE_SSO_PROJECT_ID
+
+
+GOOGLE_SSO_CLIENT_ID = get_client_id  # dynamic
+GOOGLE_SSO_PROJECT_ID = get_project_id  # dynamic
+GOOGLE_SSO_CLIENT_SECRET = env.GOOGLE_SSO_CLIENT_SECRET  # static
+
+# ***********************************
+# *                                 *
+# *  Page and Admin Login Examples  *
+# *                                 *
+# ***********************************
+
+# --8<-- [start:sso_config]
+# settings.py
+from django_google_sso.helpers import is_admin_path
+
+
+def get_sso_config(request):
+    config = {
+        "admin": {
+            "allowable_domains": env.get_or_default("GOOGLE_SSO_ALLOWABLE_DOMAINS", []),
+            "login_failed_url": "admin:login",
+            "next_url": "admin:index",
+            "session_cookie_age": 3600,  # 1 hour - default
+            "staff_list": env.get_or_default("GOOGLE_SSO_STAFF_LIST", []),
+            "superuser_list": env.get_or_default("GOOGLE_SSO_SUPERUSER_LIST", []),
+            "auto_create_first_superuser": True,  # Create superuser on first eligible user login
+        },
+        "pages": {
+            "allowable_domains": ["*"],  # Allow all domains
+            "login_failed_url": "index",
+            "next_url": "secret",
+            "session_cookie_age": 86400,  # 24 hours
+            "staff_list": [],
+            "superuser_list": [],
+            "auto_create_first_superuser": False,
+        },
+    }
+    if is_admin_path(request):
+        logger.debug("Returning Admin SSO configuration")
+        return config["admin"]
+    else:
+        logger.debug("Returning Pages SSO configuration")
+        return config["pages"]
+
+
+# Configure settings as callables
+GOOGLE_SSO_ALLOWABLE_DOMAINS = lambda request: get_sso_config(request)[
+    "allowable_domains"
+]
+GOOGLE_SSO_LOGIN_FAILED_URL = lambda request: get_sso_config(request)[
+    "login_failed_url"
+]
+GOOGLE_SSO_NEXT_URL = lambda request: get_sso_config(request)["next_url"]
+GOOGLE_SSO_SESSION_COOKIE_AGE = lambda request: get_sso_config(request)[
+    "session_cookie_age"
+]
+GOOGLE_SSO_STAFF_LIST = lambda request: get_sso_config(request)["staff_list"]
+GOOGLE_SSO_SUPERUSER_LIST = lambda request: get_sso_config(request)["superuser_list"]
+GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = lambda request: get_sso_config(request)[
+    "auto_create_first_superuser"
+]
+# --8<-- [end:sso_config]
+
+
+# ***********************************
+# *                                 *
+# *  Other Config Examples          *
+# *                                 *
+# ***********************************
 
 GOOGLE_SSO_TIMEOUT = 10  # default value
 GOOGLE_SSO_SCOPES = [
@@ -191,7 +276,7 @@ GOOGLE_SSO_SCOPES = [
 ]
 
 # Optional: Add if you want to use custom authentication backend
-GOOGLE_SSO_AUTHENTICATION_BACKEND = "backend.MyBackend"
+GOOGLE_SSO_AUTHENTICATION_BACKEND = "example_google_app.backend.MyBackend"
 
 # Optional: You can save access token to session
 GOOGLE_SSO_SAVE_ACCESS_TOKEN = True
@@ -200,22 +285,23 @@ GOOGLE_SSO_SAVE_ACCESS_TOKEN = True
 # GOOGLE_SSO_TEXT = "Login using Google Account"
 
 # Optional: Add pre-validate logic
-GOOGLE_SSO_PRE_VALIDATE_CALLBACK = "backend.pre_validate_callback"
+GOOGLE_SSO_PRE_VALIDATE_CALLBACK = "example_google_app.backend.pre_validate_callback"
 
 # Optional: Add pre-create logic
-GOOGLE_SSO_PRE_CREATE_CALLBACK = "backend.pre_create_callback"
+GOOGLE_SSO_PRE_CREATE_CALLBACK = "example_google_app.backend.pre_create_callback"
 
 # Optional: Add pre-login logic
-GOOGLE_SSO_PRE_LOGIN_CALLBACK = "backend.pre_login_callback"
+GOOGLE_SSO_PRE_LOGIN_CALLBACK = "example_google_app.backend.pre_login_callback"
 
-# Uncomment to disable SSO login
+# Uncomment to disable SSO login globally
 # GOOGLE_SSO_ENABLED = False  # default: True
+
+# You can also define login per request.path
+# GOOGLE_SSO_PAGES_ENABLED = True  # default: None
+# GOOGLE_SSO_ADMIN_ENABLED = False  # default: None
 
 # Uncomment to disable user auto-creation
 # GOOGLE_SSO_AUTO_CREATE_USERS = False  # default: True
-
-# Uncomment to hide login form on admin page
-# GOOGLE_SSO_SHOW_FORM_ON_ADMIN_PAGE = False  # default: True
 
 # Always update user data with Google Info
 GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA = True
@@ -237,6 +323,6 @@ SSO_SHOW_FORM_ON_ADMIN_PAGE = False  # default: True
 # GOOGLE_SSO_SHOW_FAILED_LOGIN_MESSAGE = True
 
 # Optional: Change the "prompt" value to pass to the Google authorization URL
-# Valid options are: "none", "consent", "select_account"
+# Valid options are: "none", "consent", "select_account" and None
 # https://developers.google.com/identity/protocols/oauth2/openid-connect#prompt
-# GOOGLE_SSO_AUTHORIZATION_PROMPT = "consent"  # default: consent
+# GOOGLE_SSO_AUTHORIZATION_PROMPT = "select_account" # default: "consent"

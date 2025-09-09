@@ -2,9 +2,11 @@
 
 | Setting                                  | Description                                                                                                                                                                         |
 |------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `GOOGLE_SSO_ADMIN_ENABLED`               | Enable SSO only when allowed on Admin pages. Default: `None`                                                                                                                        |
 | `GOOGLE_SSO_ALLOWABLE_DOMAINS`           | List of domains that will be allowed to create users. Default: `[]`                                                                                                                 |
 | `GOOGLE_SSO_ALWAYS_UPDATE_USER_DATA`     | If true, update default user info from Google data at every login. This will also make their password unusable. Otherwise, all of this happens only on create. Default: `False`     |
 | `GOOGLE_SSO_AUTHENTICATION_BACKEND`      | The authentication backend to use.  Default: `None`                                                                                                                                 |
+| `GOOGLE_SSO_AUTHORIZATION_PROMPT`        | The "prompt" value to pass to the Google authorization URL (see <https://developers.google.com/identity/openid-connect/openid-connect#prompt>). Default: `consent`                  |
 | `GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER` | If True, the first user that logs in will be created as superuser if no superuser exists in the database at all. Default: `False`                                                   |
 | `GOOGLE_SSO_AUTO_CREATE_USERS`           | Enable or disable the auto-create users feature. Default: `True`                                                                                                                    |
 | `GOOGLE_SSO_CALLBACK_DOMAIN`             | The netloc to be used on Callback URI. Default: `None`                                                                                                                              |
@@ -17,6 +19,7 @@
 | `GOOGLE_SSO_LOGIN_FAILED_URL`            | The named url path that the user will be redirected to if an authentication error is encountered. Default: `admin:index`                                                            |
 | `GOOGLE_SSO_LOGO_URL`                    | The URL of the logo to be used on the login button. Default: `https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1280px-Google_%22G%22_logo.svg.png` |
 | `GOOGLE_SSO_NEXT_URL`                    | The named url path that the user will be redirected if there is no next url after successful authentication. Default: `admin:index`                                                 |
+| `GOOGLE_SSO_PAGES_ENABLED`               | Enable SSO button injection on non-admin pages. Default: `None`                                                                                                                     |
 | `GOOGLE_SSO_PRE_CREATE_CALLBACK`         | Callable for processing pre-create logic. Default: `django_google_sso.hooks.pre_create_user`                                                                                        |
 | `GOOGLE_SSO_PRE_LOGIN_CALLBACK`          | Callable for processing pre-login logic. Default: `django_google_sso.hooks.pre_login_user`                                                                                          |
 | `GOOGLE_SSO_PRE_VALIDATE_CALLBACK`       | Callable for processing pre-validate logic. Default: `django_google_sso.hooks.pre_validate_user`                                                                                    |
@@ -30,6 +33,6 @@
 | `GOOGLE_SSO_SUPERUSER_LIST`              | List of emails that will be created as superuser. Default: `[]`                                                                                                                     |
 | `GOOGLE_SSO_TEXT`                        | The text to be used on the login button. Default: `Sign in with Google`                                                                                                             |
 | `GOOGLE_SSO_TIMEOUT`                     | The timeout for the Google SSO authentication returns info, in minutes. Default: `10`                                                                                               |
-| `GOOGLE_SSO_AUTHORIZATION_PROMPT`        | The "prompt" value to pass to the Google authorization URL (see <https://developers.google.com/identity/openid-connect/openid-connect#prompt>). Default: `consent`                  |
+| `SSO_ADMIN_ROUTE`                        | The admin index page route. Default: `admin:index`                                                                                                                                  |
 | `SSO_SHOW_FORM_ON_ADMIN_PAGE`            | Show the form on the admin page. Default: `True`                                                                                                                                    |
 | `SSO_USE_ALTERNATE_W003`                 | Use alternate W003 warning. You need to silence original templates.W003 warning. Default: `False`                                                                                   |

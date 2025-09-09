@@ -46,10 +46,9 @@ $ pip install django-google-sso
 
 > **Compatibility**
 > - Python 3.11, 3.12, 3.13
-> - Django 4.2, 5.0, 5.1
-> - For Python 3.10, use version 4.x
-> - For Python 3.9, use version 3.x
-> - For Python 3.8, use version 2.x
+> - Django 4.2, 5.0, 5.1, 5.2
+>
+> Older python/django versions are not supported.
 
 ### Configuration
 
@@ -104,15 +103,11 @@ That's it! Start Django and visit `http://localhost:8000/admin/login` to see the
    <img src="docs/images/django_login_with_google_light.png"/>
 </p>
 
-## Admin Skin Compatibility
+## Example project
 
-Django Google SSO works with popular Django Admin skins including:
-- Django Admin (default)
-- [Grappelli](https://github.com/sehmaschine/django-grappelli)
-- [Django Jazzmin](https://github.com/farridav/django-jazzmin)
-- [Django Admin Interface](https://github.com/fabiocaccamo/django-admin-interface)
-- [Django Jet Reboot](https://github.com/assem-ch/django-jet-reboot)
-- [Django Unfold](https://github.com/unfoldadmin/django-unfold)
+A minimal Django project using this library is included in this repository under `example_google_app/`.
+- Read the step-by-step instructions in example_google_app/README.md
+- Use it as a reference to configure your own project settings and URLs
 
 ## Documentation
 
