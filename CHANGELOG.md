@@ -1,7 +1,36 @@
 # CHANGELOG
 
 
+## v9.0.0 (2025-09-09)
+
+### Chores
+
+* chore: fix unit tests in django <5.1 ([`32b90cf`](https://github.com/megalus/django-google-sso/commit/32b90cfb8656eb34a797f6b5c2e76ecfd0b2a469))
+
+* chore: fixes after PR review ([`d90fd98`](https://github.com/megalus/django-google-sso/commit/d90fd98cc951eb5862fad2c5073191333f0e2f30))
+
+### Fixes
+
+* fix: merge from main branch and final fixes ([`cc95cb8`](https://github.com/megalus/django-google-sso/commit/cc95cb81113ebbff0201f24b36b2282a12687ff8))
+
+### Unknown
+
+* Merge pull request #54 from megalus/v9
+
+Version 9.0 ([`3db67db`](https://github.com/megalus/django-google-sso/commit/3db67db6baae9df39cb46f90e622898391f45fc1))
+
+
 ## v8.0.2 (2025-09-08)
+
+### Breaking
+
+* feat!: More updates
+
+* Update GitHub Actions
+* Make all sso tags customizable via request context
+* Fix SSO enabled check
+* Update Docs
+* Update Example Django App ([`b5b2f60`](https://github.com/megalus/django-google-sso/commit/b5b2f600ef8561994ebf04f55abbe3d88aba8f74))
 
 ### Fixes
 
@@ -18,6 +47,8 @@ Use EMAIL_FIELD when evaluating custom email field ([`407452c`](https://github.c
 Respect CustomUser.EMAIL_FIELD ([`0f8eccb`](https://github.com/megalus/django-google-sso/commit/0f8eccbc4111b5dba283ee5e429d37063308f465))
 
 * Respect EMAIL_FIELD ([`a93398e`](https://github.com/megalus/django-google-sso/commit/a93398e736a0ed5a5cc0127318893ec243e85e58))
+
+* Merge remote-tracking branch 'origin/main' into v9 ([`a16597e`](https://github.com/megalus/django-google-sso/commit/a16597e0f173896b50975fa8c0b2ab54a8a163cc))
 
 * Merge pull request #51 from johnnyplaydrums/update-doc-for-prompt-config
 
@@ -40,8 +71,23 @@ the existing options and no quotes for python `None` type. You can
 also achieve this new option with empty quotes `""`, so that could
 be another option if the current update to the docs is not clear. ([`ce821b6`](https://github.com/megalus/django-google-sso/commit/ce821b65ecb2cbdda64b4beda312979ea84efabb))
 
+* Merge remote-tracking branch 'origin/main' into v9
+
+# Conflicts:
+#	django_google_sso/conf.py
+#	django_google_sso/views.py ([`dc2fb78`](https://github.com/megalus/django-google-sso/commit/dc2fb78bf6dd2eff47088217e09b29cd0f488d91))
+
 
 ## v8.0.1 (2025-08-22)
+
+### Breaking
+
+* feat!: Version 9 - BREAKING CHANGE
+
+* Add support to multiple sites
+* SSO options can accept now functions
+* Add Django 5.2 support
+* Add custom sso providers generation in templates ([`b074cb4`](https://github.com/megalus/django-google-sso/commit/b074cb4cd7355d970962f2cc398421cd69509527))
 
 ### Documentation
 
