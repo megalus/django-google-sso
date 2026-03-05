@@ -32,7 +32,7 @@ This library simplifies the process of authenticating users with Google in Djang
 - **Admin Integration**: Seamlessly integrates with the Django Admin interface
 - **Customizable**: Works with popular Django Admin skins like Grappelli, Jazzmin, and more
 - **Modern**: Uses the latest Google authentication libraries
-- **Secure**: Follows OAuth 2.0 best practices for authentication
+- **Secure**: Follows OAuth 2.0 best practices for authentication, including PKCE support
 
 ---
 

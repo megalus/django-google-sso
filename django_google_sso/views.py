@@ -40,6 +40,8 @@ def start_login(request: HttpRequest) -> HttpResponseRedirect:
     request.session.set_expiry(timeout * 60)
     request.session["sso_state"] = state
     request.session["sso_next_url"] = next_path
+    if isinstance(getattr(google.flow, "code_verifier", None), str):
+        request.session["sso_code_verifier"] = google.flow.code_verifier
     request.session.save()
 
     # Redirect User
@@ -77,6 +79,9 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
 
     # Get Access Token from Google
     try:
+        code_verifier = request.session.get("sso_code_verifier")
+        if code_verifier:
+            google.flow.code_verifier = code_verifier
         google.flow.fetch_token(code=code)
     except Exception as error:
         send_message(request, _(f"Error while fetching token from SSO: {error}."))
