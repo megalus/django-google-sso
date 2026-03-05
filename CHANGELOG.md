@@ -1,6 +1,15 @@
 # CHANGELOG
 
 
+## v9.0.3 (2026-03-05)
+
+### Fixes
+
+* fix: missing PKCE code verifier for latest google-auth version
+
+Fixes #57 ([`a7fb816`](https://github.com/megalus/django-google-sso/commit/a7fb81697c207164df75da98ad3c1df06293ecbe))
+
+
 ## v9.0.2 (2025-09-16)
 
 ### Fixes
