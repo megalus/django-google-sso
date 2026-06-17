@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
@@ -467,6 +467,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Fine-tuning user info before user creation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-control-with-google_sso_pre_create_user_return_full_args" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full control with GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -907,6 +924,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Fine-tuning user info before user creation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#full-control-with-google_sso_pre_create_user_return_full_args" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full control with GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -989,22 +1023,13 @@ This function will receive two arguments: the <code>google_user_info</code> dict
 <p>If you need to do some processing <em>before</em> user is created, you can set the
 <code>GOOGLE_SSO_PRE_CREATE_CALLBACK</code> setting to import a custom function that will be called before the user is created.
 This function will receive two arguments: the <code>google_user_info</code> dict from Google User API and <code>request</code> objects.</p>
-<div class="admonition tip">
-<p class="admonition-title">You can add custom fields to the user model here</p>
-<p>The <code>pre_create_callback</code> function can return a dictionary with the fields and values that will be passed to
-<code>User.objects.create()</code> as the <code>defaults</code> argument. This means you can add custom fields to the user model here or
-change default values for some fields, like <code>username</code>.</p>
-<p>If not defined, the field <code>username</code> is always the user email.</p>
-<p>You can't change the fields: <code>first_name</code>, <code>last_name</code>, <code>email</code> and <code>password</code> using this callback. These fields are
-always passed to <code>User.objects.create()</code> with the values from Google API and the password is always unusable.</p>
-</div>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">import</span> <span class="nn">arrow</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
 </span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">def</span> <span class="nf">pre_create_callback</span><span class="p">(</span><span class="n">google_info</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Callback function called before user is created.</span>
 </span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
 </span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="sd">    return: dict content to be passed to</span>
-</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="sd">            User.objects.create() as `defaults` argument.</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="sd">            User.objects.get_or_create() as `defaults` argument.</span>
 </span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="sd">            If not informed, field `username` is always</span>
 </span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="sd">            the user email.</span>
 </span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="sd">    &quot;&quot;&quot;</span>
@@ -1017,18 +1042,45 @@ always passed to <code>User.objects.create()</code> with the values from Google 
 </span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a>        <span class="s2">&quot;date_joined&quot;</span><span class="p">:</span> <span class="n">arrow</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
 </span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a>    <span class="p">}</span>
 </span></code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">You can add custom fields to the user model here</p>
+<p>The <code>pre_create_callback</code> function can return a dictionary with the fields and values that will be passed to
+<code>User.objects.get_or_create()</code> as the <code>defaults</code> argument. This means you can add custom fields to the user model here or
+change default values for some fields, like <code>username</code>.</p>
+<p>If not defined, the field <code>username</code> is always the user email.</p>
+<p>You can't change the fields: <code>first_name</code>, <code>last_name</code>, <code>email</code> and <code>password</code> using this callback. These fields are
+always passed to <code>User.objects.get_or_create()</code> with the values from Google API and the password is always unusable.</p>
+</div>
+<h4 id="full-control-with-google_sso_pre_create_user_return_full_args">Full control with GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS<a class="headerlink" href="#full-control-with-google_sso_pre_create_user_return_full_args" title="Permanent link">&para;</a></h4>
+<p>When you set <code>GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS = True</code> in your settings, the dict returned by the
+<code>pre_create_callback</code> is used as <strong>all keyword arguments</strong> to <code>User.objects.get_or_create()</code>, not just the
+<code>defaults</code> argument. This allows you to control both the lookup filter and the defaults:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">def</span> <span class="nf">pre_create_callback</span><span class="p">(</span><span class="n">google_info</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="k">return</span> <span class="p">{</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>        <span class="s2">&quot;defaults&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>            <span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">google_info</span><span class="p">[</span><span class="s1">&#39;email&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;@&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">google_info</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>            <span class="s2">&quot;date_joined&quot;</span><span class="p">:</span> <span class="n">arrow</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>        <span class="p">},</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a>        <span class="s2">&quot;email__iexact&quot;</span><span class="p">:</span> <span class="n">google_info</span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">],</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a>    <span class="p">}</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">You are fully responsible for the get_or_create query</p>
+<p>When <code>GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS = True</code>, the auto-fill of <code>username</code> and <code>email</code> fields is
+disabled. You must provide everything yourself, including the lookup filter. An empty dict will cause an error.</p>
+</div>
 <h2 id="fine-tuning-users-before-login">Fine-tuning users before login<a class="headerlink" href="#fine-tuning-users-before-login" title="Permanent link">&para;</a></h2>
 <p>If you need to do some processing <em>after</em> user is created or retrieved,
 but <em>before</em> the user is logged in, you can set the
 <code>GOOGLE_SSO_PRE_LOGIN_CALLBACK</code> setting to import a custom function that will be called before the user is logged in.
 This function will receive two arguments: the <code>user</code> and <code>request</code> objects.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># myapp/hooks.py</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">def</span> <span class="nf">pre_login_user</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="c1"># Do something with the user</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="k">pass</span>
-</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
-</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="c1"># settings.py</span>
-</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">GOOGLE_SSO_PRE_LOGIN_CALLBACK</span> <span class="o">=</span> <span class="s2">&quot;myapp.hooks.pre_login_user&quot;</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># myapp/hooks.py</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">def</span> <span class="nf">pre_login_user</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="c1"># Do something with the user</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>    <span class="k">pass</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1"># settings.py</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="n">GOOGLE_SSO_PRE_LOGIN_CALLBACK</span> <span class="o">=</span> <span class="s2">&quot;myapp.hooks.pre_login_user&quot;</span>
 </span></code></pre></div>
 <p>Please remember this function will be invoked only if user exists, and if it is active.
 In other words, if the user is eligible for login.</p>
