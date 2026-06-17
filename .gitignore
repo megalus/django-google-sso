@@ -139,6 +139,7 @@ dmypy.json
 cython_debug/
 
 poetry.lock
+uv.lock
 *.sqlite*
 
 .idea/

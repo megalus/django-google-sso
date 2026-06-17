@@ -1,3 +1,5 @@
+exclude: ^\.venv/
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -9,38 +11,24 @@ repos:
     rev: v6.0.0
     hooks:
       - id: check-yaml
-        args: [--unsafe]
+        args: [ --unsafe ]
   - repo: https://github.com/Lucas-C/pre-commit-hooks-bandit
     rev: v1.0.6
     hooks:
       - id: python-bandit-vulnerability-check
-        args: [ "-s", "B101,B105", "-r", "--exclude", "*/.venv/*", "." ]
-  - repo: https://github.com/pycqa/isort
-    rev: 6.0.1
+        args: ["-s", "B101,B105,B308,B703", "-r", ".", "-x", "./.venv,./venv,./build,./dist"]
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.17
     hooks:
-      - id: isort
-        name: isort (python)
-        args: [ "--profile", "black", "--filter-files" ]
-  - repo: https://github.com/psf/black
-    rev: 25.1.0
-    hooks:
-      - id: black
-        exclude: ^.*\b(migrations)\b.*$
+      - id: ruff-check
+        args: ["--fix", "--exclude", "*/migrations/*"]
+      - id: ruff-format
+        args: ["--exclude", "*/migrations/*"]
   - repo: https://github.com/asottile/yesqa
     rev: v1.5.0
     hooks:
       - id: yesqa
-  - repo: https://github.com/PyCQA/flake8
-    rev: 7.3.0
-    hooks:
-      - id: flake8
-        args: ["--count", "--exclude", "*/migrations/*,.git,*/site-packages/*", "." ]
-  - repo: https://github.com/myint/autoflake
-    rev: v2.3.1
-    hooks:
-      - id: autoflake
-        args: [ "--in-place", "--remove-all-unused-imports", "--remove-duplicate-keys" ]
   - repo: https://github.com/rtts/djhtml
-    rev: '3.0.9'
+    rev: '3.0.11'
     hooks:
       - id: djhtml

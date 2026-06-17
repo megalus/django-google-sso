@@ -49,10 +49,7 @@ def register_sso_check(app_configs, **kwargs):
         errors = []
         for config in app_configs:
             for engine in settings.TEMPLATES:
-                if (
-                    engine["BACKEND"]
-                    == "django.template.backends.django.DjangoTemplates"
-                ):
+                if engine["BACKEND"] == "django.template.backends.django.DjangoTemplates":
                     engine_params = engine.copy()
                     engine_params.pop("BACKEND")
                     django_engine = DjangoTemplates(engine_params)

@@ -101,9 +101,7 @@ def client_with_session(client, settings, mocker, google_response):
     settings.GOOGLE_SSO_ALLOWABLE_DOMAINS = ["example.com"]
     settings.GOOGLE_SSO_PRE_LOGIN_CALLBACK = "django_google_sso.hooks.pre_login_user"
     settings.GOOGLE_SSO_PRE_CREATE_CALLBACK = "django_google_sso.hooks.pre_create_user"
-    settings.GOOGLE_SSO_PRE_VALIDATE_CALLBACK = (
-        "django_google_sso.hooks.pre_validate_user"
-    )
+    settings.GOOGLE_SSO_PRE_VALIDATE_CALLBACK = "django_google_sso.hooks.pre_validate_user"
     importlib.reload(conf)
     session = client.session
     session.update({"sso_state": "foo", "sso_next_url": SECRET_PATH})
@@ -169,9 +167,7 @@ def site_specific_settings(settings):
     settings.GOOGLE_SSO_SESSION_COOKIE_AGE = get_session_cookie_age
     settings.GOOGLE_SSO_ALLOWABLE_DOMAINS = ["site.com", "other-site.com"]
     # Use the default Django authentication backend to avoid importing 'backend' module
-    settings.GOOGLE_SSO_AUTHENTICATION_BACKEND = (
-        "django.contrib.auth.backends.ModelBackend"
-    )
+    settings.GOOGLE_SSO_AUTHENTICATION_BACKEND = "django.contrib.auth.backends.ModelBackend"
     settings.AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
     return settings
 
@@ -218,9 +214,7 @@ def mock_get_sso_value(mocker, site_specific_settings):
             if key == "auto_create_users":
                 return site_specific_settings.GOOGLE_SSO_AUTO_CREATE_USERS(mock_request)
             elif key == "session_cookie_age":
-                return site_specific_settings.GOOGLE_SSO_SESSION_COOKIE_AGE(
-                    mock_request
-                )
+                return site_specific_settings.GOOGLE_SSO_SESSION_COOKIE_AGE(mock_request)
         elif key == "login_failed_url" and login_failed_url:
             return login_failed_url
         elif key == "allowable_domains":

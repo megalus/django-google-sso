@@ -12,9 +12,9 @@ if conf.GOOGLE_SSO_ENABLED:
     admin.site.login_template = "google_sso/login.html"
 
 
-def get_current_user_and_admin() -> (
-    tuple[AbstractUser, Optional[UserAdmin], Type[UserAdmin]]
-):
+def get_current_user_and_admin() -> tuple[
+    AbstractUser, Optional[UserAdmin], Type[UserAdmin]
+]:
     """Get the current user model and last admin class.
 
     For user model, we use the get_user_model() function.

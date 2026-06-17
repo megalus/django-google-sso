@@ -86,12 +86,10 @@ def callback(request: HttpRequest) -> HttpResponseRedirect:
     except Exception as error:
         send_message(request, _(f"Error while fetching token from SSO: {error}."))
         logger.debug(
-            f"GOOGLE_SSO_CLIENT_ID: "
-            f"{show_credential(google.get_sso_value('client_id'))}"
+            f"GOOGLE_SSO_CLIENT_ID: {show_credential(google.get_sso_value('client_id'))}"
         )
         logger.debug(
-            f"GOOGLE_SSO_PROJECT_ID: "
-            f"{show_credential(google.get_sso_value('project_id'))}"
+            f"GOOGLE_SSO_PROJECT_ID: {show_credential(google.get_sso_value('project_id'))}"
         )
         logger.debug(
             f"GOOGLE_SSO_CLIENT_SECRET: "

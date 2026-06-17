@@ -75,18 +75,6 @@ If you need to do some processing _before_ user is created, you can set the
 `GOOGLE_SSO_PRE_CREATE_CALLBACK` setting to import a custom function that will be called before the user is created.
 This function will receive two arguments: the `google_user_info` dict from Google User API and `request` objects.
 
-!!! tip "You can add custom fields to the user model here"
-
-    The `pre_create_callback` function can return a dictionary with the fields and values that will be passed to
-    `User.objects.create()` as the `defaults` argument. This means you can add custom fields to the user model here or
-    change default values for some fields, like `username`.
-
-    If not defined, the field `username` is always the user email.
-
-    You can't change the fields: `first_name`, `last_name`, `email` and `password` using this callback. These fields are
-    always passed to `User.objects.create()` with the values from Google API and the password is always unusable.
-
-
 ```python
 import arrow
 
@@ -94,7 +82,7 @@ def pre_create_callback(google_info, request) -> dict | None:
     """Callback function called before user is created.
 
     return: dict content to be passed to
-            User.objects.create() as `defaults` argument.
+            User.objects.get_or_create() as `defaults` argument.
             If not informed, field `username` is always
             the user email.
     """
@@ -107,6 +95,40 @@ def pre_create_callback(google_info, request) -> dict | None:
         "date_joined": arrow.utcnow().shift(days=-1).datetime,
     }
 ```
+
+!!! tip "You can add custom fields to the user model here"
+
+    The `pre_create_callback` function can return a dictionary with the fields and values that will be passed to
+    `User.objects.get_or_create()` as the `defaults` argument. This means you can add custom fields to the user model here or
+    change default values for some fields, like `username`.
+
+    If not defined, the field `username` is always the user email.
+
+    You can't change the fields: `first_name`, `last_name`, `email` and `password` using this callback. These fields are
+    always passed to `User.objects.get_or_create()` with the values from Google API and the password is always unusable.
+
+
+#### Full control with GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS
+
+When you set `GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS = True` in your settings, the dict returned by the
+`pre_create_callback` is used as **all keyword arguments** to `User.objects.get_or_create()`, not just the
+`defaults` argument. This allows you to control both the lookup filter and the defaults:
+
+```python
+def pre_create_callback(google_info, request) -> dict:
+    return {
+        "defaults": {
+            "username": f"{google_info['email'].split('@')[0]}_{google_info['id']}",
+            "date_joined": arrow.utcnow().shift(days=-1).datetime,
+        },
+        "email__iexact": google_info["email"],
+    }
+```
+
+!!! warning "You are fully responsible for the get_or_create query"
+    When `GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS = True`, the auto-fill of `username` and `email` fields is
+    disabled. You must provide everything yourself, including the lookup filter. An empty dict will cause an error.
+
 
 ## Fine-tuning users before login
 

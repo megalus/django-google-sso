@@ -73,9 +73,7 @@ def test_get_redirect_uri_from_reverse_proxy(
     )
 
 
-def test_redirect_uri_with_custom_domain(
-    callback_request_from_reverse_proxy, monkeypatch
-):
+def test_redirect_uri_with_custom_domain(callback_request_from_reverse_proxy, monkeypatch):
     # Arrange
     monkeypatch.setattr(conf, "GOOGLE_SSO_CALLBACK_DOMAIN", "my-other-domain.com")
 
@@ -83,9 +81,7 @@ def test_redirect_uri_with_custom_domain(
     google = GoogleAuth(callback_request_from_reverse_proxy)
 
     # Assert
-    assert (
-        google.get_redirect_uri() == "https://my-other-domain.com/google_sso/callback/"
-    )
+    assert google.get_redirect_uri() == "https://my-other-domain.com/google_sso/callback/"
 
 
 def test_get_redirect_uri_from_multiple_reverse_proxies(rf, query_string, monkeypatch):

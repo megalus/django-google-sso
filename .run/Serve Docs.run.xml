@@ -8,17 +8,19 @@
       <env name="PYTHONUNBUFFERED" value="1" />
     </envs>
     <option name="SDK_HOME" value="" />
-    <option name="SDK_NAME" value="Python 3.12.11 WSL (Ubuntu): (/home/chrismaille/.cache/pypoetry/virtualenvs/django-google-sso-Y1eudxms-py3.12/bin/python)" />
-    <option name="WORKING_DIRECTORY" value="\\wsl.localhost\Ubuntu\home\chrismaille\projects\django-google-sso" />
+    <option name="SDK_NAME" value="Python 3.12 (django-google-sso)" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     <option name="IS_MODULE_SDK" value="false" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
+    <option name="DEBUG_JUST_MY_CODE" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <EXTENSION ID="software.aws.toolkits.jetbrains.core.execution.PythonAwsConnectionExtension">
       <option name="credential" />
       <option name="region" />
       <option name="useCurrentConnection" value="false" />
     </EXTENSION>
+    <option name="RUN_TOOL" value="" />
     <option name="SCRIPT_NAME" value="mkdocs" />
     <option name="PARAMETERS" value="serve  -a localhost:8099" />
     <option name="SHOW_COMMAND_LINE" value="false" />
