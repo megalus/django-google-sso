@@ -111,8 +111,7 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation."
-        "UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
@@ -210,7 +209,7 @@ GOOGLE_SSO_CLIENT_SECRET = env.GOOGLE_SSO_CLIENT_SECRET  # static
 
 # --8<-- [start:sso_config]
 # settings.py
-from django_google_sso.helpers import is_admin_path
+from django_google_sso.helpers import is_admin_path  # noqa: E402
 
 
 def get_sso_config(request):
@@ -243,12 +242,8 @@ def get_sso_config(request):
 
 
 # Configure settings as callables
-GOOGLE_SSO_ALLOWABLE_DOMAINS = lambda request: get_sso_config(request)[
-    "allowable_domains"
-]
-GOOGLE_SSO_LOGIN_FAILED_URL = lambda request: get_sso_config(request)[
-    "login_failed_url"
-]
+GOOGLE_SSO_ALLOWABLE_DOMAINS = lambda request: get_sso_config(request)["allowable_domains"]
+GOOGLE_SSO_LOGIN_FAILED_URL = lambda request: get_sso_config(request)["login_failed_url"]
 GOOGLE_SSO_NEXT_URL = lambda request: get_sso_config(request)["next_url"]
 GOOGLE_SSO_SESSION_COOKIE_AGE = lambda request: get_sso_config(request)[
     "session_cookie_age"

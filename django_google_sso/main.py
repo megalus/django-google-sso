@@ -57,9 +57,7 @@ class GoogleAuth:
                 )
                 return value(self.request)
             return value
-        raise ValueError(
-            f"SSO Configuration '{google_sso_conf}' not found in settings."
-        )
+        raise ValueError(f"SSO Configuration '{google_sso_conf}' not found in settings.")
 
     def get_client_config(self) -> Credentials:
         client_config = {
@@ -92,9 +90,7 @@ class GoogleAuth:
             raw_scheme = self.request.META["HTTP_X_FORWARDED_PROTO"]
             # Some reverse proxies may send a comma-separated list like "https,https".
             # Always use the first value and strip whitespace to build a valid URI.
-            scheme = (
-                raw_scheme.split(",")[0].strip() if raw_scheme else self.request.scheme
-            )
+            scheme = raw_scheme.split(",")[0].strip() if raw_scheme else self.request.scheme
         else:
             scheme = self.request.scheme
         netloc = self.get_netloc()
@@ -179,21 +175,25 @@ class UserHelper:
         return email_verified if email_verified is not None else False
 
     def get_or_create_user(self, extra_users_args: dict | None = None):
-        user_defaults = extra_users_args or {}
-        if self.username_field.name not in user_defaults:
-            user_defaults[self.username_field.name] = self.user_info_email
-        if self.email_field_name not in user_defaults:
-            user_defaults[self.email_field_name] = self.user_info_email
-        user, created = self.user_model.objects.get_or_create(
-            **{f"{self.email_field_name}__iexact": self.user_info_email},
-            defaults=user_defaults,
-        )
+        google = GoogleAuth(self.request)
+
+        if extra_users_args and google.get_sso_value("pre_create_user_return_full_args"):
+            user, created = self.user_model.objects.get_or_create(**extra_users_args)
+        else:
+            user_defaults = extra_users_args or {}
+            if self.username_field.name not in user_defaults:
+                user_defaults[self.username_field.name] = self.user_info_email
+            if self.email_field_name not in user_defaults:
+                user_defaults[self.email_field_name] = self.user_info_email
+            user, created = self.user_model.objects.get_or_create(
+                **{f"{self.email_field_name}__iexact": self.user_info_email},
+                defaults=user_defaults,
+            )
         self.check_first_super_user(user)
         self.check_for_update(created, user)
         if self.user_changed:
             user.save()
 
-        google = GoogleAuth(self.request)
         save_basic_info = google.get_sso_value("save_basic_google_info")
         if save_basic_info:
             default_locale = google.get_sso_value("default_locale")

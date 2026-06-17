@@ -10,9 +10,11 @@ jobs:
   release:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'chore(release):')
     runs-on: ubuntu-latest
+    environment:
+      name: pypi
     steps:
       - name: Setup | Checkout Project
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
           ref: ${{ github.sha }}
@@ -21,25 +23,44 @@ jobs:
         run: |
           git checkout -B ${{ github.ref_name }} ${{ github.sha }}
 
-      - name: Setup | Install Python 3.12
+      - name: Setup | Install Python
         uses: actions/setup-python@v6
         with:
-          python-version: "3.12"
+          python-version: "3.13"
+
+      - name: Setup | Install uv
+        uses: astral-sh/setup-uv@v6
 
       - name: Release | Python Semantic Release
         id: release
         uses: python-semantic-release/python-semantic-release@v9.10.0
         with:
-          build: true
+          build: false
           commit: true
           push: true
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish | Build and Publish to PyPI using Poetry
+      - name: Publish | Checkout released tag
         if: steps.release.outputs.released == 'true'
-        uses: JRubics/poetry-publish@v2.0
+        uses: actions/checkout@v6
         with:
-          pypi_token: ${{ secrets.POETRY_PYPI_TOKEN_PYPI }}
+          ref: ${{ steps.release.outputs.tag }}
+          fetch-depth: 0
+
+      - name: Publish | Build package artifacts
+        if: steps.release.outputs.released == 'true'
+        run: uv build
+
+      - name: Publish | Upload to PyPI (Trusted Publisher)
+        if: steps.release.outputs.released == 'true'
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/
+
+      - name: Setup | Restore branch context from released tag
+        if: steps.release.outputs.released == 'true'
+        run: |
+          git checkout -B ${{ github.ref_name }} ${{ steps.release.outputs.tag }}
 
       - name: Release | Upload to GitHub Release Assets
         uses: python-semantic-release/publish-action@v10.3.1
@@ -52,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout Project
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 

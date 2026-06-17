@@ -58,9 +58,7 @@ def define_sso_providers(context):
             can_add = True
 
             # Check for admin and pages only if they are defined (not None)
-            if request and (
-                sso_admin_enabled is not None or sso_pages_enabled is not None
-            ):
+            if request and (sso_admin_enabled is not None or sso_pages_enabled is not None):
                 # If callable, call it with the request
                 if callable(sso_admin_enabled):
                     sso_admin_enabled = sso_admin_enabled(request)
@@ -111,12 +109,8 @@ def define_sso_providers(context):
                         "name": provider,
                         "logo_url": logo_conf,
                         "text": text_conf,
-                        "login_url": reverse(
-                            f"django_{provider}_sso:oauth_start_login"
-                        ),
-                        "css_url": static(
-                            f"django_{provider}_sso/{provider}_button.css"
-                        ),
+                        "login_url": reverse(f"django_{provider}_sso:oauth_start_login"),
+                        "css_url": static(f"django_{provider}_sso/{provider}_button.css"),
                     }
                 )
         except Exception as e:

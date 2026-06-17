@@ -16,9 +16,7 @@ class GoogleSSOUser(models.Model):
     def picture(self):
         if self.picture_url:
             return mark_safe(
-                '<img src = "{}" width="75" height="75">'.format(
-                    self.picture_url
-                )  # nosec
+                '<img src = "{}" width="75" height="75">'.format(self.picture_url)  # nosec
             )
         return None
 

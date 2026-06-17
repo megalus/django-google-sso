@@ -28,9 +28,7 @@ def test_very_long_picture_url(google_response, callback_request, settings):
     assert len(user.googlessouser.picture_url) == len(google_response["picture"])
 
 
-def test_user_with_custom_field_names(
-    custom_user_model, google_response, callback_request
-):
+def test_user_with_custom_field_names(custom_user_model, google_response, callback_request):
     # Arrange
     from django_google_sso.main import UserHelper
 

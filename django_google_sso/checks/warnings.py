@@ -1,7 +1,12 @@
-from django.core.checks import Tags, register
+from django.conf import settings
+from django.core.checks import Error, Tags, register
 from django.core.checks.messages import Warning
 
 TEMPLATE_TAG_NAMES = ["show_form", "sso_tags"]
+NON_SHARED_CACHE_BACKENDS = {
+    "django.core.cache.backends.locmem.LocMemCache",
+    "django.core.cache.backends.dummy.DummyCache",
+}
 
 
 @register(Tags.templates)
@@ -25,6 +30,9 @@ def register_sso_check(app_configs, **kwargs):
     New warnings will use the id `sso.W003`
 
     """
+    if not getattr(settings, "SSO_USE_ALTERNATE_W003", False):
+        return []
+
     try:  # Django <=5.0 error was templates.E003
         from django.core.checks.templates import (
             check_for_template_tags_with_the_same_name,
@@ -39,20 +47,15 @@ def register_sso_check(app_configs, **kwargs):
         return errors
     except ImportError:  # Django >=5.1 error is now templates.W003
         from django.apps import apps
-        from django.conf import settings
         from django.template.backends.django import DjangoTemplates
 
         errors = []
         if app_configs is None:
             app_configs = apps.get_app_configs()
 
-        errors = []
         for config in app_configs:
             for engine in settings.TEMPLATES:
-                if (
-                    engine["BACKEND"]
-                    == "django.template.backends.django.DjangoTemplates"
-                ):
+                if engine["BACKEND"] == "django.template.backends.django.DjangoTemplates":
                     engine_params = engine.copy()
                     engine_params.pop("BACKEND")
                     django_engine = DjangoTemplates(engine_params)
@@ -70,3 +73,49 @@ def register_sso_check(app_configs, **kwargs):
                                 )
                             )
         return errors
+
+
+@register()
+def check_secure_callback_cache(app_configs, **kwargs):
+    """Validate secure callback prerequisites and cache backend behavior."""
+    del app_configs, kwargs
+
+    if not getattr(settings, "MICROSOFT_SSO_REQUIRE_SECURE_CALLBACK", False):
+        return []
+
+    if not settings.is_overridden("CACHES"):
+        return [
+            Error(
+                msg=(
+                    "MICROSOFT_SSO_REQUIRE_SECURE_CALLBACK=True requires explicit "
+                    "Django CACHES configuration."
+                ),
+                hint=(
+                    "Configure the CACHES setting, or disable "
+                    "MICROSOFT_SSO_REQUIRE_SECURE_CALLBACK."
+                ),
+                id="sso.E001",
+            )
+        ]
+
+    backend = (
+        settings.CACHES.get("default", {}).get("BACKEND")
+        if isinstance(settings.CACHES, dict)
+        else None
+    )
+    if backend in NON_SHARED_CACHE_BACKENDS:
+        return [
+            Warning(
+                msg=(
+                    "MICROSOFT_SSO_REQUIRE_SECURE_CALLBACK=True is using a non-shared "
+                    "cache backend for OAuth flow state."
+                ),
+                hint=(
+                    "Use a shared backend (for example Redis or database cache) in "
+                    "multi-worker environments, or silence this warning with "
+                    "SILENCED_SYSTEM_CHECKS = ['sso.W001']."
+                ),
+                id="sso.W001",
+            )
+        ]
+    return []

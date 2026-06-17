@@ -205,6 +205,14 @@ class GoogleSSOSettings:
     ) -> bool | Callable[[HttpRequest], bool]:
         return self._get_setting("SSO_SHOW_FORM_ON_ADMIN_PAGE", True)
 
+    @property
+    def GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS(self) -> bool:
+        return self._get_setting(
+            "GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS",
+            False,
+            accept_callable=False,
+        )
+
 
 # Create a single instance of the settings class
 _google_sso_settings = GoogleSSOSettings()

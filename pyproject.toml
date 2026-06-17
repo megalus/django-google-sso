@@ -1,96 +1,96 @@
-[tool.black]
-target-version = ['py312']
-include = '\.pyi?$'
-exclude = '''
-(
-  /(
-      \.eggs         # exclude a few common directories in the
-    | \.git          # root of the project
-    | \.hg
-    | \.mypy_cache
-    | \.tox
-    | \.venv
-    | \venv
-    | \.aws-sam
-    | _build
-    | buck-out
-    | build
-    | dist
-    | node_modules
-  )/
-)
-'''
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
 
-[tool.isort]
-profile = "black"
-multi_line_output = 3
-include_trailing_comma = true
-force_grid_wrap = 0
-use_parentheses = true
-ensure_newline_before_comments = true
+[tool.hatch.version]
+path = "django_google_sso/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["django_google_sso"]
 
 [tool.semantic_release]
 version_variables = [
     "django_google_sso/__init__.py:__version__",
-    "pyproject.toml:version"
 ]
 branch = "main"
-upload_to_pypi = true
+upload_to_pypi = false
 upload_to_release = true
-build_command = "python -m pip install -U twine poetry && poetry build"
+build_command = "uv build"
 
-[tool.poetry]
+[project]
 name = "django-google-sso"
-version = "9.0.3"
+dynamic = ["version"]
 description = "Easily add Google Authentication to your Django Projects"
-authors = ["Chris Maillefaud <chrismaille@users.noreply.github.com>"]
 readme = "README.md"
-repository = "https://github.com/megalus/django-google-sso"
+requires-python = ">=3.11, <4.0"
+license = { text = "MIT" }
+authors = [{ name = "Chris Maillefaud", email = "chrismaille@users.noreply.github.com" }]
 keywords = ["google", "django", "sso"]
-license = "MIT"
+
 classifiers = [
     "Framework :: Django",
-    "Framework :: Django :: 4.2",
     "Framework :: Django :: 5.0",
     "Framework :: Django :: 5.1",
     "Framework :: Django :: 5.2",
+    "Framework :: Django :: 6.0",
     "Intended Audience :: Developers",
-    "Development Status :: 5 - Production/Stable",
-    "Environment :: Plugins"
+    "Development Status :: 4 - Beta",
+    "Environment :: Plugins",
+]
+dependencies = [
+    "django>=5.0",
+    "loguru",
+    "google-auth",
+    "google-auth-httplib2",
+    "google-auth-oauthlib"
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.11, <4.0"
-django = ">=4.2"
-loguru = "*"
-google-auth = "*"
-google-auth-httplib2 = "*"
-google-auth-oauthlib = "*"
+[project.urls]
+Homepage = "https://github.com/megalus/django-google-sso"
+Repository = "https://github.com/megalus/django-google-sso"
+Documentation = "https://megalus.github.io/django-google-sso/"
 
-[tool.poetry.group.dev.dependencies]
-auto-changelog = "*"
-arrow = "*"
-black = {version = "*", allow-prereleases = true}
-Faker = "*"
-pre-commit = "*"
-pytest-coverage = "*"
-pytest-django = "*"
-pytest-mock = "*"
-pytest-asyncio = "*"
-twine = "*"
-python-dotenv = "*"
-mkdocs-material = "*"
-mkdocs-mermaid2-plugin = "*"
-django-grappelli = "*"
-django-jazzmin = "*"
-django-admin-interface = "*"
-django-jet-reboot = "*"
-django-unfold = "*"
-click = ">8"
-bandit = "*"
-flake8 = "*"
-stela = "*"
-httpx = "*"
+[dependency-groups]
+dev = [
+    "arrow",
+    "auto-changelog",
+    "bandit",
+    "click>8",
+    "django-admin-interface",
+    "django-grappelli",
+    "django-jazzmin",
+    "django-jet-reboot",
+    "django-unfold",
+    "faker",
+    "httpx",
+    "mkdocs-material",
+    "mkdocs-mermaid2-plugin",
+    "pre-commit",
+    "pytest-asyncio",
+    "pytest-coverage",
+    "pytest-django",
+    "pytest-mock",
+    "python-dotenv",
+    "ruff",
+    "stela",
+]
+
+[tool.ruff]
+line-length = 92
+target-version = "py311"
+exclude = [
+    ".git",
+    ".venv",
+    "venv",
+    "build",
+    "dist",
+]
+
+[tool.ruff.lint]
+exclude = ["django_google_sso/migrations"]
+
+[tool.ruff.format]
+exclude = ["django_google_sso/migrations"]
 
 [tool.stela]
 environment_variable_name = "STELA_ENV"
@@ -98,7 +98,3 @@ evaluate_data = true
 show_logs = false
 env_file = ".env"
 config_file_path = "./example_google_app"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"

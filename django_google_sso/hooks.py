@@ -21,6 +21,10 @@ def pre_create_user(google_user_info: dict, request: HttpRequest) -> dict | None
             as `defaults` argument.
             If not informed, username field (default: `username`)
             is always the user email.
+
+            When GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS is True,
+            the dict is passed as all keyword arguments to
+            get_or_create() instead of only the `defaults` argument.
     """
     return {}
 

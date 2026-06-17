@@ -79,19 +79,13 @@ def test_update_existing_user_record(
     user = helper.get_or_create_user()
 
     # Assert
-    assert (
-        user.first_name == google_response_update["given_name"]
-    ) == expected_is_equal
-    assert (
-        user.last_name == google_response_update["family_name"]
-    ) == expected_is_equal
+    assert (user.first_name == google_response_update["given_name"]) == expected_is_equal
+    assert (user.last_name == google_response_update["family_name"]) == expected_is_equal
     assert user.username == google_response_update["email"]
     assert user.email == google_response_update["email"]
 
 
-def test_add_all_users_to_staff_list(
-    faker, google_response, callback_request, settings
-):
+def test_add_all_users_to_staff_list(faker, google_response, callback_request, settings):
     # Arrange
     settings.GOOGLE_SSO_STAFF_LIST = ["*"]
     settings.GOOGLE_SSO_AUTO_CREATE_FIRST_SUPERUSER = False
@@ -167,6 +161,50 @@ def test_different_null_values(google_response, callback_request, monkeypatch):
     # Assert
     assert user_one.googlessouser.locale == "pt_BR"
     assert user_two.googlessouser.locale == "pt_BR"
+
+
+def test_get_or_create_user_with_full_args(google_response, callback_request, settings):
+    # Arrange
+    settings.GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS = True
+    importlib.reload(conf)
+    extra_args = {
+        "defaults": {
+            "username": "custom_username",
+            "email": google_response["email"],
+        },
+        "email__iexact": google_response["email"],
+    }
+
+    # Act
+    helper = UserHelper(google_response, callback_request)
+    user = helper.get_or_create_user(extra_args)
+
+    # Assert
+    assert user.username == "custom_username"
+    assert user.email == google_response["email"]
+
+
+def test_get_or_create_user_with_full_args_custom_lookup(
+    google_response, callback_request, settings
+):
+    # Arrange
+    settings.GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS = True
+    importlib.reload(conf)
+    extra_args = {
+        "defaults": {
+            "username": "custom_username",
+            "email": google_response["email"],
+        },
+        "id__exact": google_response["id"],
+    }
+
+    # Act
+    helper = UserHelper(google_response, callback_request)
+    user = helper.get_or_create_user(extra_args)
+
+    # Assert
+    assert user.username == "custom_username"
+    assert user.email == google_response["email"]
 
 
 def test_duplicated_emails(google_response, callback_request):

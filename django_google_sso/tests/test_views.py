@@ -162,9 +162,7 @@ def test_new_user_login(client_with_session, callback_url):
     assert response.wsgi_request.user.is_authenticated is True
 
 
-def test_existing_user_login(
-    client_with_session, settings, google_response, callback_url
-):
+def test_existing_user_login(client_with_session, settings, google_response, callback_url):
     # Arrange
     existing_user = User.objects.create(
         username=google_response["email"],
@@ -185,9 +183,7 @@ def test_existing_user_login(
     assert response.wsgi_request.user.email == existing_user.email
 
 
-def test_missing_user_login(
-    client_with_session, settings, google_response, callback_url
-):
+def test_missing_user_login(client_with_session, settings, google_response, callback_url):
     # Arrange
     settings.GOOGLE_SSO_AUTO_CREATE_USERS = False
 

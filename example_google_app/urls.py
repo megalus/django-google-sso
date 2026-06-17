@@ -49,7 +49,5 @@ if "jet" in INSTALLED_APPS:
     ]
 
 urlpatterns += [
-    path(
-        "google_sso/", include("django_google_sso.urls", namespace="django_google_sso")
-    ),
+    path("google_sso/", include("django_google_sso.urls", namespace="django_google_sso")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

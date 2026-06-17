@@ -45,18 +45,18 @@ def test_site_auto_create_user(
 
     # Assert
     if should_create_user:
-        assert User.objects.filter(
-            email="foo@example.com"
-        ).exists(), f"User should be auto-created on {client_fixture}"
+        assert User.objects.filter(email="foo@example.com").exists(), (
+            f"User should be auto-created on {client_fixture}"
+        )
         assert client.session.get_expiry_age() > 0, "Session should have an expiry age"
         assert response.status_code == expected_status, "Login should be successful"
     else:
-        assert not User.objects.filter(
-            email="foo@example.com"
-        ).exists(), f"User should not be auto-created on {client_fixture}"
-        assert response.redirect_chain[-1][0].startswith(
-            expected_redirect
-        ), "Should redirect to login failed URL"
+        assert not User.objects.filter(email="foo@example.com").exists(), (
+            f"User should not be auto-created on {client_fixture}"
+        )
+        assert response.redirect_chain[-1][0].startswith(expected_redirect), (
+            "Should redirect to login failed URL"
+        )
 
 
 def test_existing_user_site_b_session_age(
@@ -77,9 +77,9 @@ def test_existing_user_site_b_session_age(
 
     # Assert
     assert response.status_code == 200, "Login should be successful for existing user"
-    assert (
-        client_with_site_b.session.get_expiry_age() > 0
-    ), "Session should have an expiry age"
+    assert client_with_site_b.session.get_expiry_age() > 0, (
+        "Session should have an expiry age"
+    )
 
     # Clean up
     user.delete()
