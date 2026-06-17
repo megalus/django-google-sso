@@ -1,6 +1,39 @@
 # CHANGELOG
 
 
+## v10.0.0 (2026-06-17)
+
+### Breaking
+
+* feat!: Remove django 4.2 support - BREAKING CHANGE ([`47b86dd`](https://github.com/megalus/django-google-sso/commit/47b86ddd50e8281ebfdb4bdb4ed8de7dec8e354d))
+
+### Chores
+
+* chore: Add django-microsoft-sso cache warning for non-shared cache backends
+
+Registered tags are the same for all django-xxx-sso libraries, to avoid hidden bugs when package load order is changed on settings. ([`b8a171c`](https://github.com/megalus/django-google-sso/commit/b8a171ce5a600f62571a4b836ea84f1e55f6e3bf))
+
+### Documentation
+
+* docs: update compatibility to include Python 3.14 and Django 6.0 ([`def3843`](https://github.com/megalus/django-google-sso/commit/def38439801122ddeb7c8d5a5d92f86570aea73a))
+
+### Features
+
+* feat: add support for optional full args during user creation
+
+- Introduced `GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS` setting for more flexible `get_or_create_user` behavior.
+- Added new tests for full args and custom lookup behavior.
+- Improved formatting and refactored various tests and helpers.
+- Updated CI to use `ruff` for linting and expanded test matrix.
+- Added AGENTS.md and commands for better project overview and instructions. ([`f03ba95`](https://github.com/megalus/django-google-sso/commit/f03ba9567a9c63a8c339c392365f39ad2bb92ef9))
+
+### Unknown
+
+* Merge pull request #58 from megalus/develop
+
+New Version: Drop Django 4.2, Add ruff, Add option `GOOGLE_SSO_PRE_CREATE_USER_RETURN_FULL_ARGS ([`f2507da`](https://github.com/megalus/django-google-sso/commit/f2507dabab75313c0fbc13d919f9f85d20c28b0f))
+
+
 ## v9.0.3 (2026-03-05)
 
 ### Fixes
