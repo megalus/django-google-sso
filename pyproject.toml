@@ -26,6 +26,7 @@ requires-python = ">=3.11, <4.0"
 license = { text = "MIT" }
 authors = [{ name = "Chris Maillefaud", email = "chrismaille@users.noreply.github.com" }]
 keywords = ["google", "django", "sso"]
+
 classifiers = [
     "Framework :: Django",
     "Framework :: Django :: 5.0",
